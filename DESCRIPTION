@@ -1,0 +1,65 @@
+Package: sae4health
+Title: SAE for Health: Small Area Estimation for Key Health and Demographic Indicators from Household Surveys
+Version: 1.2.0
+Authors@R: person('Yunhan', 'Wu', email = 'yunhanwu@uw.edu', role = c('cre', 'aut'))
+Description: The R Shiny app for performing small area estimation and prevalence mapping of health and demographic indicators in LMICs. The app is an user friendly implemtation of R package surveyPrev.
+License: MIT + file LICENSE
+URL: https://github.com/wu-thomas/sae4health
+BugReports: https://github.com/wu-thomas/sae4health/issues
+Depends: 
+    R (>= 4.3)
+Imports: 
+    bookdown,
+    config,
+    dplyr,
+    DT,
+    geodata,
+    ggplot2,
+    ggridges,
+    ggspatial,
+    ggthemes,
+    golem (>= 0.4.1),
+    HatchedPolygons,
+    haven,
+    htmltools,
+    htmlwidgets,
+    httr,
+    INLA,
+    leaflegend,
+    leaflet,
+    leafsync,
+    magrittr,
+    mapview,
+    markdown,
+    patchwork,
+    plotly,
+    prettymapr,
+    R.utils,
+    R6,
+    RColorBrewer,
+    rdhs,
+    readr,
+    scales,
+    sf,
+    shiny (>= 1.7.4),
+    shinyBS,
+    shinydashboard,
+    shinyFeedback,
+    shinyjs,
+    shinyWidgets,
+    sn,
+    SUMMER,
+    survey,
+    tidyr,
+    viridisLite,
+    naniar, 
+    sjlabelled
+Remotes:
+    statnmap/HatchedPolygons,
+    rspatial/geodata,
+    richardli/SurveyPrev,
+    qianyu313/surveyPrevGithub
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
