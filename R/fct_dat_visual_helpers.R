@@ -160,19 +160,19 @@ map_plot <- ggplot2::ggplot() +
 
 ### open street map server precaucious check
 
-if(FALSE){
-tile_url <- "https://tile.openstreetmap.org/6/32/21.png"
+#if(FALSE){
+#tile_url <- "https://tile.openstreetmap.org/6/32/21.png"
 
 # Make the HTTP GET request
-response <- httr::GET(tile_url)
+#response <- httr::GET(tile_url)
 
 # Check the status code of the response
-if (httr::status_code(response) == 200) {
-  print("The tile server is responding normally.")
-} else {
-  print("Failed to reach the tile server.")
-}
-}
+#if (httr::status_code(response) == 200) {
+#  print("The tile server is responding normally.")
+#} else {
+#  print("Failed to reach the tile server.")
+#}
+#}
 
 ###############################################################
 ### static map for number of clusters
@@ -319,6 +319,15 @@ ncluster.map.interactive <-function(gadm.level,
                                cluster.info=NULL,
                                use.basemap='OSM',
                                legend.color.reverse= F){
+
+  if (!requireNamespace("RColorBrewer", quietly = TRUE)) {
+    stop("Package 'RColorBrewer' is required for this function. Please install it with install.packages('RColorBrewer').")
+  }
+
+  if (!requireNamespace("leaflegend", quietly = TRUE)) {
+    stop("Package 'leaflegend' is required for this function. Please install it with install.packages('leaflegend').")
+  }
+
 
   gadm.level.num=admin_to_num(gadm.level)
 
@@ -534,6 +543,10 @@ sample_info_map_static <-function(model.gadm.level,
                               analysis.dat,
                               gadm.list.visual,
                               cluster.info){
+
+  if (!requireNamespace("ggthemes", quietly = TRUE)) {
+    stop("Package 'ggthemes' is required for this function. Please install it with install.packages('ggthemes').")
+  }
 
   ### if no non-missing values, return NA
   if(sum(analysis.dat$value,na.rm=T)==0){

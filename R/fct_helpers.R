@@ -4,6 +4,8 @@
 #'
 #' @return The return value, if any, from executing the function.
 #'
+#' @import R6
+#'
 #' @noRd
 #'
 ###############################################################
@@ -26,6 +28,7 @@ CountryInfo <- R6::R6Class(
     legend_color_reverse = NULL, ### whether to reverse the color scheme on the legend of leaflet plot (fix bug)
 
     country = NULL,
+    country_code_DHS = NULL,
     svyYear_list = NULL,
     svyYear_selected = NULL,
 
@@ -67,6 +70,7 @@ CountryInfo <- R6::R6Class(
       self$legend_color_reverse <- reactiveVal(NULL)
 
       self$country <- reactiveVal(NULL)
+      self$country_code_DHS <- reactiveVal(NULL)
 
       self$svyYear_list <- reactiveVal(NULL)
       self$svyYear_selected <- reactiveVal(NULL)

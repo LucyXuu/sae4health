@@ -10,6 +10,11 @@ options(shiny.maxRequestSize=150*1024^2) ## make the maximum size 150Mb for data
 
 app_server <- function(input, output, session) {
 
+
+  #############################################################
+  #### setup global options via R6 object
+  #############################################################
+
   shinyjs::useShinyjs()
 
   ### initialize R6 objects
@@ -22,28 +27,42 @@ app_server <- function(input, output, session) {
 
 
   ### WHO/non-WHO version related parameters
+  # determine which version will be deployed
+  app_deploy_version <- golem::get_golem_options()$version
+  if(is.null(app_deploy_version)){
+    app_deploy_version = 'DHS-General'
+  }
 
-  # non-WHO version
+  if(!app_deploy_version %in% c('DHS-General','DHS-WHO')){
+    stop('Currently not supporting ',app_deploy_version,' version of the app.')
+  }else{
+    message("Deploying '" ,app_deploy_version,"' version of the app.")
+  }
 
-  if(TRUE){
+  # DHS-general version
+  if(app_deploy_version=='DHS-General'){
     CountryInfo$WHO_version(F)
     CountryInfo$use_basemap('OSM')
-    CountryInfo$shapefile_source('GADM-preload') # CountryInfo$shapefile_source('GADM-download')
+    CountryInfo$shapefile_source('GADM-preload')
+    #CountryInfo$shapefile_source('GADM-download')
   }
 
 
-  # WHO version
-
-  if(FALSE){
+  # DHS-WHO version
+  if(app_deploy_version=='DHS-WHO'){
+    CountryInfo$WHO_version(T)
     CountryInfo$use_basemap('None')
-    CountryInfo$shapefile_source('WHO-preload')
-    ### docker WHO : CountryInfo$shapefile_source('WHO-download')
+    CountryInfo$shapefile_source('WHO-download') ### docker/R package
+    #CountryInfo$shapefile_source('WHO-preload') ### server
   }
 
 
   ### other parameters for this version of the app
-  CountryInfo$legend_color_reverse(F)
 
+  #CountryInfo$legend_color_reverse(T)
+  leaflet_color_reverse_ind <- identical(golem::get_golem_options()$legend_color_reverse, TRUE)
+  if(leaflet_color_reverse_ind){message('Reversing color scales in leaflet plots.')}
+  CountryInfo$legend_color_reverse(!leaflet_color_reverse_ind)
 
   CountryInfo$use_preloaded_Zambia(F)
   CountryInfo$use_preloaded_Madagascar(F)

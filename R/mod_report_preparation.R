@@ -41,11 +41,25 @@ mod_report_preparation_ui <- function(id){
 
 #' report_preparation Server Functions
 #'
+#' @importFrom grid gpar pushViewport grid.draw grid.newpage grid.text upViewport viewport
+#' @importFrom gridExtra arrangeGrob tableGrob ttheme_default
+#'
 #' @noRd
 mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    if (!requireNamespace("grid", quietly = TRUE)) {
+      stop("Package 'grid' is required for this function. Please install it with install.packages('grid').")
+    }
+
+    if (!requireNamespace("gridExtra", quietly = TRUE)) {
+      stop("Package 'gridExtra' is required for this function. Please install it with install.packages('gridExtra').")
+    }
+
+    if (!requireNamespace("patchwork", quietly = TRUE)) {
+      stop("Package 'patchwork' is required for this function. Please install it with install.packages('patchwork').")
+    }
 
     ### Display general info
     output$info_display <- renderUI({
@@ -110,7 +124,7 @@ mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
 
       content = function(file) {
         # Create the PDF
-        pdf(file, width = 10, height = 10)  # Set width and height of the PDF
+        grDevices::pdf(file, width = 10, height = 10)  # Set width and height of the PDF
 
         # Function to add header and footer
         # add_header_footer <- function(header_text, footer_text) {
@@ -127,7 +141,7 @@ mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
         #
         # # Page 2: Plot
         # grid.newpage()
-        # plot(rnorm(100), main = "Plot on the First Page")
+        # plot(stats::rnorm(100), main = "Plot on the First Page")
         # add_header_footer("Document Title", "Page 2")
         #
         # # Page 3: Text Paragraph
@@ -198,7 +212,7 @@ mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
 
           tryCatch({
 
-            #pushViewport(viewport(layout = grid.layout(10, 1, heights = unit(c(0.5, 0.4, 0.4, 0.4, 0.6, 0.4, 1.5, 0.4, 1.5, 2), "inches"))))
+            #pushViewport(viewport(layout = grid.layout(10, 1, heights = grid::unit(c(0.5, 0.4, 0.4, 0.4, 0.6, 0.4, 1.5, 0.4, 1.5, 2), "inches"))))
 
             # Title section for summary info
             #grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
@@ -220,19 +234,19 @@ mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
             grid.text("Number of regions at selected admin levels:", x = 0.05, y = 0.6, just = "left", gp = gpar(fontsize = 12))
 
             # Table for number of admin regions (placed lower)
-            pushViewport(viewport(y = 0.6, height = unit(1.5, "inches"), just = "top"))
+            pushViewport(viewport(y = 0.6, height = grid::unit(1.5, "inches"), just = "top"))
             n_region_tab <- check_gadm_levels(CountryInfo$GADM_list())
             n_region_tab_grob <- tableGrob(n_region_tab)  # Remove row names
             grid.draw(n_region_tab_grob)
             upViewport()
 
             # Title for detailed indicator info
-            pushViewport(viewport(y = 0.5, height = unit(2, "inches"), just = "top"))
+            pushViewport(viewport(y = 0.5, height = grid::unit(2, "inches"), just = "top"))
             grid.text("Detailed information on the indicator:", x = 0.05, y = 0.5, just = "left", gp = gpar(fontsize = 12))
             upViewport()
 
             # Table for detailed indicator info
-            pushViewport(viewport(y = 0.4, height = unit(2, "inches"), just = "top"))
+            pushViewport(viewport(y = 0.4, height = grid::unit(2, "inches"), just = "top"))
 
             # Filter and wrap text for the indicator table
 
@@ -386,14 +400,14 @@ mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
             }else{
               grid.text("National estimate (from DHS Final Report): ",
                         x = 0.05, y = 0.68, just = "left", gp = gpar(fontsize = 12))
-              pushViewport(viewport(y = 0.63, height = unit(3, "inches"), just = "top"))
+              pushViewport(viewport(y = 0.63, height = grid::unit(3, "inches"), just = "top"))
 
               # Get the number of rows and columns in your table
               n_rows <- nrow(ind_api_est)
               n_cols <- ncol(ind_api_est)
 
               # Modify the theme to color only the estimate column
-              custom_theme <- ttheme_default(
+              custom_theme <- gridExtra::ttheme_default(
                 core = list(
                   bg_params = list(
                     fill = matrix(c(rep("white", n_rows * (n_cols - 2)), rep("darkolivegreen1", n_rows),
@@ -507,7 +521,7 @@ mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
             grid.text("Number of regions without any data:", x = 0.05, y = 0.65, just = "left", gp = gpar(fontsize = 12))
 
             # Table for number of admin regions (placed lower)
-            pushViewport(viewport(y = 0.65, height = unit(1.5, "inches"), just = "top"))
+            pushViewport(viewport(y = 0.65, height = grid::unit(1.5, "inches"), just = "top"))
             p_missing_tab_grob <- tableGrob(missing_tab)
 
             grid.draw(p_missing_tab_grob)
@@ -970,7 +984,7 @@ mod_report_preparation_server <- function(id,CountryInfo,AnalysisInfo){
 
 
         # Close the PDF device
-        dev.off()
+        grDevices::dev.off()
 
 
 

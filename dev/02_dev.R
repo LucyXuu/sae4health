@@ -22,12 +22,17 @@ attachment::att_amend_desc(must.exist = F,update.config = TRUE)
 #usethis::use_dev_package("richardli/surveyPrev")
 #usethis::use_dev_package("richardli/SUMMER")
 # options(repos = c(getOption("repos"), INLA = "https://inla.r-inla-download.org/R/testing"))
+# options(repos = c(CRAN = "https://cloud.r-project.org"))
 # renv::install("INLA")
 
 ### not able to download from github using renv::
 # https://forum.posit.co/t/cant-install-packages-with-renv/96696/17
 ### potential fix: 1. options(renv.download.override = utils::download.file)
 # 2. Sys.setenv(RENV_DOWNLOAD_FILE_METHOD = "libcurl")
+
+devtools::document()
+
+
 ############################################################
 ####  Add modules ----
 ####  Create a module infrastructure in R/

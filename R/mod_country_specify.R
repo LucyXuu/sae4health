@@ -13,7 +13,7 @@
 #surveyPrev_ind_list <-  ref_tab_all # surveyPrev::surveyPrevIndicators
 #surveyPrev_ind_list <- surveyPrev::surveyPrevIndicators
 
-#indicator_choices_vector <- setNames(surveyPrev_ind_list$ID, surveyPrev_ind_list$Description)
+#indicator_choices_vector <- stats::setNames(surveyPrev_ind_list$ID, surveyPrev_ind_list$Description)
 #load(file='data/DHS_meta_preload_04172024.rda')
 #DHS.country.meta <- DHS.country.meta.preload
 #DHS.survey.meta <- DHS.survey.meta.preload
@@ -219,7 +219,7 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
         "<hr style='border-top-color: #E0E0E0; margin-top: 20px;'>",
         "<ol style='font-size: medium; margin-left: 20px; line-height: 2;' type='a'>",  # Alphabet indexing for footnotes
         "<li>",
-        "If the browser (such as Safari) automatically unzips files on download, please manually re-zip them to a single file and upload.",
+        "If the browser (such as Safari) automatically utils::unzips files on download, please manually re-zip them to a single file and upload.",
         "</li>",
         "</ol>"
       ))
@@ -551,6 +551,8 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
         freezeReactiveValue(input, "Svy_year")
 
         CountryInfo$country(input$country)
+        CountryInfo$country_code_DHS(DHS.country.meta[DHS.country.meta$CountryName == CountryInfo$country(),]$DHS_CountryCode)
+
         CountryInfo$svyYear_selected('')
 
         CountryInfo$svyYear_list(get_survey_year(input$country))
@@ -584,6 +586,8 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
 
         ### Update country info
         CountryInfo$country(input$country)
+        CountryInfo$country_code_DHS(DHS.country.meta[DHS.country.meta$CountryName == CountryInfo$country(),]$DHS_CountryCode)
+
         message(paste0('changed to ',CountryInfo$country()))
         updateSelectInput(inputId = "country", selected = CountryInfo$country(),
                           choices = c('',country_name_list))
@@ -688,6 +692,9 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
 
         ### Update country info
         CountryInfo$country(input$country)
+        CountryInfo$country_code_DHS(DHS.country.meta[DHS.country.meta$CountryName == CountryInfo$country(),]$DHS_CountryCode)
+
+        ### Update survey info
         CountryInfo$svyYear_selected(input$Svy_year)
         CountryInfo$svyYear_list(get_survey_year(input$country))
 
@@ -772,7 +779,7 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
         group_ind_list <- ref_tab_all %>%
           subset( Topic==input$Svy_ind_group)
 
-        indicator_choices_vector <- setNames(group_ind_list$ID, group_ind_list$Description)
+        indicator_choices_vector <- stats::setNames(group_ind_list$ID, group_ind_list$Description)
 
         ind_choice_vec(indicator_choices_vector)
 
@@ -802,7 +809,7 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
         group_ind_list <- ref_tab_all %>%
           subset( Topic==input$Svy_ind_group)
 
-        indicator_choices_vector <- setNames(group_ind_list$ID, group_ind_list$Description)
+        indicator_choices_vector <- stats::setNames(group_ind_list$ID, group_ind_list$Description)
         ind_choice_vec(indicator_choices_vector)
 
         shinyWidgets::updatePickerInput(session,

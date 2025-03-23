@@ -90,6 +90,10 @@ mod_res_visual_scatter_server <- function(id,CountryInfo,AnalysisInfo){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    if (!requireNamespace("plotly", quietly = TRUE)) {
+      stop("Package 'plotly' is required for this function. Please install it with install.packages('plotly').")
+    }
+
     ###############################################################
     ### display country, survey and indicator info
     ###############################################################
@@ -306,9 +310,9 @@ mod_res_visual_scatter_server <- function(id,CountryInfo,AnalysisInfo){
 
       content = function(file) {
         # Create the PDF
-        pdf(file, width = 10, height = 10)  # Set width and height of the PDF
+        grDevices::pdf(file, width = 10, height = 10)  # Set width and height of the PDF
         print(static.plot.to.download())  # Print the plot to the PDF
-        dev.off()  # Close the PDF
+        grDevices::dev.off()  # Close the PDF
       }
     )
 

@@ -134,11 +134,11 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-    library(labelled)
-    library(naniar)
-    library(sjlabelled)
-    library(dplyr)
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    #library(labelled)
+    #library(naniar)
+    #library(sjlabelled)
+    #library(dplyr)
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
   }else{
@@ -413,7 +413,7 @@ if(FALSE){
 
   # geo_info_list list of cluster info
 
-  pdf("output1.pdf", width = 10, height = 10)
+  grDevices::pdf("output1.pdf", width = 10, height = 10)
 
   {
 
@@ -422,8 +422,8 @@ if(FALSE){
     ###########################
 
     # # Page 1: Table of Contents
-    # grid.newpage()
-    # grid.text("Table of Contents", y = 0.9, gp = gpar(fontsize = 14, fontface = "bold"))
+    # grid::grid.newpage()
+    # grid::grid.text("Table of Contents", y = 0.9, gp = gpar(fontsize = 14, fontface = "bold"))
     #
     # toc_entries <- list(
     #   list(title = "1. Plot on the First Page", page = "1"),
@@ -443,13 +443,13 @@ if(FALSE){
     #   y_pos <- y_positions[i]
     #
     #   # Draw the title aligned to the left
-    #   grid.text(title, x = 0.1, y = y_pos, just = "left", gp = gpar(fontsize = 12))
+    #   grid::grid.text(title, x = 0.1, y = y_pos, just = "left", gp = gpar(fontsize = 12))
     #
     #   # Draw the page number aligned to the right
-    #   grid.text(page, x = 0.9, y = y_pos, just = "right", gp = gpar(fontsize = 12))
+    #   grid::grid.text(page, x = 0.9, y = y_pos, just = "right", gp = gpar(fontsize = 12))
     #
     #   # Draw dots to fill the space between title and page number
-    #   grid.text(strrep(" . ",dot_num_repeat[i]),
+    #   grid::grid.text(strrep(" . ",dot_num_repeat[i]),
     #             x = x_dot_start[i], y = y_pos, just = "center", gp = gpar(fontsize = 12))
     # }
 
@@ -463,43 +463,43 @@ if(FALSE){
     ### country/survey/indicator meta info
     ###############################################################
 
-    grid.newpage()
-    grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+    grid::grid.newpage()
+    grid::grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
     tryCatch({
 
       #pushViewport(viewport(layout = grid.layout(10, 1, heights = unit(c(0.5, 0.4, 0.4, 0.4, 0.6, 0.4, 1.5, 0.4, 1.5, 2), "inches"))))
 
       # Title section for summary info
-      #grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+      #grid::grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
       # Country info section
-      grid.text("Country: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
-      grid.text(CountryInfo$country(), x = 0.2, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Country: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(CountryInfo$country(), x = 0.2, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Survey: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
-      grid.text(CountryInfo$svyYear_selected(), x = 0.2, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Survey: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(CountryInfo$svyYear_selected(), x = 0.2, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Indicator: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
-      grid.text(CountryInfo$svy_indicator_des(), x = 0.2, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Indicator: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(CountryInfo$svy_indicator_des(), x = 0.2, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Levels: ", x = 0.05, y = 0.7, just = "left", gp = gpar(fontsize = 12))
-      grid.text(concatenate_vector_with_and(CountryInfo$GADM_analysis_levels()), x = 0.2, y = 0.7, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Levels: ", x = 0.05, y = 0.7, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(concatenate_vector_with_and(CountryInfo$GADM_analysis_levels()), x = 0.2, y = 0.7, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
       # Title for number of regions section
-      grid.text("Number of regions at selected admin levels:", x = 0.05, y = 0.6, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Number of regions at selected admin levels:", x = 0.05, y = 0.6, just = "left", gp = gpar(fontsize = 12))
 
       # Table for number of admin regions (placed lower)
       pushViewport(viewport(y = 0.6, height = unit(1.5, "inches"), just = "top"))
       n_region_tab <- check_gadm_levels(CountryInfo$GADM_list())
-      n_region_tab_grob <- tableGrob(n_region_tab)  # Remove row names
-      grid.draw(n_region_tab_grob)
-      upViewport()
+      n_region_tab_grob <- gridExtra::tableGrob(n_region_tab)  # Remove row names
+      grid::grid.draw(n_region_tab_grob)
+      grid::upViewport()
 
       # Title for detailed indicator info
       pushViewport(viewport(y = 0.5, height = unit(2, "inches"), just = "top"))
-      grid.text("Detailed information on the indicator:", x = 0.05, y = 0.5, just = "left", gp = gpar(fontsize = 12))
-      upViewport()
+      grid::grid.text("Detailed information on the indicator:", x = 0.05, y = 0.5, just = "left", gp = gpar(fontsize = 12))
+      grid::upViewport()
 
       # Table for detailed indicator info
       pushViewport(viewport(y = 0.4, height = unit(2, "inches"), just = "top"))
@@ -516,19 +516,19 @@ if(FALSE){
       ind_detailed_tab$`DHS Report Chapter` <- sapply(ind_detailed_tab$`DHS Report Chapter`, wrap_text, width = 50)
 
       # Create and draw the indicator details table
-      ind_tab_grob <- tableGrob(ind_detailed_tab, rows = NULL)  # Remove row names
-      grid.draw(ind_tab_grob)
+      ind_tab_grob <- gridExtra::tableGrob(ind_detailed_tab, rows = NULL)  # Remove row names
+      grid::grid.draw(ind_tab_grob)
 
-      upViewport()
+      grid::upViewport()
 
-      grid.text(paste0("*"), x = 0.05, y = 0.15, gp = gpar(fontsize = 12, col = "red"),
+      grid::grid.text(paste0("*"), x = 0.05, y = 0.15, gp = gpar(fontsize = 12, col = "red"),
                 just = "left")
 
-      grid.text(paste0("For indicators with multiple versions, the app defaults to the ",
+      grid::grid.text(paste0("For indicators with multiple versions, the app defaults to the ",
                        "5-year period before the survey (unless specified otherwise),"),
                 x = 0.06, y = 0.15, just = "left", gp = gpar(fontsize = 12))
 
-      grid.text(paste0("and unstratified age groups (total)."),
+      grid::grid.text(paste0("and unstratified age groups (total)."),
                 x = 0.05, y = 0.12, just = "left", gp = gpar(fontsize = 12))
 
 
@@ -536,13 +536,13 @@ if(FALSE){
 
     },error = function(e) {
 
-      grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
       message(e$message)
 
     })
 
-    grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+    grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
     page_counter = page_counter +1
 
 
@@ -550,8 +550,8 @@ if(FALSE){
     ### Estimate Consistency Check (National Level)
     ###############################################################
 
-    grid.newpage()
-    grid.text("Estimate Consistency Check (National Level)",
+    grid::grid.newpage()
+    grid::grid.text("Estimate Consistency Check (National Level)",
               x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
     tryCatch({
@@ -617,26 +617,26 @@ if(FALSE){
       ###########################
       ### Draw
       ###########################
-      grid.text("To ensure the accuracy of our indicator coding schemes, we highly recommend users to compare ",
+      grid::grid.text("To ensure the accuracy of our indicator coding schemes, we highly recommend users to compare ",
       x = 0.05, y = 0.88, just = "left", gp = gpar(fontsize = 12))
 
-      grid.text(expression(paste(
+      grid::grid.text(expression(paste(
         bold("app-calculated national estimates")," with the ",
         bold("DHS final reports"),'.'
       )),
       x = 0.05, y = 0.83, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
 
-      grid.text("National estimate (from the app): ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
-      grid.text(paste0(natl_est,description_suffix),
+      grid::grid.text("National estimate (from the app): ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(paste0(natl_est,description_suffix),
                 x = 0.3, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
 
       if(dim(ind_api_est)[1]==0){
-        grid.text("Estimate from the DHS report is not available through DHS API. Please manually check for consistency. ",
+        grid::grid.text("Estimate from the DHS report is not available through DHS API. Please manually check for consistency. ",
                   x = 0.05, y = 0.68, just = "left", gp = gpar(fontsize = 12))
       }else{
-        grid.text("National estimate (from DHS Final Report): ",
+        grid::grid.text("National estimate (from DHS Final Report): ",
                   x = 0.05, y = 0.68, just = "left", gp = gpar(fontsize = 12))
         pushViewport(viewport(y = 0.63, height = unit(3, "inches"), just = "top"))
 
@@ -656,24 +656,24 @@ if(FALSE){
         )
 
         # Apply the theme to the table
-        DHS_est_tab_grob <- tableGrob(ind_api_est, rows = NULL, theme = custom_theme)
+        DHS_est_tab_grob <- gridExtra::tableGrob(ind_api_est, rows = NULL, theme = custom_theme)
 
 
         # color national estimates
         #DHS_est_tab_grob$grobs[23][[1]][["gp"]] <- gpar(fill="darkolivegreen1", col = "darkolivegreen4", lwd=5)
 
-        grid.draw(DHS_est_tab_grob)
+        grid::grid.draw(DHS_est_tab_grob)
 
-        upViewport()
+        grid::upViewport()
 
-        grid.text(paste0("*"), x = 0.05, y = 0.15, gp = gpar(fontsize = 12, col = "red"),
+        grid::grid.text(paste0("*"), x = 0.05, y = 0.15, gp = gpar(fontsize = 12, col = "red"),
                   just = "left")
 
-        grid.text(paste0("For indicators with multiple versions, the app defaults to the ",
+        grid::grid.text(paste0("For indicators with multiple versions, the app defaults to the ",
                          "5-year period before the survey (unless specified otherwise),"),
                   x = 0.06, y = 0.15, just = "left", gp = gpar(fontsize = 12))
 
-        grid.text(paste0("and unstratified age groups (total)."),
+        grid::grid.text(paste0("and unstratified age groups (total)."),
                   x = 0.05, y = 0.12, just = "left", gp = gpar(fontsize = 12))
 
       }
@@ -682,13 +682,13 @@ if(FALSE){
 
     },error = function(e) {
 
-      grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
       message(e$message)
 
     })
 
-    grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+    grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
     page_counter = page_counter +1
 
     ###############################################################
@@ -696,8 +696,8 @@ if(FALSE){
     ###############################################################
 
 
-    grid.newpage()
-    grid.text("Overall Sample Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+    grid::grid.newpage()
+    grid::grid.text("Overall Sample Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
     tryCatch({
 
@@ -746,36 +746,36 @@ if(FALSE){
       ###########################
 
       # Country info section
-      grid.text("Total number of clusters: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
-      grid.text(length(unique(complete_dat$cluster)), x = 0.3, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Total number of clusters: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(length(unique(complete_dat$cluster)), x = 0.3, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Total sample size: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
-      grid.text(dim(complete_dat)[1], x = 0.3, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Total sample size: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(dim(complete_dat)[1], x = 0.3, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Total number of events: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
-      grid.text(sum(complete_dat$value), x = 0.3, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Total number of events: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(sum(complete_dat$value), x = 0.3, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
       # Title for % of regions without any clusters
-      grid.text("Number of regions without any data:", x = 0.05, y = 0.65, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Number of regions without any data:", x = 0.05, y = 0.65, just = "left", gp = gpar(fontsize = 12))
 
       # Table for number of admin regions (placed lower)
       pushViewport(viewport(y = 0.65, height = unit(1.5, "inches"), just = "top"))
-      p_missing_tab_grob <- tableGrob(missing_tab)
+      p_missing_tab_grob <- gridExtra::tableGrob(missing_tab)
 
-      grid.draw(p_missing_tab_grob)
-      upViewport()
+      grid::grid.draw(p_missing_tab_grob)
+      grid::upViewport()
 
 
     },error = function(e) {
 
-      grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
       message(e$message)
 
     })
 
 
-    grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+    grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
     page_counter = page_counter +1
 
     ###############################################################
@@ -786,9 +786,9 @@ if(FALSE){
 
       if(tmp_adm=='National'){next}
 
-      grid.newpage()
+      grid::grid.newpage()
 
-      grid.text(paste0("Sample Info for ",tmp_adm), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+      grid::grid.text(paste0("Sample Info for ",tmp_adm), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
       tryCatch({
 
@@ -846,18 +846,18 @@ if(FALSE){
         #   arrangeGrob(tmp_map_grob, tmp_map_grob, ncol = 2),  # Second row with two plots
         #   nrow = 2,
         #   heights = c(0.45, 0.45))
-        grid.draw(combined_grob)
+        grid::grid.draw(combined_grob)
 
-        upViewport()
+        grid::upViewport()
       },error = function(e) {
 
-        grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+        grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
         message(e$message)
 
       })
 
-      grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+      grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
       page_counter = page_counter +1
 
 
@@ -1013,9 +1013,9 @@ if(FALSE){
 
         if(!fitted_model_matrix[i,j]==1|tmp.adm=='National'){next}
 
-        grid.newpage()
+        grid::grid.newpage()
 
-        grid.text(paste0("Key Statistics Maps: ",method_match[tmp.method], ' model at ',tmp.adm,' level'), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+        grid::grid.text(paste0("Key Statistics Maps: ",method_match[tmp.method], ' model at ',tmp.adm,' level'), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
         tryCatch({
 
@@ -1049,21 +1049,21 @@ if(FALSE){
 
           pushViewport(viewport(width = 0.9, height = 0.8, just = c("center", "center")))  # Set size within page
 
-          #grid.draw(key_measure_maps_grob_tmp)
-          grid.draw(key_stat_map_grob)
+          #grid::grid.draw(key_measure_maps_grob_tmp)
+          grid::grid.draw(key_stat_map_grob)
 
-          upViewport()
+          grid::upViewport()
 
         },error = function(e) {
 
-          grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+          grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
           message(e$message)
 
         })
 
 
-        grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+        grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
         page_counter = page_counter +1
 
 
@@ -1149,9 +1149,9 @@ if(FALSE){
 
         if(is.null(tmp_scatter_plot_obj)){next}
 
-        grid.newpage()
+        grid::grid.newpage()
 
-        grid.text(paste0("Model Comparison: Direct Estimate vs ",method_match[tmp.method], ' model at ',tmp.adm,' level'), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+        grid::grid.text(paste0("Model Comparison: Direct Estimate vs ",method_match[tmp.method], ' model at ',tmp.adm,' level'), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
         tryCatch({
 
@@ -1178,21 +1178,21 @@ if(FALSE){
 
           pushViewport(viewport(width = 0.9, height = 0.8, just = c("center", "center")))  # Set size within page
 
-          #grid.draw(key_measure_maps_grob_tmp)
-          grid.draw(scatter_plot_grob)
+          #grid::grid.draw(key_measure_maps_grob_tmp)
+          grid::grid.draw(scatter_plot_grob)
 
-          upViewport()
+          grid::upViewport()
 
         },error = function(e) {
 
-          grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+          grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
           message(e$message)
 
         })
 
 
-        grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+        grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
         page_counter = page_counter +1
 
 
@@ -1209,7 +1209,7 @@ if(FALSE){
   }
 
   # Close PDF device
-  dev.off()
+  grDevices::dev.off()
 
 
   ###############################################################

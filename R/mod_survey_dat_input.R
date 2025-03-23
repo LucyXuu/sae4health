@@ -118,6 +118,28 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    options(shiny.maxRequestSize=550*1024^2)
+
+
+    if (!requireNamespace("labelled", quietly = TRUE)) {
+      stop("Package 'labelled' is required for this function. Please install it with install.packages('labelled').")
+    }
+    if (!requireNamespace("naniar", quietly = TRUE)) {
+      stop("Package 'naniar' is required for this function. Please install it with install.packages('naniar').")
+    }
+    if (!requireNamespace("sjlabelled", quietly = TRUE)) {
+      stop("Package 'sjlabelled' is required for this function. Please install it with install.packages('sjlabelled').")
+    }
+    if (!requireNamespace("haven", quietly = TRUE)) {
+      stop("Package 'haven' is required for this function. Please install it with install.packages('haven').")
+    }
+    if (!requireNamespace("data.table", quietly = TRUE)) {
+      stop("Package 'data.table' is required for this function. Please install it with install.packages('data.table').")
+    }
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+      stop("Package 'dplyr' is required for this function. Please install it with install.packages('dplyr').")
+    }
+
 
     ### initialize variables for recode
     recode_for_ind_abbrev <- reactiveVal(NULL)
@@ -300,7 +322,7 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
           "The approval process might take up to a few days.",
           "</li>",
           "<li>",
-          "If the browser (such as Safari) automatically unzips files on download, please manually re-zip them to a single file and upload.",
+          "If the browser (such as Safari) automatically utils::unzips files on download, please manually re-zip them to a single file and upload.",
           "</li>",
           "</ol>"
         ))
@@ -330,30 +352,30 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
 
     observeEvent(CountryInfo$use_preloaded_Zambia(), {
 
-      if(CountryInfo$use_preloaded_Zambia()){
-
-        recode.data <- as.data.frame(zmb.ex.IR.dat)
-        CountryInfo$update_svy_dat(recode_abbrev='IR', new_dat=recode.data)
-
-        GPS.dat <- zmb.ex.GPS
-        CountryInfo$svy_GPS_dat(GPS.dat)
-
-      }else{return()}
+      # if(CountryInfo$use_preloaded_Zambia()){
+      #
+      #   recode.data <- as.data.frame(zmb.ex.IR.dat)
+      #   CountryInfo$update_svy_dat(recode_abbrev='IR', new_dat=recode.data)
+      #
+      #   GPS.dat <- zmb.ex.GPS
+      #   CountryInfo$svy_GPS_dat(GPS.dat)
+      #
+      # }else{return()}
 
 
     })
 
     observeEvent(CountryInfo$use_preloaded_Madagascar(), {
 
-      if(CountryInfo$use_preloaded_Madagascar()){
-
-        recode.data <- as.data.frame(mdg.ex.KR.dat)
-        CountryInfo$update_svy_dat(recode_abbrev='KR', new_dat=recode.data)
-
-        GPS.dat <- mdg.ex.GPS
-        CountryInfo$svy_GPS_dat(GPS.dat)
-
-      }else{return()}
+      # if(CountryInfo$use_preloaded_Madagascar()){
+      #
+      #   recode.data <- as.data.frame(mdg.ex.KR.dat)
+      #   CountryInfo$update_svy_dat(recode_abbrev='KR', new_dat=recode.data)
+      #
+      #   GPS.dat <- mdg.ex.GPS
+      #   CountryInfo$svy_GPS_dat(GPS.dat)
+      #
+      # }else{return()}
 
 
     })
@@ -363,12 +385,9 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
 
       # Check if a file has been uploaded
       if (is.null(input$Svy_dataFile)&
-          !(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2018)&
-          !(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2013)&
-          !(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2008)&
-          !(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2003)&
-          !(CountryInfo$country()=='Kenya'& CountryInfo$svyYear_selected()==2022)&
-          !(CountryInfo$country()=='Senegal'& CountryInfo$svyYear_selected()==2023)) {
+         !(paste0(CountryInfo$country_code_DHS(),'_',CountryInfo$svyYear_selected(),'_DHS.zip') %in%
+             list.files(system.file("preloaded_DHS", package = "sae4health")))
+         ) {
         message('This is a survey without preloaded data, and no data was uploaded.')
         showNoFileSelectedModal()
         return()
@@ -379,9 +398,6 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
       #   return()
       # }
 
-      if(CountryInfo$use_preloaded_Zambia()){
-        return()
-      }
       ### check whether all required recode has been uploaded
       required_recode <- recode_list_abbrev[which(ref_tab_all[ref_tab_all$ID==CountryInfo$svy_indicator_var(),
                                                                recode_list_abbrev]==T)]
@@ -404,61 +420,19 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
       svy_year = CountryInfo$svyYear_selected()
       recode_names_list=recode_for_ind_names()
 
-      if((CountryInfo$country()=='Nigeria'&
-          CountryInfo$svyYear_selected()==2018)
-      ){
-        file_path <- system.file("preloaded_DHS", paste0("NG_2018_DHS_01292025_1625_143411.zip"),
+      ### check whether data is available inside the app, if so, load the data, no need to upload
+      if(paste0(CountryInfo$country_code_DHS(),'_',CountryInfo$svyYear_selected(),'_DHS.zip') %in%
+         list.files(system.file("preloaded_DHS", package = "sae4health"))){
+        file_path <- system.file("preloaded_DHS",
+                                 paste0(CountryInfo$country_code_DHS(),'_',CountryInfo$svyYear_selected(),'_DHS.zip'),
                                  package = "sae4health")
-      }
 
-      if((CountryInfo$country()=='Nigeria'&
-          CountryInfo$svyYear_selected()==2013)
-      ){
-        file_path <- system.file("preloaded_DHS", paste0("NG_2013_DHS_01292025_1625_143411.zip"),
-                                 package = "sae4health")
-      }
-
-
-      if((CountryInfo$country()=='Nigeria'&
-          CountryInfo$svyYear_selected()==2008)
-      ){
-        file_path <- system.file("preloaded_DHS", paste0("NG_2008_DHS_01292025_1626_143411.zip"),
-                                 package = "sae4health")
-      }
-
-
-      if((CountryInfo$country()=='Nigeria'&
-          CountryInfo$svyYear_selected()==2003)
-      ){
-        file_path <- system.file("preloaded_DHS", paste0("NG_2003_DHS_01292025_1626_143411.zip"),
-                                 package = "sae4health")
-      }
-
-
-      if((CountryInfo$country()=='Kenya'&
-          CountryInfo$svyYear_selected()==2022)
-      ){
-        file_path <- system.file("preloaded_DHS", paste0("KE_2022_DHS_01292025_1626_143411.zip"),
-                                 package = "sae4health")
-      }
-
-      if((CountryInfo$country()=='Senegal'&
-          CountryInfo$svyYear_selected()==2023)
-      ){
-        file_path <- system.file("preloaded_DHS", paste0("SN_2023_CONTINUOUSDHS_09182024_239_143411.zip"),
-                                 package = "sae4health")
-      }
-
-      if(!(CountryInfo$country()=='Nigeria' & CountryInfo$svyYear_selected()==2018)&
-         !(CountryInfo$country()=='Nigeria' & CountryInfo$svyYear_selected()==2013)&
-         !(CountryInfo$country()=='Nigeria' & CountryInfo$svyYear_selected()==2008)&
-         !(CountryInfo$country()=='Nigeria' & CountryInfo$svyYear_selected()==2003)&
-        !(CountryInfo$country()=='Kenya' & CountryInfo$svyYear_selected()==2022)&
-        !(CountryInfo$country()=='Senegal'& CountryInfo$svyYear_selected()==2023)
-      ){
+        message('Use preloaded data.')
+        message(CountryInfo$country_code_DHS())
+      }else{
+        message('Use user uploaded data.')
         file_path <- input$Svy_dataFile$datapath
       }
-
 
 
       new_dat_num <- 0
@@ -755,22 +729,31 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
         ### correct Nigeria wrong data point in HR recode
         if(CountryInfo$country()=='Nigeria' &&
            CountryInfo$svyYear_selected()==2018 &&
-           'HR' %in% recode_for_ind_abbrev()){
+           ('PR' %in% recode_for_ind_abbrev()||
+           'HR' %in% recode_for_ind_abbrev())){
           message('correcting Nigeria 2018 HR recode')
           svy_dat_recode[svy_dat_recode$hv001=="1270","hv025"] = 2
         }
 
 
-        if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-          analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-          library(labelled)
-          library(naniar)
-          library(sjlabelled)
-          library(dplyr)
 
-          library(data.table)
+#
+# library(sn) ## for INLA to run, just declare here with other packages
+# library(labelled)
+# library(naniar)
+# library(sjlabelled)
+# library(dplyr)
+# library(data.table)
+# library(haven)
+# data('match_all_result', package = "surveyPrev")
+
+
+        if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
+
+          analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
           analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
-          detach("package:data.table", unload=TRUE)
+          #detach("package:data.table", unload=TRUE)
         }else{
 
           analysis_dat <- surveyPrev::getDHSindicator(Rdata=svy_dat_recode,
@@ -945,13 +928,9 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
 
 
 
-      if (!is.null(analysis_dat) &!(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2018)&
-          !(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2013)&
-          !(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2008)&
-          !(CountryInfo$country()=='Nigeria'& CountryInfo$svyYear_selected()==2003)&
-          !(CountryInfo$country()=='Kenya'& CountryInfo$svyYear_selected()==2022)&
-          !(CountryInfo$country()=='Senegal'& CountryInfo$svyYear_selected()==2023)
-          ) {  # csv download
+      if(!paste0(CountryInfo$country_code_DHS(),'_',CountryInfo$svyYear_selected(),'_DHS.zip') %in%
+         list.files(system.file("preloaded_DHS", package = "sae4health"))){
+        # csv download
         downloadButton(ns("download_csv"), "Download as csv", icon = icon("download"),
                        class = "btn-primary")
       } else {

@@ -22,6 +22,10 @@ cluster_admin_info <- function(cluster.geo,
                                strat.gadm.level=1){
 
 
+  if (!requireNamespace("survey", quietly = TRUE)) {
+    stop("Package 'survey' is required for this function. Please install it with install.packages('survey').")
+  }
+
   ### determine whether the gadm level is finer than stratification level
   if(model.gadm.level > strat.gadm.level){pseudo_level=2}else{pseudo_level=1}
 
@@ -133,6 +137,12 @@ screen_svy_model <- function(cluster.admin.info,
                              strat.gadm.level = 1,
                              method=c('Direct','FH','Unit')[1],
                              svy.strata=NULL){
+
+
+
+  if (!requireNamespace("survey", quietly = TRUE)) {
+    stop("Package 'survey' is required for this function. Please install it with install.packages('survey').")
+  }
 
   ### return object
   N.region <- NA
@@ -332,6 +342,11 @@ fit_svy_model <- function(cluster.geo,
                           svy.strata = NULL){
 
 
+
+  if (!requireNamespace("survey", quietly = TRUE)) {
+    stop("Package 'survey' is required for this function. Please install it with install.packages('survey').")
+  }
+
   aggregation = F
   process.info=T
   nsamp=1000
@@ -388,7 +403,7 @@ fit_svy_model <- function(cluster.geo,
 #                                        alt.strata=svy.strata)
 
       ### draw samples using logit.est and logit.var
-      sampled.post.vec <- SUMMER::expit(rnorm(nsamp, mean = res_adm$res.admin0$direct.logit.est,
+      sampled.post.vec <- SUMMER::expit(stats::rnorm(nsamp, mean = res_adm$res.admin0$direct.logit.est,
                                               sd = sqrt(res_adm$res.admin0$direct.logit.var)))
       sampled.post.mat <- matrix(sampled.post.vec, nrow = nsamp)
       res_adm$admin0_post <- sampled.post.mat
@@ -486,7 +501,7 @@ fit_svy_model <- function(cluster.geo,
 
     #Some countries the stratification level is admin 0.5, causing admin-1 to have invalid uncertainty measures
     #Aggregation of direct estimates involves sampling
-    # Error in draw.all= expit(apply(dd, 1, FUN = function(x) rnorm(5000, mean = x[1], sd = x[2]))) # sqrt(colVars(draw.all))
+    # Error in draw.all= expit(apply(dd, 1, FUN = function(x) stats::rnorm(5000, mean = x[1], sd = x[2]))) # sqrt(colVars(draw.all))
     # Example, dominican republic 2013
 
     aggregation = F
@@ -519,7 +534,7 @@ fit_svy_model <- function(cluster.geo,
       if(is.na(sigma)){
         sample_matrix[, i] <- NA
       }else{
-        samples <- SUMMER::expit(rnorm(nsamp, mean = mu, sd = sigma))
+        samples <- SUMMER::expit(stats::rnorm(nsamp, mean = mu, sd = sigma))
         sample_matrix[, i] <- samples
       }
 
@@ -928,15 +943,15 @@ get_natl_UR_OR <- function(tmp.analysis.dat){
   tmp.dhs.design <- survey::svydesign(id = ~cluster, weights = ~weight, strata = ~v024,
                                       nest = TRUE, survey.lonely.psu = "adjust", data = tmp.analysis.dat)
 
-  tmp.glm.model <- survey::svyglm(value ~ strata, family = quasibinomial , design = tmp.dhs.design)
+  tmp.glm.model <- survey::svyglm(value ~ strata, family = stats::quasibinomial , design = tmp.dhs.design)
   summary(tmp.glm.model)
 
-  coef_model <- coef(tmp.glm.model)
+  coef_model <- stats::coef(tmp.glm.model)
 
   odds_ratio_strata <- exp(coef_model["strata"])
 
   # Calculate the confidence intervals for the model coefficients
-  confint_model <- confint(tmp.glm.model, level = 0.95)
+  confint_model <- stats::confint(tmp.glm.model, level = 0.95)
 
   # Confidence intervals for the odds ratio of 'strata'
   confint_strata <- exp(confint_model["strata", ])

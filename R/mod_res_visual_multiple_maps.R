@@ -259,6 +259,10 @@ mod_res_visual_multiple_maps_server <- function(id,CountryInfo,AnalysisInfo){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    if (!requireNamespace("patchwork", quietly = TRUE)) {
+      stop("Package 'patchwork' is required for this function. Please install it with install.packages('patchwork').")
+    }
+
     ###############################################################
     ### display country, survey and indicator info
     ###############################################################
@@ -516,7 +520,8 @@ mod_res_visual_multiple_maps_server <- function(id,CountryInfo,AnalysisInfo){
       selected_measure_vec <- input$selected_stats
 
       if(CountryInfo$use_preloaded_Madagascar()){
-        AnalysisInfo$model_res_list(mdg.ex.model.res)}
+        # AnalysisInfo$model_res_list(mdg.ex.model.res)
+      }
 
       ### initialize parameters
       model_res_all <- AnalysisInfo$model_res_list()
@@ -742,9 +747,9 @@ mod_res_visual_multiple_maps_server <- function(id,CountryInfo,AnalysisInfo){
 
       content = function(file) {
         # Create the PDF
-        pdf(file, width = 10, height = 10)  # Set width and height of the PDF
+        grDevices::pdf(file, width = 10, height = 10)  # Set width and height of the PDF
         print(single.model.static.output())  # Print the plot to the PDF
-        dev.off()  # Close the PDF
+        grDevices::dev.off()  # Close the PDF
       }
     )
 
@@ -947,7 +952,8 @@ mod_res_visual_multiple_maps_server <- function(id,CountryInfo,AnalysisInfo){
         tmp.multiple.interactive.map<- tmp.multiple.interactive.map %>% leaflet::addTiles()
       }
       if(CountryInfo$use_preloaded_Madagascar()){
-        AnalysisInfo$model_res_list(mdg.ex.model.res)}
+        # AnalysisInfo$model_res_list(mdg.ex.model.res)
+      }
 
 
       selection_mat <- multiple_model_selection()
@@ -1280,9 +1286,9 @@ mod_res_visual_multiple_maps_server <- function(id,CountryInfo,AnalysisInfo){
 
         content = function(file) {
           # Create the PDF
-          pdf(file, width = 10, height = round(multiple.model.static.height()*1.8/100))  # Set width and height of the PDF
+          grDevices::pdf(file, width = 10, height = round(multiple.model.static.height()*1.8/100))  # Set width and height of the PDF
           print(multiple.model.static.output())  # Print the plot to the PDF
-          dev.off()  # Close the PDF
+          grDevices::dev.off()  # Close the PDF
         }
       )
 

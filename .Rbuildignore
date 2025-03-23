@@ -1,2 +1,16 @@
+^renv$
+^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+
+^DESCRIPTION_backup
+^app\.R$
+^dev/
+^renv/
+^rsconnect/
+^inst/GADM_shp/
+^inst/WHO_shp/
+^inst/preloaded_DHS/
+^Developer_note\.txt$

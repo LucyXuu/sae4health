@@ -510,9 +510,9 @@ mod_res_visual_ridge_server <- function(id,CountryInfo,AnalysisInfo){
           ggplot2::theme(plot.margin = ggplot2::unit(c(0.25, 0.25, 0.25, 0.25),
                                    "inches"))
         # Create the PDF
-        pdf(file, width = 10, height = round(map.height/100))  # Set width and height of the PDF
+        grDevices::pdf(file, width = 10, height = round(map.height/100))  # Set width and height of the PDF
         print(map.download)  # Print the plot to the PDF
-        dev.off()  # Close the PDF
+        grDevices::dev.off()  # Close the PDF
       }
     )
 
@@ -674,9 +674,9 @@ mod_res_visual_ridge_server <- function(id,CountryInfo,AnalysisInfo){
           ggplot2::theme(plot.margin = ggplot2::unit(c(0.25, 0.25, 0.25, 0.25),
                                                      "inches"))
         # Create the PDF
-        pdf(file, width = 11, height = round(map.height*1.2/100))  # Set width and height of the PDF
+        grDevices::pdf(file, width = 11, height = round(map.height*1.2/100))  # Set width and height of the PDF
         print(map.download)  # Print the plot to the PDF
-        dev.off()  # Close the PDF
+        grDevices::dev.off()  # Close the PDF
       }
     )
 

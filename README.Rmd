@@ -13,18 +13,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-# RShiny-app SurveyPrevRShiny
+# SAE for Health: Small Area Estimation for Key Health and Demographic Indicators from Household Surveys
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-This RShiny app facilitates the mapping of health indicators prevalence using data from Demographic and Health Surveys (DHS). Powered by the R package SurveyPrev, our Shiny app revolutionizes the acquisition of prevalence estimates through Small Area Estimation (SAE) techniques. It is tailored for users of all backgrounds, enabling the performance of complex statistical analyses without prior knowledge.
+The 'sae4health' package enables small area estimation (SAE) of health and demographic indicators in low- and middle-income countries (LMICs). It powers an R Shiny app that helps public health analysts, policymakers, and researchers generate subnational estimates and prevalence maps for 150+ binary indicators from Demographic and Health Surveys (DHS). Basing its core SAE analysis workflow on the 'surveyPrev' package, the app ensures methodological rigor through guided model selection, automated fitting, and interactive visualization. For more details, visit our [official website](https://wu-thomas.github.io/surveyPrev_website/){target="_blank"} for detailed documentation. 
 
-The application streamlines the analytical process into clear, manageable steps. It guides users through model fitting and enhances their experience with interactive visualization tools. Users can dynamically explore the spatial distribution of health and demographic indicators and directly interpret statistical outputs within the app’s interface. Additionally, the application supports result exports, facilitating detailed examinations and sharing in both spreadsheet and graphical formats. 
+This software is for research purpose only and is licensed under the terms specified in the [LICENSE file](https://github.com/wu-thomas/sae4health/blob/main/LICENSE.md).  
 
-Please visit our [official website](https://wu-thomas.github.io/surveyPrev_website/){target="_blank"} for detailed documentation.
-
-The Github repo maintains the source code for this RShiny application and it is structured as an R package. There are two primary venues to utilize this application:
+The Github repo maintains the source code for this R Shiny application and it is structured as an R package. There are two primary venues to utilize this application:
 
 1. **Web-Based Version**:
 
@@ -39,49 +37,83 @@ The Github repo maintains the source code for this RShiny application and it is 
 * Usage: Suitable for users who wish to run the application directly within their local R environment. This method allows for enhanced customization.
 
 
-## Web-based RShiny app
+## Web-based R Shiny app
 
-The RShiny app is readily accessible via [https://rsc.stat.washington.edu/surveyPrevRShiny/](https://rsc.stat.washington.edu/surveyPrevRShiny/). The only requirement is a stable internet connection. This web-based deployment supports full functionality and serves as the primary distribution channel.
+The R Shiny app is readily accessible via [https://rsc.stat.washington.edu/surveyPrevRShiny/](https://rsc.stat.washington.edu/surveyPrevRShiny/). The only requirement is a stable internet connection. This web-based deployment supports full functionality and serves as the primary distribution channel.
 
-This version uniquely includes preloaded shapefiles. If using other versions of the app, users will need to download or upload shapefiles manually; however, this process has been streamlined into simple steps for ease of use.
+One advantage of the online version is that it includes preloaded shapefiles, reducing the need for manual uploads. While all versions require users to upload their own DHS survey datasets for analysis, currently the online version internally hosts the 2018 Nigeria DHS, 2022 Kenya DHS, and 2023 Senegal DHS (**without the need for data upload!**), with more datasets planned for future inclusion.  
 
-## Installation of the RShiny app as a R package
+
+## Installation of the R Shiny app as a R package
 
 Some non-CRAN dependencies can be installed using the following command. We strongly recommend installing the most recent version of SUMMER and surveyPrev package from Github. 
 
 ``` {r, eval=F, echo=T}
 # install.packages("devtools")
-devtools::install_github("rspatial/geodata")
+devtools::install_github("rspatial/geodata") # for downloading GAM shapefile
 devtools::install_github("richardli/SUMMER")
 devtools::install_github("richardli/surveyPrev")
-devtools::install_github("statnmap/HatchedPolygons")
+devtools::install_github("statnmap/HatchedPolygons") # hatching in visualizations
 devtools::install_github("qianyu313/surveyPrevGithub")
 
 install.packages("INLA",repos=c(getOption("repos"),
                         INLA="https://inla.r-inla-download.org/R/testing"),dep=TRUE)
+
 ```
 
 
-You can then install the development version of saeforhealth with:
+You can then install the development version of sae4health with:
 
 ``` {r, eval=F, echo=T}
-devtools::install_github("wu-thomas/SurveyPrevRShiny")
+devtools::install_github("wu-thomas/sae4health")
 ```
 
-Our tool depends specifically on 2.12.0 version of the labelled package, so we make sure the correct version is used. 
+<!-- Our tool depends specifically on 2.12.0 version of the labelled package, so we make sure the correct version is used.  -->
 
-``` {r, eval=F, echo=T}
-remotes::install_version("labelled", "2.12.0")
-```
+<!-- ``` {r, eval=F, echo=T} -->
+<!-- remotes::install_version("labelled", "2.12.0") -->
+<!-- ``` -->
 
-You can launch the RShiny app with the following command, and we recommend opening a new browser tab from within the launched RShiny app for better accessing web links.
+Processing the analysis dataset for indicators, using specific coding schemes and handling labels, requires the following libraries to be **preloaded** before running the app:  
 
 ```{r, eval=F, echo=T}
-library(SurveyPrevRShiny)
-SurveyPrevRShiny::run_app()
+library(labelled)
+library(naniar)
+library(sjlabelled)
+library(dplyr)
+library(data.table)
+library(haven)
+data('match_all_result', package = "surveyPrev")
 
 ```
 
+
+You can launch the R Shiny app with the following command, and we recommend opening a new browser tab from within the launched R Shiny app for better accessing web links.
+
+```{r, eval=F, echo=T}
+
+library(sae4health)
+sae4health::run_app()
+
+```
+
+
+If the colors in the interactive Leaflet maps appear inverted relative to the legend (e.g., regions with high values in the legend are shown in low-value colors), you can run the app with the following option. This issue arises due to differences in R and Leaflet package versions and is beyond our control.
+
+```{r, eval=F, echo=T}
+
+sae4health::run_app(legend_color_reverse=T)
+
+```
+
+For WHO workshop attendees only:  
+If you have received the WHO shapefile distributed by WHO officials for this technical workshop and are using the WHO version of the app, please run the following version:
+
+```{r, eval=F, echo=T}
+
+sae4health::run_app(version='DHS-WHO')
+
+```
 
 <!-- ## Deploy the RShiny app as a Docker image -->
 

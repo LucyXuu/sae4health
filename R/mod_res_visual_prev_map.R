@@ -525,9 +525,9 @@ mod_res_visual_prev_map_server <- function(id,CountryInfo,AnalysisInfo){
 
       content = function(file) {
         # Create the PDF
-        pdf(file, width = 10, height = 10)  # Set width and height of the PDF
+        grDevices::pdf(file, width = 10, height = 10)  # Set width and height of the PDF
         print(prev.map.static.output())  # Print the plot to the PDF
-        dev.off()  # Close the PDF
+        grDevices::dev.off()  # Close the PDF
       }
     )
 

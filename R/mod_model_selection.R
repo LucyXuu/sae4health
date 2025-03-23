@@ -13,6 +13,14 @@
 mod_model_selection_ui <- function(id){
   ns <- NS(id)
 
+  if (!requireNamespace("bookdown", quietly = TRUE)) {
+    stop("Package 'bookdown' is required for this function. Please install it with install.packages('bookdown').")
+  }
+
+  if (!requireNamespace("markdown", quietly = TRUE)) {
+    stop("Package 'markdown' is required for this function. Please install it with install.packages('markdown').")
+  }
+
   fluidPage(
     tags$head(
       tags$script('Shiny.addCustomMessageHandler("unbinding_table_elements", function(x) {
@@ -107,7 +115,7 @@ mod_model_selection_ui <- function(id){
       "))
     ),
     div(class = "module-title",
-    h4("Statistical Analysis")),
+        h4("Statistical Analysis")),
     fluidRow(
       column(10,
              div(style = " margin: auto;float: left;",
@@ -125,9 +133,9 @@ mod_model_selection_ui <- function(id){
                         fluidRow(
                           div(style = "width: 100%; max-width: 800px;margin-top:10px;",
                               h4("Model Selection", class = "panel-title"),
-                          column(12,
-                                 div(DT::DTOutput(ns('checkboxTable')), class = "model-checkbox-table"),
-                          )
+                              column(12,
+                                     div(DT::DTOutput(ns('checkboxTable')), class = "model-checkbox-table"),
+                              )
                           )),
 
                         fluidRow(
@@ -135,52 +143,52 @@ mod_model_selection_ui <- function(id){
                           div(style = "width: 100%; max-width: 800px;",
                               tags$hr(class="gradient-hr"),
                               h4("Model Screening", class = "panel-title"),
-                          column(12,
-                                 div(style = "display: flex; justify-content: center; padding: 20px 0;margin-top: -10px;",
-                                     actionButton(ns("screen_check"), "Data Sparsity Check", class = "pretty-button"))
-                          ),
-                          column(12,
-                                 div(DT::DTOutput(ns('screen_res')),class = "model-checkbox-table")
-                          ),
-                          column(12,
-                                 div(style = " margin: auto;float: left;",
-                                     uiOutput(ns("screen_text_display"))
-                                 )
-                          ),
-                          column(12,
-                                 tags$hr(class="gradient-hr"))
+                              column(12,
+                                     div(style = "display: flex; justify-content: center; padding: 20px 0;margin-top: -10px;",
+                                         actionButton(ns("screen_check"), "Data Sparsity Check", class = "pretty-button"))
+                              ),
+                              column(12,
+                                     div(DT::DTOutput(ns('screen_res')),class = "model-checkbox-table")
+                              ),
+                              column(12,
+                                     div(style = " margin: auto;float: left;",
+                                         uiOutput(ns("screen_text_display"))
+                                     )
+                              ),
+                              column(12,
+                                     tags$hr(class="gradient-hr"))
                           )),
 
                         shinyjs::hidden(
                           div(id = ns("after_check"),
-                          fluidRow(div(style = "width: 100%; max-width: 800px;",
-                                     h4("Model Fitting", class = "panel-title"))),
-                        #fluidRow(div(style = "display: flex; justify-content: center;width: 100%; max-width: 800px;",
-                         # column(6,
-                         #        div(style = "display: flex; justify-content: center; padding: 20px 0;width: 100%; max-width: 400px;",
-                         #            actionButton(ns("run_analysis_clear"), HTML("Run models that passed check"), class = "pretty-button"))
-                         # ),
-                         # column(6,
-                         #        div(style = "display: flex; justify-content: center; padding: 20px 0;width: 100%; max-width: 400px;",
-                         #            actionButton(ns("run_analysis_all"), "Run all selected models", class = "pretty-button"))
-                         # ))
-                         # ),
-                        fluidRow(
-                          div(style = "display: flex; justify-content: center; width: 100%; max-width: 800px;",
-                              uiOutput(ns("dynamic_buttons"))  # This will receive dynamic content from server
-                          )
-                        ),
-                        fluidRow(
-                          #DT::DTOutput(ns('valuesTable')),
-                          #DT::DTOutput(ns('Res_Tracker_Table')),
-                          #div(DT::DTOutput(ns('Selected_Res_Tracker_Table')),class = "model-checkbox-table"),
-                          column(12,
-                                 div(DT::DTOutput(ns('Res_Status')),class = "model-checkbox-table",
-                                     style = "margin-bottom:80px;")
-                          )
+                              fluidRow(div(style = "width: 100%; max-width: 800px;",
+                                           h4("Model Fitting", class = "panel-title"))),
+                              #fluidRow(div(style = "display: flex; justify-content: center;width: 100%; max-width: 800px;",
+                              # column(6,
+                              #        div(style = "display: flex; justify-content: center; padding: 20px 0;width: 100%; max-width: 400px;",
+                              #            actionButton(ns("run_analysis_clear"), HTML("Run models that passed check"), class = "pretty-button"))
+                              # ),
+                              # column(6,
+                              #        div(style = "display: flex; justify-content: center; padding: 20px 0;width: 100%; max-width: 400px;",
+                              #            actionButton(ns("run_analysis_all"), "Run all selected models", class = "pretty-button"))
+                              # ))
+                              # ),
+                              fluidRow(
+                                div(style = "display: flex; justify-content: center; width: 100%; max-width: 800px;",
+                                    uiOutput(ns("dynamic_buttons"))  # This will receive dynamic content from server
+                                )
+                              ),
+                              fluidRow(
+                                #DT::DTOutput(ns('valuesTable')),
+                                #DT::DTOutput(ns('Res_Tracker_Table')),
+                                #div(DT::DTOutput(ns('Selected_Res_Tracker_Table')),class = "model-checkbox-table"),
+                                column(12,
+                                       div(DT::DTOutput(ns('Res_Status')),class = "model-checkbox-table",
+                                           style = "margin-bottom:80px;")
+                                )
 
-                        )
-                        ))
+                              )
+                          ))
 
                ),
                navbarMenu(
@@ -188,11 +196,11 @@ mod_model_selection_ui <- function(id){
 
                  # First sub-tab for "Direct Estimates"
                  tabPanel(title = "Direct Estimates Method",
-                div(
+                          div(
                             style = "font-size: 16px;max-width: 1200px;",
 
-                          withMathJax(),
-                          tags$div(HTML("<script type='text/x-mathjax-config'>
+                            withMathJax(),
+                            tags$div(HTML("<script type='text/x-mathjax-config'>
                 MathJax.Hub.Config({
                 'HTML-CSS': {
                       fonts: ['TeX'],
@@ -204,16 +212,16 @@ mod_model_selection_ui <- function(id){
                 });
                 </script>
                 ")), withMathJax(includeMarkdown(system.file("app", 'www', paste0("method_direct.rmd"),
-                                           package = "sae4health")))
-                         # withMathJax(includeMarkdown("inst/app/www/method_direct.rmd"))
-                 )),
+                                                             package = "sae4health")))
+                            # withMathJax(includeMarkdown("inst/app/www/method_direct.rmd"))
+                          )),
 
                  # Second sub-tab for "Area-level Model"
                  tabPanel(title = "Area-level Model Method",
                           div(
                             style = "font-size: 16px;max-width: 1200px;",
                             withMathJax(),
-                          tags$div(HTML("<script type='text/x-mathjax-config'>
+                            tags$div(HTML("<script type='text/x-mathjax-config'>
                 MathJax.Hub.Config({
                 'HTML-CSS': {
                       fonts: ['TeX'],
@@ -225,10 +233,10 @@ mod_model_selection_ui <- function(id){
                 });
                 </script>
                 ")),
-                          withMathJax(includeMarkdown(system.file("app", 'www', paste0("method_FH.rmd"),
-                                                 package = "sae4health")))
-                          #withMathJax(includeMarkdown("inst/app/www/method_FH.rmd"))
-                 )),
+                            withMathJax(includeMarkdown(system.file("app", 'www', paste0("method_FH.rmd"),
+                                                                    package = "sae4health")))
+                            #withMathJax(includeMarkdown("inst/app/www/method_FH.rmd"))
+                          )),
 
                  # Third sub-tab for "Method 3"
                  tabPanel(title = "Unit-level Model Method",
@@ -247,7 +255,7 @@ mod_model_selection_ui <- function(id){
                 });
                 </script>
                 ")),withMathJax(includeMarkdown(system.file("app", 'www', paste0("method_unit.rmd"),
-                                                                    package = "sae4health")))
+                                                            package = "sae4health")))
                             #withMathJax(includeMarkdown("inst/app/www/method_unit.rmd"))
                           ))
                )
@@ -262,17 +270,18 @@ mod_model_selection_ui <- function(id){
 
 }
 
-#' model selection Server Functions
-#' @description A fct function
+#' model_selection Server Functions
 #'
 #' @noRd
-
+#'
 
 mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-
+    if (!isTRUE(requireNamespace("INLA", quietly = TRUE))) {
+      stop("You need to install the packages 'INLA'. Please run in your R terminal:\n  install.packages('INLA', repos=c(getOption('repos'), INLA='https://inla.r-inla-download.org/R/stable'), dep=TRUE)")
+    }
 
     adm.05.strata.country <- c('DOM','COD','TZA','KEN')
     method_names <- c('Direct Estimates','Area-level Model','Unit-level Model')
@@ -294,14 +303,10 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
       if(FALSE){
         # report odds ratio later when incorporating stratified model
-      OR_vec <- get_natl_UR_OR(CountryInfo$svy_analysis_dat())
+        OR_vec <- get_natl_UR_OR(CountryInfo$svy_analysis_dat())
 
-      hi_or_lo <- 'higher'
-      if(OR_vec[1]<1){hi_or_lo ='lower'}
-
-      #'The odds ratio for urban vs rural is ',
-      #sprintf("%.2f(%.2f, %.2f)", OR_vec[1], OR_vec[2], OR_vec[3]),
-      #', with urban having a ',hi_or_lo,' odds.',
+        hi_or_lo <- 'higher'
+        if(OR_vec[1]<1){hi_or_lo ='lower'}
       }
 
 
@@ -491,29 +496,29 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
       ###############################################
 
       if(FALSE){
-      gadm.names <- names(CountryInfo$GADM_list())
+        gadm.names <- names(CountryInfo$GADM_list())
 
-      geo_info_list <- AnalysisInfo$cluster_admin_info_list()
+        geo_info_list <- AnalysisInfo$cluster_admin_info_list()
 
-      if(is.null(geo_info_list)){
+        if(is.null(geo_info_list)){
 
-        tryCatch({
-          for(adm.level in gadm.names){
-            message(adm.level)
+          tryCatch({
+            for(adm.level in gadm.names){
+              message(adm.level)
 
-            tmp.cluster.adm.info <- cluster_admin_info(cluster.geo= CountryInfo$svy_GPS_dat(),  #mdg.ex.GPS
-                                                       gadm.list = CountryInfo$GADM_list(),  #mdg.ex.GADM.list
-                                                       model.gadm.level = admin_to_num(adm.level),
-                                                       strat.gadm.level = CountryInfo$GADM_strata_level())
+              tmp.cluster.adm.info <- cluster_admin_info(cluster.geo= CountryInfo$svy_GPS_dat(),  #mdg.ex.GPS
+                                                         gadm.list = CountryInfo$GADM_list(),  #mdg.ex.GADM.list
+                                                         model.gadm.level = admin_to_num(adm.level),
+                                                         strat.gadm.level = CountryInfo$GADM_strata_level())
 
 
-            AnalysisInfo$set_info_list(adm.level,tmp.cluster.adm.info)
+              AnalysisInfo$set_info_list(adm.level,tmp.cluster.adm.info)
 
-          }
-        },error = function(e) {
-          message(e$message)
-        })
-      }
+            }
+          },error = function(e) {
+            message(e$message)
+          })
+        }
 
       }
 
@@ -540,7 +545,7 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
         tmp.adm.num <- admin_to_num(tmp.adm)
 
         session$sendCustomMessage('controlSpinner', list(action = "show",
-        message = paste0("Running data sparsity check for ",tmp.adm," level model(s). Please wait...")))
+                                                         message = paste0("Running data sparsity check for ",tmp.adm," level model(s). Please wait...")))
 
 
         for (i in seq_len(nrows)) {
@@ -604,7 +609,7 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
                                    strat.gadm.level = strat.gadm.level,
                                    method=tmp.method,
                                    svy.strata=svy.strata)
-                  )
+                )
                 #}, timeout = 300) ### 5 minutes for timeout
               },error = function(e) {
                 tmp.check.model$screen.flag  <<- 'Error'
@@ -807,9 +812,7 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
 
       if(CountryInfo$use_preloaded_Madagascar()){
-
-        AnalysisInfo$model_res_tracker_list(mdg.ex.res.tracker)
-
+        # AnalysisInfo$model_res_tracker_list(mdg.ex.res.tracker)
       }
 
 
@@ -871,7 +874,7 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
               #message('Skip. Already tried modelling at ',tmp.adm,' using ',tmp.method.display,' approach.')
               session$sendCustomMessage('controlSpinner', list(action = "show",
-                message = paste0('Skip. Already tried modelling at ',tmp.adm,' using ',tmp.method.display,' approach.')))
+                                                               message = paste0('Skip. Already tried modelling at ',tmp.adm,' using ',tmp.method.display,' approach.')))
               Sys.sleep(0.5)
               session$sendCustomMessage('controlSpinner', list(action = "hide"))
 
@@ -943,7 +946,7 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
             )
 
             #if(!is.null(tmp.res$warning)){
-             # tmp.tracker.list$status <- 'Warning'
+            # tmp.tracker.list$status <- 'Warning'
             #  tmp.tracker.list$message <- tmp.res$warning}
 
             ### store model results
@@ -976,9 +979,7 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
 
       if(CountryInfo$use_preloaded_Madagascar()){
-
-        AnalysisInfo$model_res_tracker_list(mdg.ex.res.tracker)
-
+        # AnalysisInfo$model_res_tracker_list(mdg.ex.res.tracker)
       }
 
 
@@ -1040,13 +1041,13 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
               if(tmp.tracker.list$status=='Warning'&tmp.tracker.list$message=='Model not fitted.'){
               }else{
-              #message('Skip. Already tried modelling at ',tmp.adm,' using ',tmp.method.display,' approach.')
-              session$sendCustomMessage('controlSpinner', list(action = "show",
-                                                               message = paste0('Skip. Already tried modelling at ',tmp.adm,' using ',tmp.method.display,' approach.')))
-              Sys.sleep(0.5)
-              session$sendCustomMessage('controlSpinner', list(action = "hide"))
+                #message('Skip. Already tried modelling at ',tmp.adm,' using ',tmp.method.display,' approach.')
+                session$sendCustomMessage('controlSpinner', list(action = "show",
+                                                                 message = paste0('Skip. Already tried modelling at ',tmp.adm,' using ',tmp.method.display,' approach.')))
+                Sys.sleep(0.5)
+                session$sendCustomMessage('controlSpinner', list(action = "hide"))
 
-              next
+                next
               }
             }
 
@@ -1147,22 +1148,22 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
     ###############################################################
 
     if(FALSE){
-    # Render a reactive table showing the current status of checkboxes
-    output$valuesTable <- DT::renderDT({
+      # Render a reactive table showing the current status of checkboxes
+      output$valuesTable <- DT::renderDT({
 
-      df <- as.data.frame(AnalysisInfo$model_selection_mat())
+        df <- as.data.frame(AnalysisInfo$model_selection_mat())
 
-      DT::datatable(df, options = list(dom = 't', paging = FALSE, ordering = FALSE))
-    })
+        DT::datatable(df, options = list(dom = 't', paging = FALSE, ordering = FALSE))
+      })
 
-    # Render a reactive table showing the status of fitted models
-    output$Res_Tracker_Table <- DT::renderDT({
+      # Render a reactive table showing the status of fitted models
+      output$Res_Tracker_Table <- DT::renderDT({
 
-      df <- as.data.frame(AnalysisInfo$model_res_tracker_mat_old())
-      rownames(df) <- method_names
+        df <- as.data.frame(AnalysisInfo$model_res_tracker_mat_old())
+        rownames(df) <- method_names
 
-      DT::datatable(df, options = list(dom = 't', paging = FALSE, ordering = FALSE))
-    })
+        DT::datatable(df, options = list(dom = 't', paging = FALSE, ordering = FALSE))
+      })
 
     }
 
@@ -1171,26 +1172,26 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
     ###############################################################
 
     if(FALSE){
-    output$Selected_Res_Tracker_Table <- DT::renderDT({
+      output$Selected_Res_Tracker_Table <- DT::renderDT({
 
 
-      all_res_tracker <- AnalysisInfo$model_res_tracker_mat_old()
-      model_selection_tracker <- AnalysisInfo$model_selection_mat()
+        all_res_tracker <- AnalysisInfo$model_res_tracker_mat_old()
+        model_selection_tracker <- AnalysisInfo$model_selection_mat()
 
-      selected_res_tracker <- model_selection_tracker
-      selected_res_tracker[,] <- NA  # Assign NA to all entries
+        selected_res_tracker <- model_selection_tracker
+        selected_res_tracker[,] <- NA  # Assign NA to all entries
 
-      all_res_subset <- all_res_tracker[, colnames(model_selection_tracker), drop = FALSE]
+        all_res_subset <- all_res_tracker[, colnames(model_selection_tracker), drop = FALSE]
 
 
-      selected_res_tracker[all_res_subset == TRUE & model_selection_tracker == TRUE] <- TRUE
-      selected_res_tracker[all_res_subset == FALSE & model_selection_tracker == TRUE] <- FALSE
+        selected_res_tracker[all_res_subset == TRUE & model_selection_tracker == TRUE] <- TRUE
+        selected_res_tracker[all_res_subset == FALSE & model_selection_tracker == TRUE] <- FALSE
 
-      #message(selected_res_tracker)
-      rownames(selected_res_tracker) <- method_names
+        #message(selected_res_tracker)
+        rownames(selected_res_tracker) <- method_names
 
-      DT::datatable(selected_res_tracker, options = list(dom = 't', paging = FALSE, ordering = FALSE))
-    })
+        DT::datatable(selected_res_tracker, options = list(dom = 't', paging = FALSE, ordering = FALSE))
+      })
     }
 
 

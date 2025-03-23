@@ -74,7 +74,7 @@ border: 1px solid #666666}
 
 
     div(class = "welcome-note",
-        h4("Welcome to the SurveyPrev - RShiny App !"),
+        h4("Welcome to the SAE4Health R Shiny App!"),
 
         HTML(paste0(
           "<p style='font-size: large; margin-bottom: 20px;'>",
@@ -100,7 +100,7 @@ border: 1px solid #666666}
           "Click the button in the top-right corner of each box to expand or collapse its contents.",
           "</p>",
           "</p>",
-          "<p style='font-size: small; text-align: right;margin-top:-10px'>", "Version 1.1.2 (2025-01-22)",
+          "<p style='font-size: small; text-align: right;margin-top:-10px'>", "Version 1.2.0 (2025-03-20)",
           "</p>"
         ))
     ),

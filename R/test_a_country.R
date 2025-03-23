@@ -127,7 +127,7 @@ if(FALSE){
 
   }
 
-  analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+  analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
 
 
 
@@ -543,11 +543,8 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-     analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-     library(labelled)
-     library(naniar)
-     library(sjlabelled)
-     library(dplyr)
+     analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
      analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
   }else{
@@ -965,17 +962,13 @@ if(FALSE){
 
   }
 
-  analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+  analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
 
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-    library(labelled)
-    library(naniar)
-    library(sjlabelled)
-    library(dplyr)
-    library(data.table)
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
     detach("package:data.table", unload=TRUE)
   }else{
@@ -1400,11 +1393,8 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-    library(labelled)
-    library(naniar)
-    library(sjlabelled)
-    library(dplyr)
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
   }else{
@@ -1673,7 +1663,7 @@ if(FALSE){
 
   # geo_info_list list of cluster info
 
-  pdf("output3.pdf", width = 10, height = 10)
+  grDevices::pdf("output3.pdf", width = 10, height = 10)
 
   {
 
@@ -1681,39 +1671,39 @@ if(FALSE){
     ### country/survey/indicator meta info
     ###############################################################
 
-    grid.newpage()
+    grid::grid.newpage()
     pushViewport(viewport(layout = grid.layout(10, 1, heights = unit(c(0.5, 0.4, 0.4, 0.4, 0.6, 0.4, 1.5, 0.4, 1.5, 2), "inches"))))
 
     # Title section for summary info
-    grid.text("Summary Meta Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 14))
+    grid::grid.text("Summary Meta Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 14))
 
     # Country info section
-    grid.text("Country: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
-    grid.text(CountryInfo$country(), x = 0.2, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+    grid::grid.text("Country: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
+    grid::grid.text(CountryInfo$country(), x = 0.2, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-    grid.text("Survey: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
-    grid.text(CountryInfo$svyYear_selected(), x = 0.2, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+    grid::grid.text("Survey: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
+    grid::grid.text(CountryInfo$svyYear_selected(), x = 0.2, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-    grid.text("Indicator: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
-    grid.text(CountryInfo$svy_indicator_des(), x = 0.2, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+    grid::grid.text("Indicator: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
+    grid::grid.text(CountryInfo$svy_indicator_des(), x = 0.2, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-    grid.text("Levels: ", x = 0.05, y = 0.7, just = "left", gp = gpar(fontsize = 12))
-    grid.text(concatenate_vector_with_and(CountryInfo$GADM_analysis_levels()), x = 0.2, y = 0.7, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+    grid::grid.text("Levels: ", x = 0.05, y = 0.7, just = "left", gp = gpar(fontsize = 12))
+    grid::grid.text(concatenate_vector_with_and(CountryInfo$GADM_analysis_levels()), x = 0.2, y = 0.7, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
     # Title for number of regions section
-    grid.text("Number of regions at selected admin levels:", x = 0.05, y = 0.6, just = "left", gp = gpar(fontsize = 12))
+    grid::grid.text("Number of regions at selected admin levels:", x = 0.05, y = 0.6, just = "left", gp = gpar(fontsize = 12))
 
     # Table for number of admin regions (placed lower)
     pushViewport(viewport(y = 0.6, height = unit(1.5, "inches"), just = "top"))
     n_region_tab <- check_gadm_levels(CountryInfo$GADM_list())
-    n_region_tab_grob <- tableGrob(n_region_tab)  # Remove row names
-    grid.draw(n_region_tab_grob)
-    upViewport()
+    n_region_tab_grob <- gridExtra::tableGrob(n_region_tab)  # Remove row names
+    grid::grid.draw(n_region_tab_grob)
+    grid::upViewport()
 
     # Title for detailed indicator info
     pushViewport(viewport(y = 0.4, height = unit(0.4, "inches"), just = "top"))
-    grid.text("Detailed information on the indicator:", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 12))
-    #upViewport()
+    grid::grid.text("Detailed information on the indicator:", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 12))
+    #grid::upViewport()
 
     # Table for detailed indicator info
     pushViewport(viewport(y = 0.3, height = unit(2, "inches"), just = "top"))
@@ -1729,14 +1719,14 @@ if(FALSE){
     ind_detailed_tab$Definition <- sapply(ind_detailed_tab$Definition, wrap_text, width = 75)
 
     # Create and draw the indicator details table
-    ind_tab_grob <- tableGrob(ind_detailed_tab, rows = NULL)  # Remove row names
-    grid.draw(ind_tab_grob)
+    ind_tab_grob <- gridExtra::tableGrob(ind_detailed_tab, rows = NULL)  # Remove row names
+    grid::grid.draw(ind_tab_grob)
 
 
     ###############################################################
     ### Data sparsity info
     ###############################################################
-    #grid.newpage()
+    #grid::grid.newpage()
 
 
     #for(tmp_adm in c('Admin-1','Admin-2','Admin-3')){
@@ -1805,7 +1795,7 @@ if(FALSE){
 
       #tmp_map_grob <- ggplot2::ggplotGrob(tmp_map)
 
-      grid.newpage()
+      grid::grid.newpage()
 
       combined_grob <- arrangeGrob(
         tmp_map_cluster,  # Centered first row
@@ -1818,9 +1808,9 @@ if(FALSE){
       #   arrangeGrob(tmp_map_grob, tmp_map_grob, ncol = 2),  # Second row with two plots
       #   nrow = 2,
       #   heights = c(0.45, 0.45))
-      grid.draw(combined_grob)
+      grid::grid.draw(combined_grob)
 
-      upViewport()
+      grid::upViewport()
 
 
 
@@ -1831,7 +1821,7 @@ if(FALSE){
   }
 
   # Close PDF device
-  dev.off()
+  grDevices::dev.off()
 
 
   ###############################################################
@@ -2059,11 +2049,8 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-    library(labelled)
-    library(naniar)
-    library(sjlabelled)
-    library(dplyr)
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
   }else{
@@ -2334,7 +2321,7 @@ if(FALSE){
 
   # geo_info_list list of cluster info
 
-  pdf("output1.pdf", width = 10, height = 10)
+  grDevices::pdf("output1.pdf", width = 10, height = 10)
 
   {
 
@@ -2343,8 +2330,8 @@ if(FALSE){
     ###########################
 
     # # Page 1: Table of Contents
-    # grid.newpage()
-    # grid.text("Table of Contents", y = 0.9, gp = gpar(fontsize = 14, fontface = "bold"))
+    # grid::grid.newpage()
+    # grid::grid.text("Table of Contents", y = 0.9, gp = gpar(fontsize = 14, fontface = "bold"))
     #
     # toc_entries <- list(
     #   list(title = "1. Plot on the First Page", page = "1"),
@@ -2364,13 +2351,13 @@ if(FALSE){
     #   y_pos <- y_positions[i]
     #
     #   # Draw the title aligned to the left
-    #   grid.text(title, x = 0.1, y = y_pos, just = "left", gp = gpar(fontsize = 12))
+    #   grid::grid.text(title, x = 0.1, y = y_pos, just = "left", gp = gpar(fontsize = 12))
     #
     #   # Draw the page number aligned to the right
-    #   grid.text(page, x = 0.9, y = y_pos, just = "right", gp = gpar(fontsize = 12))
+    #   grid::grid.text(page, x = 0.9, y = y_pos, just = "right", gp = gpar(fontsize = 12))
     #
     #   # Draw dots to fill the space between title and page number
-    #   grid.text(strrep(" . ",dot_num_repeat[i]),
+    #   grid::grid.text(strrep(" . ",dot_num_repeat[i]),
     #             x = x_dot_start[i], y = y_pos, just = "center", gp = gpar(fontsize = 12))
     # }
 
@@ -2384,43 +2371,43 @@ if(FALSE){
     ### country/survey/indicator meta info
     ###############################################################
 
-    grid.newpage()
-    grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+    grid::grid.newpage()
+    grid::grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
     tryCatch({
 
       #pushViewport(viewport(layout = grid.layout(10, 1, heights = unit(c(0.5, 0.4, 0.4, 0.4, 0.6, 0.4, 1.5, 0.4, 1.5, 2), "inches"))))
 
       # Title section for summary info
-      #grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+      #grid::grid.text("Summary Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
       # Country info section
-      grid.text("Country: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
-      grid.text(CountryInfo$country(), x = 0.2, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Country: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(CountryInfo$country(), x = 0.2, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Survey: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
-      grid.text(CountryInfo$svyYear_selected(), x = 0.2, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Survey: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(CountryInfo$svyYear_selected(), x = 0.2, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Indicator: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
-      grid.text(CountryInfo$svy_indicator_des(), x = 0.2, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Indicator: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(CountryInfo$svy_indicator_des(), x = 0.2, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Levels: ", x = 0.05, y = 0.7, just = "left", gp = gpar(fontsize = 12))
-      grid.text(concatenate_vector_with_and(CountryInfo$GADM_analysis_levels()), x = 0.2, y = 0.7, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Levels: ", x = 0.05, y = 0.7, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(concatenate_vector_with_and(CountryInfo$GADM_analysis_levels()), x = 0.2, y = 0.7, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
       # Title for number of regions section
-      grid.text("Number of regions at selected admin levels:", x = 0.05, y = 0.6, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Number of regions at selected admin levels:", x = 0.05, y = 0.6, just = "left", gp = gpar(fontsize = 12))
 
       # Table for number of admin regions (placed lower)
       pushViewport(viewport(y = 0.6, height = unit(1.5, "inches"), just = "top"))
       n_region_tab <- check_gadm_levels(CountryInfo$GADM_list())
-      n_region_tab_grob <- tableGrob(n_region_tab)  # Remove row names
-      grid.draw(n_region_tab_grob)
-      upViewport()
+      n_region_tab_grob <- gridExtra::tableGrob(n_region_tab)  # Remove row names
+      grid::grid.draw(n_region_tab_grob)
+      grid::upViewport()
 
       # Title for detailed indicator info
       pushViewport(viewport(y = 0.5, height = unit(2, "inches"), just = "top"))
-      grid.text("Detailed information on the indicator:", x = 0.05, y = 0.5, just = "left", gp = gpar(fontsize = 12))
-      upViewport()
+      grid::grid.text("Detailed information on the indicator:", x = 0.05, y = 0.5, just = "left", gp = gpar(fontsize = 12))
+      grid::upViewport()
 
       # Table for detailed indicator info
       pushViewport(viewport(y = 0.4, height = unit(2, "inches"), just = "top"))
@@ -2437,22 +2424,22 @@ if(FALSE){
       ind_detailed_tab$`DHS Report Chapter` <- sapply(ind_detailed_tab$`DHS Report Chapter`, wrap_text, width = 50)
 
       # Create and draw the indicator details table
-      ind_tab_grob <- tableGrob(ind_detailed_tab, rows = NULL)  # Remove row names
-      grid.draw(ind_tab_grob)
+      ind_tab_grob <- gridExtra::tableGrob(ind_detailed_tab, rows = NULL)  # Remove row names
+      grid::grid.draw(ind_tab_grob)
 
-      upViewport()
+      grid::upViewport()
 
 
 
     },error = function(e) {
 
-      grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
       message(e$message)
 
     })
 
-    grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+    grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
     page_counter = page_counter +1
 
 
@@ -2461,8 +2448,8 @@ if(FALSE){
     ###############################################################
 
 
-    grid.newpage()
-    grid.text("Overall Sample Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+    grid::grid.newpage()
+    grid::grid.text("Overall Sample Info", x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
     tryCatch({
 
@@ -2552,37 +2539,37 @@ if(FALSE){
       ###########################
 
       # Country info section
-      grid.text("Total number of clusters: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
-      grid.text(length(unique(complete_dat$cluster)), x = 0.3, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Total number of clusters: ", x = 0.05, y = 0.85, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(length(unique(complete_dat$cluster)), x = 0.3, y = 0.85, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Total sample size: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
-      grid.text(dim(complete_dat)[1], x = 0.3, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Total sample size: ", x = 0.05, y = 0.8, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(dim(complete_dat)[1], x = 0.3, y = 0.8, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
-      grid.text("Total number of event: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
-      grid.text(sum(complete_dat$value), x = 0.3, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
+      grid::grid.text("Total number of event: ", x = 0.05, y = 0.75, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(sum(complete_dat$value), x = 0.3, y = 0.75, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
 
       # Title for % of regions without any clusters
-      grid.text("Number of regions without any data:", x = 0.05, y = 0.65, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Number of regions without any data:", x = 0.05, y = 0.65, just = "left", gp = gpar(fontsize = 12))
 
       # Table for number of admin regions (placed lower)
       pushViewport(viewport(y = 0.65, height = unit(1.5, "inches"), just = "top"))
-      p_missing_tab_grob <- tableGrob(missing_tab)
+      p_missing_tab_grob <- gridExtra::tableGrob(missing_tab)
 
-      grid.draw(p_missing_tab_grob)
-      upViewport()
+      grid::grid.draw(p_missing_tab_grob)
+      grid::upViewport()
 
       pushViewport(viewport(y = 0.5, height = unit(0.45, "inches"), just = "top"))
-      grid.text("National estimate (from the app): ", x = 0.05, y = 0.45, just = "left", gp = gpar(fontsize = 12))
-      grid.text(paste0(natl_est,description_suffix),
+      grid::grid.text("National estimate (from the app): ", x = 0.05, y = 0.45, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text(paste0(natl_est,description_suffix),
                 x = 0.3, y = 0.45, just = "left", gp = gpar(fontsize = 12, fontface = "bold"))
-      upViewport()
+      grid::upViewport()
 
 
       if(dim(ind_api_est)[1]==0){
-        grid.text("Estimate from the DHS report is not available through DHS API. Please manually check for consistency. ",
+        grid::grid.text("Estimate from the DHS report is not available through DHS API. Please manually check for consistency. ",
                   x = 0.05, y = 0.4, just = "left", gp = gpar(fontsize = 12))
       }else{
-        grid.text("National estimate (from DHS Final Report): ", x = 0.05, y = 0.4, just = "left", gp = gpar(fontsize = 12))
+        grid::grid.text("National estimate (from DHS Final Report): ", x = 0.05, y = 0.4, just = "left", gp = gpar(fontsize = 12))
         pushViewport(viewport(y = 0.4, height = unit(1.5, "inches"), just = "top"))
 
         # Get the number of rows and columns in your table
@@ -2601,29 +2588,29 @@ if(FALSE){
         )
 
         # Apply the theme to the table
-        DHS_est_tab_grob <- tableGrob(ind_api_est, rows = NULL, theme = custom_theme)
+        DHS_est_tab_grob <- gridExtra::tableGrob(ind_api_est, rows = NULL, theme = custom_theme)
 
 
         # color national estimates
         #DHS_est_tab_grob$grobs[23][[1]][["gp"]] <- gpar(fill="darkolivegreen1", col = "darkolivegreen4", lwd=5)
 
-        grid.draw(DHS_est_tab_grob)
+        grid::grid.draw(DHS_est_tab_grob)
 
-        upViewport()
+        grid::upViewport()
 
       }
 
 
     },error = function(e) {
 
-      grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+      grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
       message(e$message)
 
     })
 
 
-    grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+    grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
     page_counter = page_counter +1
 
     ###############################################################
@@ -2634,9 +2621,9 @@ if(FALSE){
 
       if(tmp_adm=='National'){next}
 
-      grid.newpage()
+      grid::grid.newpage()
 
-      grid.text(paste0("Sample Info for ",tmp_adm), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+      grid::grid.text(paste0("Sample Info for ",tmp_adm), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
       tryCatch({
 
@@ -2694,18 +2681,18 @@ if(FALSE){
         #   arrangeGrob(tmp_map_grob, tmp_map_grob, ncol = 2),  # Second row with two plots
         #   nrow = 2,
         #   heights = c(0.45, 0.45))
-        grid.draw(combined_grob)
+        grid::grid.draw(combined_grob)
 
-        upViewport()
+        grid::upViewport()
       },error = function(e) {
 
-        grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
+        grid::grid.text("Something went wrong generating this page of the report.", x = 0.05, y = 0.1, just = "left", gp = gpar(fontsize = 12))
 
         message(e$message)
 
       })
 
-      grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
+      grid::grid.text(paste0(page_counter), x = 0.5, y = 0.05, gp = gpar(fontsize = 12), just = "center")
       page_counter = page_counter +1
 
 
@@ -2831,15 +2818,15 @@ if(FALSE){
       'unit' = 'Unit-level'
     )
 
-    grid.newpage()
+    grid::grid.newpage()
 
-    grid.text(paste0("Maps for ",method_match[tmp.method], ' model at ',tmp_adm,' level'), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
+    grid::grid.text(paste0("Maps for ",method_match[tmp.method], ' model at ',tmp_adm,' level'), x = 0.05, y = 0.95, just = "left", gp = gpar(fontsize = 16))
 
     pushViewport(viewport(width = 0.9, height = 0.8, just = c("center", "center")))  # Set size within page
 
-    grid.draw(key_measure_maps_grob_tmp)
+    grid::grid.draw(key_measure_maps_grob_tmp)
 
-    upViewport()
+    grid::upViewport()
 
 
 
@@ -2848,7 +2835,7 @@ if(FALSE){
   }
 
   # Close PDF device
-  dev.off()
+  grDevices::dev.off()
 
 
   ###############################################################
@@ -3067,11 +3054,8 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-    library(labelled)
-    library(naniar)
-    library(sjlabelled)
-    library(dplyr)
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
   }else{
@@ -3445,11 +3429,8 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-    library(labelled)
-    library(naniar)
-    library(sjlabelled)
-    library(dplyr)
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
   }else{
@@ -3684,6 +3665,430 @@ if(FALSE){
   AnalysisInfo$Natl_res(examine.res$Direct$National$res.admin0$direct.est)
 
 }
+
+
+
+
+
+
+
+###############################################################
+### test contraceptive, Senegal
+###############################################################
+
+if(FALSE){
+  reactiveConsole(TRUE)
+
+  CountryInfo <- CountryInfo$new()
+  AnalysisInfo <- AnalysisInfo$new()
+
+  ### initialize settings
+  CountryInfo$WHO_version(F)
+  CountryInfo$use_basemap('OSM')
+
+  ### country meta
+  ex.country <- 'Senegal'
+  ex.svy.year <- '2023'
+  strat.gadm.level <- 1
+
+  ### indicator
+  ex.indicator.abbrev <-'FP_CUSA_W_FST'
+  #file_path <-'C:/Users/wu-th/Downloads/KE_2022_DHS_04132024_852_143411.zip'
+  #file_path <-'C:/Users/wu-th/Downloads/RW_2019-20_DHS_04082024_724_143411.zip'
+  #file_path <-'C:/Users/wu-th/Downloads/RW_2019-20_dat.zip'
+  #file_path <- 'C:/Users/wu-th/Dropbox/sae4health/inst/preloaded_DHS/SN_2023_CONTINUOUSDHS_03192025_1553_143411.zip'
+  ###############################################################
+  ### store country meta in R6
+  ###############################################################
+
+  ### country and svy year info
+  CountryInfo$country(ex.country)
+  CountryInfo$svyYear_selected(ex.svy.year) #CountryInfo$svyYear_list(ex.svy.year)
+
+  country_iso3 <- DHS.country.meta[DHS.country.meta$CountryName==CountryInfo$country(),'ISO3_CountryCode']
+
+
+  ### get shapefiles
+
+  if(!CountryInfo$WHO_version()){
+    country_shapefile <- get_country_shapefile(country=ex.country,source='GADM-preload')
+  }else{
+    country_shapefile <- get_country_shapefile(country=ex.country,source='WHO')
+  }
+
+  CountryInfo$GADM_list(country_shapefile$country_shp_analysis)
+  CountryInfo$GADM_list_smoothed(country_shapefile$country_shp_smoothed)
+
+  CountryInfo$GADM_display_selected(country_shapefile$country_shp_smoothed[['National']])
+
+
+  ### indicator info and stratification level
+  CountryInfo$svy_indicator_var(ex.indicator.abbrev)
+  CountryInfo$GADM_strata_level(strat.gadm.level)
+
+  ### description of the indicator
+  CountryInfo$svy_indicator_des(ref_tab_all[ref_tab_all$ID==CountryInfo$svy_indicator_var(),]$Description)
+
+
+  ###############################################################
+  ### load data
+  ###############################################################
+
+  ### get recode and filenames for this variable
+
+  recode_for_ind_abbrev <- reactiveVal(NULL)
+  recode_for_ind_names <- reactiveVal(NULL)
+
+  recode_list_abbrev <- c('IR','PR','KR','BR','HR','MR','AR','CR')
+  recode_list_names <- c("Individual Recode","Household Member Recode","Children's Recode",
+                         "Births Recode","Household Recode","Men's Recode",
+                         "HIV Test Results Recode","Couples' Recode")
+
+  recode_for_ind_abbrev(recode_list_abbrev[which(ref_tab_new[ref_tab_new$ID==CountryInfo$svy_indicator_var(),
+                                                             recode_list_abbrev]==T)])
+
+  ### which recode (full names) are needed for this indicator
+  recode_for_ind_names(recode_list_names[which(ref_tab_new[ref_tab_new$ID==CountryInfo$svy_indicator_var(),
+                                                           recode_list_abbrev]==T)])
+
+  ### load survey data
+  country= CountryInfo$country()
+  svy_year = CountryInfo$svyYear_selected()
+  recode_names_list=recode_for_ind_names()
+
+  for (i in 1:length(recode_names_list)){
+    file_prefix <- find_DHS_dat_name(ex.country,ex.svy.year,recode =recode_names_list[i])
+
+    recode_path_found <- find_recode_path(file_path = file_path,
+                                          recode_file =file_prefix,
+                                          extensions = 'DTA')
+
+    recode.data <- suppressWarnings(haven::read_dta(recode_path_found))
+
+    recode.data <- as.data.frame(recode.data)
+
+    CountryInfo$update_svy_dat(recode_abbrev=recode_for_ind_abbrev()[i], new_dat=recode.data)
+
+
+  }
+
+
+  ### load GPS data
+  ## set survey GPS data
+
+  GPS_prefix <- find_DHS_dat_name(country,svy_year,recode = 'Geographic Data' )
+
+  GPS_path_found <- find_recode_path(file_path = file_path,
+                                     recode_file = GPS_prefix,
+                                     extensions = 'shp')
+
+  GPS.dat <- suppressWarnings(sf::st_read(GPS_path_found))
+
+  CountryInfo$svy_GPS_dat(GPS.dat)
+
+
+
+  ### get analysis data set
+
+  svy_dat_list <- CountryInfo$svy_dat_list()
+
+
+  if(length(recode_for_ind_abbrev())>1){
+
+    svy_dat_recode <- svy_dat_list[recode_for_ind_abbrev()]
+    names(svy_dat_recode) <- as.character(get_recode_names(recode_for_ind_abbrev()))
+  }else{
+
+    svy_dat_recode <- svy_dat_list[[recode_for_ind_abbrev()]]
+
+  }
+
+  #data('match_all_result', package = "surveyPrev")
+
+  if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+
+    analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
+
+  }else{
+
+    analysis_dat <- surveyPrev::getDHSindicator(Rdata=svy_dat_recode,
+                                                indicator = CountryInfo$svy_indicator_var())
+  }
+
+
+  CountryInfo$svy_analysis_dat(analysis_dat)
+
+  ###############################################################
+  ### data sparsity check
+  ###############################################################
+
+  ### initialize parameters
+  col_names_tmp <- names(CountryInfo$GADM_list())
+  n_adm_level <- length(col_names_tmp)
+  row_names <- c("Direct", "FH", "Unit")
+  nrows <- length(row_names)
+
+  #options(survey.adjust.domain.lonely=TRUE)
+  #options(survey.lonely.psu="adjust")
+
+
+  CountryInfo$GADM_analysis_levels(col_names_tmp)
+
+  strat.gadm.level <- CountryInfo$GADM_strata_level()
+
+  ### initialize storage
+  AnalysisInfo$model_screen_list(NULL)
+  screen_check_list <- AnalysisInfo$model_screen_list()
+  AnalysisInfo$cluster_admin_info_list(NULL)
+
+  for (j in seq_len(length(CountryInfo$GADM_analysis_levels()))){
+
+    tmp.adm <- CountryInfo$GADM_analysis_levels()[j]
+    tmp.adm.num <- admin_to_num(tmp.adm)
+
+    for (i in seq_len(nrows)) {
+
+      #message(paste0(i),':',paste0(j))
+
+      tmp.method <- row_names[i]
+
+      message('Checking at ',tmp.adm,' using ',tmp.method,' model.')
+
+      tmp.check.model <- screen_check_list[[tmp.method]][[tmp.adm]]
+
+
+      ### skip model if already tried
+      if(!is.null(tmp.check.model$screen.flag)){
+        next
+      }
+
+
+      ### prepare admin level GPS info if not stored
+      geo_info_list <- AnalysisInfo$cluster_admin_info_list()
+      tmp.geo.info <- geo_info_list[[tmp.adm]]
+
+      if(is.null(tmp.geo.info)){
+
+        tryCatch({
+
+          message(tmp.adm)
+
+          tmp.cluster.adm.info <- cluster_admin_info(cluster.geo= CountryInfo$svy_GPS_dat(),  #mdg.ex.GPS
+                                                     gadm.list = CountryInfo$GADM_list(),  #mdg.ex.GADM.list
+                                                     model.gadm.level = admin_to_num(tmp.adm),
+                                                     strat.gadm.level = CountryInfo$GADM_strata_level())
+
+
+          AnalysisInfo$set_info_list(tmp.adm,tmp.cluster.adm.info)
+
+          geo_info_list <- AnalysisInfo$cluster_admin_info_list()
+          tmp.geo.info <- geo_info_list[[tmp.adm]]
+
+        },error = function(e) {
+          message(e$message)
+        })
+      }
+
+      ### set model fitting status to Successful, assuming no error occurs
+      tmp.check.model$screen.flag <- 'Error'
+      tmp.check.model$screen.message <- 'Unable to process cluster and admin information.'
+
+      ### process check results
+
+      tryCatch(
+        {
+          #R.utils::withTimeout({
+          tmp.check.model <- suppressWarnings(
+            screen_svy_model(cluster.admin.info=tmp.geo.info,
+                             analysis.dat= CountryInfo$svy_analysis_dat(),
+                             model.gadm.level= tmp.adm.num,
+                             strat.gadm.level = strat.gadm.level,
+                             method=tmp.method)
+          )
+          #}, timeout = 300) ### 5 minutes for timeout
+        },error = function(e) {
+          tmp.check.model$screen.flag  <<- 'Error'
+          tmp.check.model$screen.message <<- e$message
+          message(e$message)
+
+        }
+      )
+
+
+      if(tmp.check.model$screen.flag == 'Warning' & tmp.method=='FH'){
+        tmp.check.model$screen.flag  <- 'Error'
+      }
+
+
+      message(tmp.check.model$screen.flag)
+
+      ### store model results
+      AnalysisInfo$set_screen_Check(tmp.method,tmp.adm,tmp.check.model)
+
+
+
+
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+  ###############################################################
+  ### analysis
+  ###############################################################
+
+
+  res_list <- list()
+  res_tracker_list <- list()
+
+  AnalysisInfo$model_res_list(res_list)
+  AnalysisInfo$model_res_tracker_list(res_tracker_list)
+
+  ### tryout model
+
+  col_names <- names(CountryInfo$GADM_list())
+
+  res_tracker_list <- AnalysisInfo$model_res_tracker_list()
+
+  for (tmp.adm in CountryInfo$GADM_analysis_levels()){
+
+    tmp.adm.num <- admin_to_num(tmp.adm)
+
+    for(tmp.method in c('Direct','FH','Unit')){
+
+      message('Modelling at ',tmp.adm,' using ',tmp.method,' model.')
+
+
+      tmp.tracker.list <- res_tracker_list[[tmp.method]][[tmp.adm]]
+      if(!is.null(tmp.tracker.list$status)){
+
+        message('Skip. Already tried modelling at Admin-',tmp.adm,' using ',tmp.method,' model.')
+
+        next
+      }
+
+
+      ### set model fitting status to Successful, assuming no error occurs
+      tmp.tracker.list$status <- 'Successful'
+      tmp.tracker.list$message <- 'Successful'
+
+      ### Run model
+      tmp.res <- tryCatch(
+        {
+          #R.utils::withTimeout({
+          tmp.res <- fit_svy_model(cluster.geo= CountryInfo$svy_GPS_dat(),  #mdg.ex.GPS
+                                   gadm.list = CountryInfo$GADM_list(),  #mdg.ex.GADM.list
+                                   analysis.dat =   CountryInfo$svy_analysis_dat(),
+                                   model.gadm.level = tmp.adm.num,
+                                   strat.gadm.level = CountryInfo$GADM_strata_level(),
+                                   method = tmp.method,
+                                   aggregation =T
+
+          )
+          #}, timeout = 300) ### 5 minutes for timeout
+        },error = function(e) {
+          tmp.tracker.list$status <<- 'Unsuccessful'
+
+          if(inherits(e, "TimeoutException")) {
+            message("The operation timed out!")
+            tmp.tracker.list$message <<- 'Timed out. Took too long to fit the model.'
+
+          } else {
+            tmp.tracker.list$message <<- e$message
+            message(e$message)
+          }
+          return(NULL)
+        }
+      )
+
+
+
+      ### store model results
+      AnalysisInfo$set_track_res(tmp.method,tmp.adm,tmp.tracker.list)
+
+      AnalysisInfo$set_fitted_res(tmp.method,tmp.adm,tmp.res)
+
+
+
+    }
+
+  }
+
+
+  examine.tracker <- AnalysisInfo$model_res_tracker_list()
+  examine.res <- AnalysisInfo$model_res_list()
+
+  #tmp.unit <- examine.res$Unit$`Admin-2`
+  #tmp.FH <- examine.res$FH$`Admin-2`
+  gadm.list.tmp <-  CountryInfo$GADM_list_smoothed()
+
+  ###############################################################
+  ### Report
+  ###############################################################
+
+
+  ### first make sure that the cluster info are prepared for all admin levels
+
+  for (j in seq_len(length(CountryInfo$GADM_analysis_levels()))){
+
+    tmp.adm <- CountryInfo$GADM_analysis_levels()[j]
+    tmp.adm.num <- admin_to_num(tmp.adm)
+    ### prepare admin level GPS info if not stored
+    geo_info_list <- AnalysisInfo$cluster_admin_info_list()
+    tmp.geo.info <- geo_info_list[[tmp.adm]]
+
+    if(is.null(tmp.geo.info)){
+
+      tryCatch({
+
+        message(tmp.adm)
+
+        tmp.cluster.adm.info <- cluster_admin_info(cluster.geo= CountryInfo$svy_GPS_dat(),  #mdg.ex.GPS
+                                                   gadm.list = CountryInfo$GADM_list(),  #mdg.ex.GADM.list
+                                                   model.gadm.level = admin_to_num(tmp.adm),
+                                                   strat.gadm.level = CountryInfo$GADM_strata_level())
+
+
+        AnalysisInfo$set_info_list(tmp.adm,tmp.cluster.adm.info)
+
+        geo_info_list <- AnalysisInfo$cluster_admin_info_list()
+        tmp.geo.info <- geo_info_list[[tmp.adm]]
+
+      },error = function(e) {
+        message(e$message)
+      })
+    }
+
+  }
+
+
+
+  analysis.dat <- CountryInfo$svy_analysis_dat()
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

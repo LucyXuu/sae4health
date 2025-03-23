@@ -460,7 +460,7 @@ if(FALSE){
   )
 
 
-  #pdf(paste0(map_dir,"RW_adm3_unit_ridge_extremes.pdf"),width = 9)
+  #grDevices::pdf(paste0(map_dir,"RW_adm3_unit_ridge_extremes.pdf"),width = 9)
   png(paste0(map_dir,"RW_adm3_unit_ridge_extremes.png"),res = 450,width = 3600,height=2800)
 
   {
@@ -470,7 +470,7 @@ if(FALSE){
   }
 
   # Closing the graphical device
-  dev.off()
+  grDevices::dev.off()
 
 
 

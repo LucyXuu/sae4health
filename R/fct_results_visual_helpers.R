@@ -250,6 +250,18 @@ prevMap.leaflet <- function(res.obj,
                             legend.color.reverse= T){
 
   ########################################################
+  ### check required packages
+  ########################################################
+
+  if (!requireNamespace("leaflegend", quietly = TRUE)) {
+    stop("Package 'leaflegend' is required for this function. Please install it with install.packages('leaflegend').")
+  }
+
+  if (!requireNamespace("viridisLite", quietly = TRUE)) {
+    stop("Package 'viridisLite' is required for this function. Please install it with install.packages('viridisLite').")
+  }
+
+  ########################################################
   ### initialize parameters
   ########################################################
 
@@ -380,6 +392,10 @@ prevMap.leaflet <- function(res.obj,
   if(dim(hatching.gadm)[1]==0 | (no.hatching)){
     hatching.ind <- F
   }else{
+
+    if (!requireNamespace("HatchedPolygons", quietly = TRUE)) {
+      stop("Package 'HatchedPolygons' is required for this function. Please install it with devtools::install_github('statnmap/HatchedPolygons').")
+    }
 
     ### setup hatching polygons
     hatching.regions <- HatchedPolygons::hatched.SpatialPolygons(hatching.gadm,
@@ -649,7 +665,7 @@ if(FALSE){
 
   tmp.res.obj <- mdg.ex.model.res$Direct$'National'
   nsamp=1000
-  sampled.post.vec <- SUMMER::expit(rnorm(nsamp, mean = tmp.res.obj$res.admin0$direct.logit.est,
+  sampled.post.vec <- SUMMER::expit(stats::rnorm(nsamp, mean = tmp.res.obj$res.admin0$direct.logit.est,
                             sd = sqrt(tmp.res.obj$res.admin0$direct.logit.var)))
   sampled.post.mat <- matrix(sampled.post.vec, nrow = nsamp)
   tmp.res.obj$admin0_post <- sampled.post.mat
@@ -679,7 +695,7 @@ if(FALSE){
       sample_matrix[, i] <- NA
 
     }else{
-    samples <- SUMMER::expit(rnorm(nsamp, mean = mu, sd = sigma))
+    samples <- SUMMER::expit(stats::rnorm(nsamp, mean = mu, sd = sigma))
     sample_matrix[, i] <- samples
 
     }
@@ -837,6 +853,9 @@ prevMap.static <- function(res.obj,
                            value.range=NULL,
                            ...){
 
+  if (!requireNamespace("scales", quietly = TRUE)) {
+    stop("Package 'scales' is required for this function. Please install it with install.packages('scales').")
+  }
 
   ########################################################
   ### initialize parameters
@@ -1116,6 +1135,13 @@ scatter.plot <- function(res.obj.x,
                          plot.title=NULL,
                          interactive=T){
 
+  if (!requireNamespace("plotly", quietly = TRUE)) {
+    stop("Package 'plotly' is required for this function. Please install it with install.packages('plotly').")
+  }
+  if (!requireNamespace("scales", quietly = TRUE)) {
+    stop("Package 'scales' is required for this function. Please install it with install.packages('scales').")
+  }
+
 
   ### get pseudo level
   if(model.gadm.level > strata.gadm.level){
@@ -1383,6 +1409,9 @@ posterior_ridge_plot <- function(res.obj,
                                  top.bottom.label=c('Top','Bottom')
 ){
 
+  if (!requireNamespace("ggridges", quietly = TRUE)) {
+    stop("Package 'ggridges' is required for this function. Please install it with install.packages('ggridges').")
+  }
   ########################################################
   ### initialize parameters
   ########################################################

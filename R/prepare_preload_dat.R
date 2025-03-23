@@ -1,62 +1,66 @@
+
+### compress data
+# tools::resaveRdaFiles("data/")
+
 ###############################################################
 ### load DHS meta data
 ###############################################################
 
 DHS_api_timeout = F
 
-if(FALSE){
-tryCatch({
-    R.utils::withTimeout({
-
-      DHS.country.meta <- rdhs::dhs_countries()
-      DHS.survey.meta <- rdhs::dhs_surveys()
-      DHS.dataset.meta <- rdhs::dhs_datasets()
-      #Sys.sleep(20)  # Simulating a delay
-
-      message('DHS API is working fine. Use most up-to-date info.')
-    },
-    timeout = 3)  # Timeout in seconds
-    },
-    TimeoutException = function(ex) {
-
-      message("DHS API call timed out, using backup data.")
-      DHS_api_timeout = T
-
-      ### use backup
-      pkg_files <- list.files('data')
-      filtered_files <- grep("^DHS_meta_preload_", pkg_files, value = TRUE)# Filter files that start with 'DHS_meta_preload_'
-
-      load(file=paste0('data/',filtered_files))
-
-
-      DHS.country.meta <- DHS.country.meta.preload
-      DHS.survey.meta <- DHS.survey.meta.preload
-      DHS.dataset.meta <- DHS.dataset.meta.preload
-
-    },
-    error = function(e) {
-
-      message("Error loading 'rdhs' library: ", e$message)
-      DHS_api_timeout = T
-
-      ### use backup
-      pkg_files <- list.files('data')
-      filtered_files <- grep("^DHS_meta_preload_", pkg_files, value = TRUE)# Filter files that start with 'DHS_meta_preload_'
-
-      load(file=paste0('data/',filtered_files))
-
-      DHS.country.meta <- DHS.country.meta.preload
-      DHS.survey.meta <- DHS.survey.meta.preload
-      DHS.dataset.meta <- DHS.dataset.meta.preload
-
-})
-}
-### use pre-stored meta data
-pkg_files <- list.files('data')
-filtered_files <- grep("^DHS_meta_preload_", pkg_files, value = TRUE)# Filter files that start with 'DHS_meta_preload_'
-
-load(file=paste0('data/',filtered_files))
+# if(FALSE){
+# tryCatch({
+#     R.utils::withTimeout({
 #
+#       DHS.country.meta <- rdhs::dhs_countries()
+#       DHS.survey.meta <- rdhs::dhs_surveys()
+#       DHS.dataset.meta <- rdhs::dhs_datasets()
+#       #Sys.sleep(20)  # Simulating a delay
+#
+#       message('DHS API is working fine. Use most up-to-date info.')
+#     },
+#     timeout = 3)  # Timeout in seconds
+#     },
+#     TimeoutException = function(ex) {
+#
+#       message("DHS API call timed out, using backup data.")
+#       DHS_api_timeout = T
+#
+#       ### use backup
+#       pkg_files <- list.files('data')
+#       filtered_files <- grep("^DHS_meta_preload_", pkg_files, value = TRUE)# Filter files that start with 'DHS_meta_preload_'
+#
+#       load(file=paste0('data/',filtered_files))
+#
+#
+#       DHS.country.meta <- DHS.country.meta.preload
+#       DHS.survey.meta <- DHS.survey.meta.preload
+#       DHS.dataset.meta <- DHS.dataset.meta.preload
+#
+#     },
+#     error = function(e) {
+#
+#       message("Error loading 'rdhs' library: ", e$message)
+#       DHS_api_timeout = T
+#
+#       ### use backup
+#       pkg_files <- list.files('data')
+#       filtered_files <- grep("^DHS_meta_preload_", pkg_files, value = TRUE)# Filter files that start with 'DHS_meta_preload_'
+#
+#       load(file=paste0('data/',filtered_files))
+#
+#       DHS.country.meta <- DHS.country.meta.preload
+#       DHS.survey.meta <- DHS.survey.meta.preload
+#       DHS.dataset.meta <- DHS.dataset.meta.preload
+#
+# })
+# }
+### use pre-stored meta data
+# pkg_files <- list.files('data')
+# filtered_files <- grep("^DHS_meta_preload_", pkg_files, value = TRUE)# Filter files that start with 'DHS_meta_preload_'
+#
+# load(file=paste0('data/',filtered_files))
+# #
 # DHS.country.meta <- DHS.country.meta.preload
 # DHS.country.meta[DHS.country.meta$CountryName=='Tanzania',]$CountryName <-'United Republic of Tanzania'
 # DHS.country.meta[DHS.country.meta$CountryName=='Congo Democratic Republic',]$CountryName <-'Democratic Republic of the Congo'
@@ -200,17 +204,19 @@ if(FALSE){
 ### process WHO shapefile
 ###############################################################
 
-### WHO requested countries
 WHO.app.countries <- c('Benin', 'Burkina Faso',
                        "Democratic Republic of the Congo",
                        'Rwanda', 'Senegal', 'Sierra Leone',
                        'United Republic of Tanzania','Zambia')
 
+
+if(FALSE){
+### WHO requested countries
 WHO.app.countries.ISO3 <- DHS.country.meta[DHS.country.meta$CountryName %in% WHO.app.countries,]$ISO3_CountryCode
 
 
 ### save linkage file for WHO boundaries across admin levels
-if(FALSE){
+
   #adm2.link.all <- read.csv("/WHO_admin_names.csv", fileEncoding = "Windows-1252")
   adm2.link.all <- adm2.link.all[adm2.link.all$ISO.3.DIGIT.COUNTRY.CODE %in% WHO.app.countries.ISO3,]
   save(adm2.link.all,file='WHO_shp_linkage.rda')
@@ -220,9 +226,10 @@ if(FALSE){
 
 ### function to read WHO shapefiles and constrain to WHO countries
 read_WHO_shp <- function(file_path,adm_level=0){
+  WHO.app.countries.ISO3 <- DHS.country.meta[DHS.country.meta$CountryName %in% WHO.app.countries,]$ISO3_CountryCode
 
   temp <- tempfile()
-  unzip(file_path, exdir = temp)
+  utils::unzip(file_path, exdir = temp)
 
   file_name <- paste0('GLOBAL_ADM',adm_level,'.shp')
   allPaths <- list.files(temp, #pattern =  '(GLOBAL_ADM0.shp|GLOBAL_ADM1.shp|GLOBAL_ADM2.shp)',
@@ -717,9 +724,9 @@ if(FALSE){
 
 if(FALSE){
 
-  library(surveyPrevGithub)
-  library(dplyr)
-  data(match_all_result)
+  #library(surveyPrevGithub)
+  #library(dplyr)
+  #data(match_all_result)
   #match_all_result <- surveyPrevGithub::match_all_result
 
   #ID <- match_all_result$indicator_ID_DHS

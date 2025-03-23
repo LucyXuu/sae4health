@@ -3,26 +3,27 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @importFrom dplyr %>%
 #' @noRd
 #'
 #'
 #'
-#library(shiny.semantic)
-library(shinydashboard)
-library(sf)
-library(magrittr)
-library(sn)
-library(INLA)
-library(prettymapr)
-library(mapview)
-library(bookdown)
-library(markdown)
-library(grid)
-library(gridExtra)
 
-#library(semantic.dashboard)
+# library(shinydashboard)
+# library(sf)
+# library(magrittr)
+# library(sn)
+# library(prettymapr)
+# library(mapview)
+# library(bookdown)
+# library(markdown)
+# library(grid)
+# library(gridExtra)
+# library(INLA)
 
 app_ui <- function(request) {
+  options(shiny.maxRequestSize=550*1024^2)
+
   tagList(
     tags$link(rel = "stylesheet", href = "https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"),
     tags$style(HTML("

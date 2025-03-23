@@ -12,7 +12,7 @@
 get_survey_year <- function(country=NULL){
 
   if(is.null(country)){return(NULL)}
-  surveys <- DHS.survey.meta
+  surveys <- sae4health::DHS.survey.meta
 
   # To see the structure of the returned surveys data frame
   country_svy <- surveys[surveys$CountryName == country, ]
@@ -85,9 +85,9 @@ find_recode_path <- function(recode_file=NULL,
                              file_path=NULL,
                              extensions='DTA'){
   tryCatch({
-    ### unzip
+    ### utils::unzip
     temp <- tempfile()
-    unzip(file_path, exdir = temp)
+    utils::unzip(file_path, exdir = temp)
 
     ### specify the pattern according to DHS data naming system
     recode_file_prefix <- unlist(strsplit(recode_file,  '[.]'))[1]
@@ -425,7 +425,7 @@ get_recode_names <- function(abbreviations) {
                          "Births Recode", "Household Recode", "Men's Recode",
                          "HIV Test Results Recode", "Couples' Recode")
   # Create a named vector
-  name_lookup <- setNames(recode_list_names, recode_list_abbrev)
+  name_lookup <- stats::setNames(recode_list_names, recode_list_abbrev)
 
   # Return the names corresponding to the input abbreviations
   return(name_lookup[abbreviations])
@@ -436,22 +436,22 @@ get_recode_names <- function(abbreviations) {
 ###  function to measure API response time
 ###############################################################
 
-if(FALSE){
-# Example function to measure API response time
-measure_response_time <- function() {
-  start_time <- Sys.time()
-  # Example API call using rdhs
-  all.country <- rdhs::dhs_countries()
-  all.survey <- rdhs::dhs_surveys()
-
-
-  end_time <- Sys.time()
-  response_time <- end_time - start_time
-  return(as.numeric(response_time, units = "secs"))
-}
-
-response_time <- measure_response_time()
-}
+# if(FALSE){
+# # Example function to measure API response time
+# measure_response_time <- function() {
+#   start_time <- Sys.time()
+#   # Example API call using rdhs
+#   all.country <- rdhs::dhs_countries()
+#   all.survey <- rdhs::dhs_surveys()
+#
+#
+#   end_time <- Sys.time()
+#   response_time <- end_time - start_time
+#   return(as.numeric(response_time, units = "secs"))
+# }
+#
+# response_time <- measure_response_time()
+# }
 
 
 
