@@ -738,14 +738,14 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
 
 
 #
-library(sn) ## for INLA to run, just declare here with other packages
-library(labelled)
-library(naniar)
-library(sjlabelled)
-library(dplyr)
-library(data.table)
-library(haven)
-data('match_all_result', package = "surveyPrev")
+# library(sn) ## for INLA to run, just declare here with other packages
+# library(labelled)
+# library(naniar)
+# library(sjlabelled)
+# library(dplyr)
+# library(data.table)
+# library(haven)
+# data('match_all_result', package = "surveyPrev")
 
 
         if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){

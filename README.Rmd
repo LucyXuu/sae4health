@@ -50,7 +50,6 @@ Some non-CRAN dependencies can be installed using the following command. We stro
 
 ``` {r, eval=F, echo=T}
 # install.packages("devtools")
-devtools::install_github("rspatial/geodata") # for downloading GAM shapefile
 devtools::install_github("richardli/SUMMER")
 devtools::install_github("richardli/surveyPrev")
 devtools::install_github("statnmap/HatchedPolygons") # hatching in visualizations
@@ -60,6 +59,57 @@ install.packages("INLA",repos=c(getOption("repos"),
                         INLA="https://inla.r-inla-download.org/R/testing"),dep=TRUE)
 
 ```
+
+
+To install additional CRAN dependencies, run the following command:  
+
+(Some dependencies are not listed in the CRAN `Imports` to meet submission requirements, so they need to be installed manually.)
+
+``` {r, eval=F, echo=T}
+
+install_missing_packages <- function(packages) {
+  missing_packages <- packages[!(packages %in% installed.packages()[, "Package"])]
+  
+  if (length(missing_packages) > 0) {
+    message("Installing missing packages: ", paste(missing_packages, collapse = ", "))
+    install.packages(missing_packages, dependencies = TRUE)
+  } else {
+    message("All packages are already installed.")
+  }
+}
+
+# List of required packages
+required_packages <- c(
+  "geodata",      # Handle GADM shapefiles  
+  "bookdown",     # Display mathematical formulas  
+  "markdown",     # Render Markdown documents  
+  "data.table",   # Efficient data manipulation  
+  "tidyr",        # Data tidying and reshaping  
+  "labelled",     # Manage labels in DHS data  
+  "naniar",       # Handle missing data  
+  "haven",        # Read and write SPSS, Stata, and SAS data  
+  "sjlabelled",   # Work with labeled survey data (DHS, etc.)  
+  "ggridges",     # Create ridge plots  
+  "ggthemes",     # Predefined themes for ggplot2  
+  "RColorBrewer", # Color palettes for visualizations  
+  "viridisLite",  # Alternative color scales for ggplot2  
+  "scales",       # Format and scale axes/legends  
+  "patchwork",    # Combine multiple ggplots  
+  "leaflegend",   # Add legends to Leaflet maps  
+  "leafsync",     # Synchronize multiple Leaflet maps  
+  "plotly",       # Create interactive scatter plots  
+  "readr"         # Read tabular data efficiently  
+)
+
+# Run the function to install any missing packages
+install_missing_packages(required_packages)
+
+```
+
+
+
+<!-- devtools::install_github("rspatial/geodata") # for downloading GAM shapefile -->
+
 
 
 You can then install the development version of sae4health with:
