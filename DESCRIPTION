@@ -8,7 +8,7 @@ Authors@R: c(
     person(given = "Jon", family = "Wakefield", email = "jonno@uw.edu", role = "aut")
     )
 Description: The 'sae4health' package enables small area estimation (SAE) of health and demographic indicators in low- and middle-income countries (LMICs). It powers an R Shiny app that helps public health analysts, policymakers, and researchers generate subnational estimates and prevalence maps for 150+ binary indicators from Demographic and Health Surveys (DHS). Basing its core SAE analysis workflow on the 'surveyPrev' package, the app ensures methodological rigor through guided model selection, automated fitting, and interactive visualization. For more details, visit <https://sae4health.stat.uw.edu/>.
-License: AGPL-3 + file LICENSE
+License: AGPL-3
 URL: https://sae4health.stat.uw.edu/, https://github.com/wu-thomas/sae4health
 BugReports: https://github.com/wu-thomas/sae4health/issues
 Depends: 
@@ -33,37 +33,35 @@ Imports:
     shinyjs,
     shinyWidgets,
     SUMMER,
-    surveyPrev
-Remotes:
-    statnmap/HatchedPolygons,
-    richardli/SurveyPrev,
-    qianyu313/surveyPrevGithub
-Suggests: 
-    surveyPrevGithub, 
-    INLA, 
+    surveyPrev,
     survey,
     geodata, 
     bookdown,
     markdown,     
-    data.table,
-    tidyr,
-    labelled,
-    naniar,
     haven,
-    sjlabelled,
     ggridges,
     ggthemes,
     RColorBrewer,
     viridisLite,
     scales,
     patchwork,
-    HatchedPolygons,
     leaflegend,
     leafsync,
     plotly,
     readr
+Suggests: 
+    surveyPrevGithub,
+    INLA,
+    HatchedPolygons,
+    testthat (>= 3.0.0)
+Additional_repositories: 
+    https://inla.r-inla-download.org/R/testing/,
+    https://github.com/statnmap/HatchedPolygons,
+    https://github.com/qianyu313/surveyPrevGithub
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
 NeedsCompilation: no
 Config/build/clean-inst-doc: FALSE
+Config/testthat/edition: 3
+Language: en-US

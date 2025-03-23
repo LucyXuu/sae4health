@@ -144,8 +144,13 @@ harmonize_all_cols <- function(survey.res){
       survey.res$region.name <-  survey.res$admin2.name
       survey.res$upper.adm.name <- survey.res[['admin1.name']]
     }else{
-      survey.res <- survey.res %>%
-        tidyr::separate(admin2.name.full, into = c("upper.adm.name", "region.name"), sep = "_", remove = FALSE)
+      df <- df %>%
+        dplyr::mutate(
+          upper.adm.name = sub("_.*", "", admin2.name.full),  # Extract part before "_"
+          region.name = sub(".*?_", "", admin2.name.full)     # Extract part after "_"
+        )
+      # survey.res <- survey.res %>%
+      #   tidyr::separate(admin2.name.full, into = c("upper.adm.name", "region.name"), sep = "_", remove = FALSE)
     }
 
     survey.res$region.name.full <- survey.res[['admin2.name.full']]

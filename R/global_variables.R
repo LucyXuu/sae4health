@@ -1,5 +1,5 @@
 # Satisfy the global variable check to avoid R CMD check notes
-utils::globalVariables(c("ref_tab_all","DHS.country.meta","DHS.survey.meta",
+utils::globalVariables(c("ref_tab_all","DHS.country.meta","DHS.survey.meta","match_all_result",
                          "DHS.dataset.meta", "WHO.app.countries.ISO3",
                          "leaflet_color_reverse_ind",'app_deploy_version',
   "CI.width", "DHS_CountryCode", "DHS_api_est", "DHS_ind_dictionary",

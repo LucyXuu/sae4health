@@ -176,8 +176,26 @@ concatenate_vector_with_and <- function(my_vector){
 ###  admin level string, integer conversion
 ###############################################################
 
-### 'National' to 0, 'Admin-1' to 1...
-
+#' Convert Administrative Level String to Numeric Code
+#'
+#' This function converts administrative level names (e.g., "National", "Admin-1")
+#' into corresponding numerical values.
+#'
+#' @param admin_level A character string representing the administrative level.
+#' It can be "National" or "Admin-X" (where X is a positive integer).
+#'
+#' @return An integer representing the numerical level:
+#' - "National" is converted to 0.
+#' - "Admin-X" is converted to X as an integer.
+#' - Returns NULL if the input is invalid.
+#'
+#' @examples
+#' admin_to_num("National")   # Returns 0
+#' admin_to_num("Admin-1")    # Returns 1
+#' admin_to_num("Admin-2")    # Returns 2
+#' admin_to_num("Invalid")    # Returns NULL
+#' @export
+#'
 admin_to_num <- function(admin_level) {
   if (admin_level == "National") {
     return(0)
@@ -193,8 +211,26 @@ admin_to_num <- function(admin_level) {
   }
 }
 
-### 0 to 'National', 1 to 'Admin-1'...
-
+#' Convert Numeric Code to Administrative Level String
+#'
+#' This function converts a numerical administrative level into its corresponding
+#' string format.
+#'
+#' @param num A single integer representing the administrative level.
+#' The value 0 corresponds to "National", while positive integers correspond to "Admin-X".
+#'
+#' @return A character string representing the administrative level:
+#' - 0 is converted to "National".
+#' - Positive integers are converted to "Admin-X".
+#' - Returns NULL if the input is invalid.
+#'
+#' @examples
+#' num_to_admin(0)    # Returns "National"
+#' num_to_admin(1)    # Returns "Admin-1"
+#' num_to_admin(2)    # Returns "Admin-2"
+#'
+#' @export
+#'
 num_to_admin <- function(num) {
   if (num == 0) {
     return("National")

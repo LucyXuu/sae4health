@@ -3,6 +3,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^LICENSE$
 ^README\.Rmd$
 
 ^DESCRIPTION_backup
@@ -14,3 +15,4 @@
 ^inst/WHO_shp/
 ^inst/preloaded_DHS/
 ^Developer_note\.txt$
+^sae4health_1\.2\.0\.tar$

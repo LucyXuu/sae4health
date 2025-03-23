@@ -13,6 +13,11 @@
 mod_model_selection_ui <- function(id){
   ns <- NS(id)
 
+  if(FALSE){
+    ### call bookdown and markdown to pass CRAN check
+    bookdown::render_book()
+    markdown::markdown_options()
+  }
   if (!requireNamespace("bookdown", quietly = TRUE)) {
     stop("Package 'bookdown' is required for this function. Please install it with install.packages('bookdown').")
   }

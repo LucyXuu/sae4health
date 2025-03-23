@@ -111,6 +111,12 @@ mod_survey_dat_input_ui <- function(id){
   )
 }
 
+
+
+
+# @importFrom labelled set_value_labels set_variable_labels
+# @importFrom dplyr mutate if_else case_when
+
 #' survey_dat_input Server Functions
 #'
 #' @noRd
@@ -121,21 +127,21 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
     options(shiny.maxRequestSize=550*1024^2)
 
 
-    if (!requireNamespace("labelled", quietly = TRUE)) {
-      stop("Package 'labelled' is required for this function. Please install it with install.packages('labelled').")
-    }
-    if (!requireNamespace("naniar", quietly = TRUE)) {
-      stop("Package 'naniar' is required for this function. Please install it with install.packages('naniar').")
-    }
-    if (!requireNamespace("sjlabelled", quietly = TRUE)) {
-      stop("Package 'sjlabelled' is required for this function. Please install it with install.packages('sjlabelled').")
-    }
+    # if (!requireNamespace("labelled", quietly = TRUE)) {
+    #   stop("Package 'labelled' is required for this function. Please install it with install.packages('labelled').")
+    # }
+    # if (!requireNamespace("naniar", quietly = TRUE)) {
+    #   stop("Package 'naniar' is required for this function. Please install it with install.packages('naniar').")
+    # }
+    # if (!requireNamespace("sjlabelled", quietly = TRUE)) {
+    #   stop("Package 'sjlabelled' is required for this function. Please install it with install.packages('sjlabelled').")
+    # }
     if (!requireNamespace("haven", quietly = TRUE)) {
       stop("Package 'haven' is required for this function. Please install it with install.packages('haven').")
     }
-    if (!requireNamespace("data.table", quietly = TRUE)) {
-      stop("Package 'data.table' is required for this function. Please install it with install.packages('data.table').")
-    }
+    # if (!requireNamespace("data.table", quietly = TRUE)) {
+    #   stop("Package 'data.table' is required for this function. Please install it with install.packages('data.table').")
+    # }
     if (!requireNamespace("dplyr", quietly = TRUE)) {
       stop("Package 'dplyr' is required for this function. Please install it with install.packages('dplyr').")
     }
@@ -738,7 +744,7 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
 
 
 #
-# library(sn) ## for INLA to run, just declare here with other packages
+#library(sn) ## for INLA to run, just declare here with other packages
 # library(labelled)
 # library(naniar)
 # library(sjlabelled)

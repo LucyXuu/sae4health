@@ -12,7 +12,7 @@
 get_survey_year <- function(country=NULL){
 
   if(is.null(country)){return(NULL)}
-  surveys <- sae4health::DHS.survey.meta
+  surveys <- DHS.survey.meta
 
   # To see the structure of the returned surveys data frame
   country_svy <- surveys[surveys$CountryName == country, ]

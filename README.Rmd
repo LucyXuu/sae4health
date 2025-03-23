@@ -53,7 +53,7 @@ Some non-CRAN dependencies can be installed using the following command. We stro
 devtools::install_github("richardli/SUMMER")
 devtools::install_github("richardli/surveyPrev")
 devtools::install_github("statnmap/HatchedPolygons") # hatching in visualizations
-devtools::install_github("qianyu313/surveyPrevGithub")
+devtools::install_github("qianyu313/surveyPrevGithub") # survey indicator coding
 
 install.packages("INLA",repos=c(getOption("repos"),
                         INLA="https://inla.r-inla-download.org/R/testing"),dep=TRUE)
@@ -61,11 +61,11 @@ install.packages("INLA",repos=c(getOption("repos"),
 ```
 
 
-To install additional CRAN dependencies, run the following command:  
+<!-- To install additional CRAN dependencies, run the following command:   -->
 
-(Some dependencies are not listed in the CRAN `Imports` to meet submission requirements, so they need to be installed manually.)
+<!-- (Some dependencies are not listed in the CRAN `Imports` to meet submission requirements, so they need to be installed manually.) -->
 
-``` {r, eval=F, echo=T}
+``` {r, eval=F, echo=F}
 
 install_missing_packages <- function(packages) {
   missing_packages <- packages[!(packages %in% installed.packages()[, "Package"])]

@@ -177,6 +177,42 @@
 
 
 
+
+#' Matching Results Between DHS and GitHub Indicators, Imported from surveyPrev
+#'
+#' The dataset `match_all_result` contains the results of matching indicators
+#' from DHS (Demographic and Health Surveys) with those extracted from GitHub.
+#' The dataset includes similarity scores, recoding names, indicator definitions,
+#' and positional information within the matched text.
+#'
+#' @format A data frame with 132 rows and 20 variables:
+#' \describe{
+#'   \item{indicator_ID_DHS}{Character. Unique ID of the indicator in DHS.}
+#'   \item{DHS_label}{Character. Label assigned to the indicator in DHS.}
+#'   \item{DHS_definition}{Character. Description or definition of the DHS indicator.}
+#'   \item{Combined}{Character. Combined text representation for similarity matching.}
+#'   \item{Similarity}{Numeric. Similarity score between DHS and GitHub indicators.}
+#'   \item{indicator_ID_Github}{Character. Unique ID of the indicator from GitHub.}
+#'   \item{recode_name}{Character. Initial recoding name for the indicator.}
+#'   \item{updated_recode_name}{Character. Revised recoding name after updates.}
+#'   \item{indicator_ID_Github_raw}{Character. Raw version of the GitHub indicator ID.}
+#'   \item{indicator_def_github}{Character. Processed indicator definition from GitHub.}
+#'   \item{indicator_def_github_raw}{Character. Unprocessed raw definition from GitHub.}
+#'   \item{indicator_chapter}{Character. The chapter or category of the indicator.}
+#'   \item{indicator_R_bundle}{Character. Associated R bundle or package for processing.}
+#'   \item{start_position}{Integer. Start position of the matched pattern in text.}
+#'   \item{end_position}{Integer. End position of the matched pattern in text.}
+#'   \item{matched_pattern}{Character. The exact text pattern matched between sources.}
+#'   \item{batch_recode_group}{Character. Grouping variable for batch recoding.}
+#'   \item{indicator}{Character. Final matched indicator name.}
+#'   \item{X}{Unknown. This variable needs clarification or may be redundant.}
+#'   \item{ID_first_two_letters}{Character. First two letters of the indicator ID, possibly used for grouping or sorting.}
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+"match_all_result"
+
 ###############################################################
 ### documentation for DHS indicator definition and estimates
 ###############################################################
