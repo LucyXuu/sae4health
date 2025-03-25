@@ -127,7 +127,7 @@ if(FALSE){
 
   }
 
-  analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+  analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
 
 
@@ -543,7 +543,7 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-     analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+     analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
      analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
@@ -962,12 +962,12 @@ if(FALSE){
 
   }
 
-  analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+  analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
     detach("package:data.table", unload=TRUE)
@@ -1393,7 +1393,7 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
@@ -2049,7 +2049,7 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
@@ -3054,7 +3054,7 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
@@ -3429,7 +3429,7 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 
@@ -3806,7 +3806,7 @@ if(FALSE){
   #data('match_all_result', package = "surveyPrev")
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
 
     analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
 

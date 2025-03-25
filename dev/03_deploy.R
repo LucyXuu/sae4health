@@ -57,3 +57,7 @@ golem::add_dockerfile_with_renv_shinyproxy()
 #   lint = FALSE,
 #   forceUpdate = TRUE
 # )
+
+if(FALSE){
+  rsconnect::deployApp()
+}

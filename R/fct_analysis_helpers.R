@@ -675,7 +675,8 @@ fit_svy_model <- function(cluster.geo,
                                         stratification =FALSE,
                                         admin = pseudo_level,
                                         aggregation = aggregation,
-                                        CI = 0.95)
+                                        CI = 0.95,
+                                        nested=T)
   }
 
 

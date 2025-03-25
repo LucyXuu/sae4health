@@ -26,6 +26,7 @@ Imports:
     leaflet,
     R6,
     sf,
+    sp,
     shiny (>= 1.7.4),
     shinyBS,
     shinydashboard,
@@ -47,17 +48,15 @@ Imports:
     patchwork,
     leaflegend,
     leafsync,
+    methods,
+    graphics,
     plotly,
-    readr
+    readr,
+    sn
 Suggests: 
-    surveyPrevGithub,
     INLA,
-    HatchedPolygons,
     testthat (>= 3.0.0)
-Additional_repositories: 
-    https://inla.r-inla-download.org/R/testing/,
-    https://github.com/statnmap/HatchedPolygons,
-    https://github.com/qianyu313/surveyPrevGithub
+Additional_repositories: https://inla.r-inla-download.org/R/testing/
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2

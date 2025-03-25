@@ -134,7 +134,7 @@ if(FALSE){
 
 
   if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
-    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
+    analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
     #library(labelled)
     #library(naniar)
     #library(sjlabelled)

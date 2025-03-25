@@ -738,10 +738,10 @@ if(FALSE){
 
 if(FALSE){
 
-  #library(surveyPrevGithub)
+  #library(surveyPrev)
   #library(dplyr)
   #data(match_all_result)
-  #match_all_result <- surveyPrevGithub::match_all_result
+  #match_all_result <- surveyPrev::match_all_result
 
   #ID <- match_all_result$indicator_ID_DHS
   #Description <- match_all_result$DHS_label
@@ -932,7 +932,7 @@ if(FALSE){
 ###############################################################
 
 if(FALSE){
-  library(surveyPrevGithub)
+  library(surveyPrev)
 }
 
 

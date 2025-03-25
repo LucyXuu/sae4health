@@ -65,8 +65,6 @@ surveyPrev package from Github.
 # install.packages("devtools")
 devtools::install_github("richardli/SUMMER")
 devtools::install_github("richardli/surveyPrev")
-devtools::install_github("statnmap/HatchedPolygons") # hatching in visualizations
-devtools::install_github("qianyu313/surveyPrevGithub") # survey indicator coding
 
 install.packages("INLA",repos=c(getOption("repos"),
                         INLA="https://inla.r-inla-download.org/R/testing"),dep=TRUE)
@@ -98,7 +96,6 @@ library(sjlabelled)
 library(dplyr)
 library(data.table)
 library(haven)
-data('match_all_result', package = "surveyPrev")
 ```
 
 You can launch the R Shiny app with the following command, and we

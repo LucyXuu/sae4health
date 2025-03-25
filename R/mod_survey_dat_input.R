@@ -742,29 +742,35 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
         }
 
 
+        # library(sn) ## for INLA to run, just declare here with other packages
+        library(labelled)
+        library(naniar)
+        library(sjlabelled)
+        library(dplyr)
+        library(data.table)
+        library(haven)
 
-#
-#library(sn) ## for INLA to run, just declare here with other packages
-# library(labelled)
-# library(naniar)
-# library(sjlabelled)
-# library(dplyr)
-# library(data.table)
-# library(haven)
-# data('match_all_result', package = "surveyPrev")
+        message(CountryInfo$svy_indicator_var())
+
+        #message(CountryInfo$svy_indicator_var() %in% match_all_result$indicator_ID_DHS)
+        analysis_dat <- surveyPrev::getDHSindicator(Rdata=svy_dat_recode,
+                                                    indicator = CountryInfo$svy_indicator_var())
 
 
-        if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
+        #data('match_all_result', package = "surveyPrev")
 
-          analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrevGithub")
-
-          analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
-          #detach("package:data.table", unload=TRUE)
-        }else{
-
-          analysis_dat <- surveyPrev::getDHSindicator(Rdata=svy_dat_recode,
-                                                      indicator = CountryInfo$svy_indicator_var())
-        }
+        # if(CountryInfo$svy_indicator_var() %in% ref_tab_new$ID){
+        #
+        #   #analysis_dat_fun =  utils::getFromNamespace(CountryInfo$svy_indicator_var(), "surveyPrev")
+        #   analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =CountryInfo$svy_indicator_var())
+        #
+        #   #analysis_dat = surveyPrev::getDHSindicator(Rdata=svy_dat_recode, indicator = NULL, FUN =analysis_dat_fun)
+        #   #detach("package:data.table", unload=TRUE)
+        # }else{
+        #
+        #   analysis_dat <- surveyPrev::getDHSindicator(Rdata=svy_dat_recode,
+        #                                               indicator = CountryInfo$svy_indicator_var())
+        # }
 
 
 

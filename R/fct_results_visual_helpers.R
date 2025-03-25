@@ -196,6 +196,13 @@ format_tab_num <- function(survey.res){
 
 
 
+
+
+
+
+
+
+
 ###############################################################
 ### leaflet (interactive) prevalence map for any subnational level
 ###############################################################
@@ -398,12 +405,8 @@ prevMap.leaflet <- function(res.obj,
     hatching.ind <- F
   }else{
 
-    if (!requireNamespace("HatchedPolygons", quietly = TRUE)) {
-      stop("Package 'HatchedPolygons' is required for this function. Please install it with devtools::install_github('statnmap/HatchedPolygons').")
-    }
-
     ### setup hatching polygons
-    hatching.regions <- HatchedPolygons::hatched.SpatialPolygons(hatching.gadm,
+    hatching.regions <- hatched.SpatialPolygons(hatching.gadm,
                                                                  density = c(hatching.density), angle = c(45))
 
     ### setup hatching legend

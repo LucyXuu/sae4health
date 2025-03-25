@@ -288,6 +288,14 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
       stop("You need to install the packages 'INLA'. Please run in your R terminal:\n  install.packages('INLA', repos=c(getOption('repos'), INLA='https://inla.r-inla-download.org/R/stable'), dep=TRUE)")
     }
 
+    if(FALSE){
+      sn::coef()
+    }
+
+    if (!isTRUE(requireNamespace("sn", quietly = TRUE))) {
+      stop("You need to install the packages 'sn'. Please run in your R terminal:\n  install.packages('sn')")
+    }
+
     adm.05.strata.country <- c('DOM','COD','TZA','KEN')
     method_names <- c('Direct Estimates','Area-level Model','Unit-level Model')
 
