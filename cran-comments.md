@@ -9,12 +9,6 @@
 * The package currently has around 35 dependencies under `Imports` to ensure full functionality.
 * Moving some dependencies to `Suggests` would require users to install them manually, which may reduce usability. However, I am open to feedback if CRAN prefers a different approach.
 
-## GitHub Dependencies
-* The package suggests two dependencies that are hosted on GitHub:
-  * `surveyPrev`
-  * `HatchedPolygons`
-* The github repo for these two packages are stored under `Remotes`
-
 ## Spelling Check NOTE
 * The description contains technical terms that CRAN's spell checker does not recognize:
   * **LMICs** (Low- and Middle-Income Countries)
