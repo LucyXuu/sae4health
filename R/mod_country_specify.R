@@ -553,6 +553,12 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
         CountryInfo$country(input$country)
         CountryInfo$country_code_DHS(DHS.country.meta[DHS.country.meta$CountryName == CountryInfo$country(),]$DHS_CountryCode)
 
+
+        if(CountryInfo$country_code_DHS() %in%
+           c('RW','MD')
+        ){CountryInfo$GADM_strata_level(2)
+        }else{CountryInfo$GADM_strata_level(1)}
+
         CountryInfo$svyYear_selected('')
 
         CountryInfo$svyYear_list(get_survey_year(input$country))
@@ -587,6 +593,11 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
         ### Update country info
         CountryInfo$country(input$country)
         CountryInfo$country_code_DHS(DHS.country.meta[DHS.country.meta$CountryName == CountryInfo$country(),]$DHS_CountryCode)
+
+        if(CountryInfo$country_code_DHS() %in%
+           c('RW','MD')
+        ){CountryInfo$GADM_strata_level(2)
+        }else{CountryInfo$GADM_strata_level(1)}
 
         message(paste0('changed to ',CountryInfo$country()))
         updateSelectInput(inputId = "country", selected = CountryInfo$country(),
@@ -693,6 +704,11 @@ mod_country_specify_server <- function(id,CountryInfo,AnalysisInfo,parent_sessio
         ### Update country info
         CountryInfo$country(input$country)
         CountryInfo$country_code_DHS(DHS.country.meta[DHS.country.meta$CountryName == CountryInfo$country(),]$DHS_CountryCode)
+
+        if(CountryInfo$country_code_DHS() %in%
+           c('RW','MD')
+        ){CountryInfo$GADM_strata_level(2)
+        }else{CountryInfo$GADM_strata_level(1)}
 
         ### Update survey info
         CountryInfo$svyYear_selected(input$Svy_year)

@@ -78,9 +78,9 @@ cluster_admin_info <- function(cluster.geo,
 
       # cluster.info object
       cluster.info <- surveyPrev::clusterInfo(geo=cluster.geo,## incorporate both this level and level above for information on upper admin region
-                                              poly.adm1=gadm.list[[paste0('Admin-',model.gadm.level-1)]],
+                                              poly.adm1=gadm.list[[paste0('Admin-',strat.gadm.level)]],
                                               poly.adm2=gadm.list[[paste0('Admin-',model.gadm.level)]],
-                                              by.adm1 = paste0("NAME_",model.gadm.level-1),
+                                              by.adm1 = paste0("NAME_",strat.gadm.level),
                                               by.adm2 = paste0("NAME_",model.gadm.level)
       )
 
@@ -88,7 +88,7 @@ cluster_admin_info <- function(cluster.geo,
       admin.info <- surveyPrev::adminInfo(poly.adm = gadm.list[[paste0('Admin-',model.gadm.level)]],
                                           admin = pseudo_level,
                                           by.adm= paste0("NAME_",model.gadm.level),
-                                          by.adm.upper = paste0("NAME_",model.gadm.level-1))
+                                          by.adm.upper = paste0("NAME_",strat.gadm.level))
 
     }
 
@@ -339,7 +339,8 @@ fit_svy_model <- function(cluster.geo,
                           strat.gadm.level=1,
                           aggregation=T,
                           method=c('Direct','FH','Unit')[1],
-                          svy.strata = NULL){
+                          svy.strata = NULL,
+                          nested=F){
 
 
 
@@ -676,7 +677,7 @@ fit_svy_model <- function(cluster.geo,
                                         admin = pseudo_level,
                                         aggregation = aggregation,
                                         CI = 0.95,
-                                        nested=T)
+                                        nested=nested)
   }
 
 

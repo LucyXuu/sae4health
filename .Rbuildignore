@@ -16,4 +16,5 @@
 ^inst/WHO_shp/
 ^inst/preloaded_DHS/
 ^Developer_note\.txt$
+^R/test_a_country\.R
 ^sae4health_1\.2\.0\.tar$

@@ -143,7 +143,7 @@ if(FALSE){
 
   formatted_date <- format(Sys.Date(), "%m%d%Y")
 
-  save(DHS.country.meta,DHS.survey.meta,DHS.dataset.meta,file=paste0('data/DHS_meta_preload_',formatted_date,'.rda'))
+  #save(DHS.country.meta,DHS.survey.meta,DHS.dataset.meta,file=paste0('data/DHS_meta_preload_',formatted_date,'.rda'))
 
 
 }
@@ -181,7 +181,7 @@ if(FALSE){
 
     country.GADM.list.fine <- one_country_GADM[model_levels]
 
-    saveRDS(country.GADM.list.fine,file=paste0('data/GADM_shp/',country_iso3,'/',country_iso3,'_GADM_analysis.rds'))
+    #saveRDS(country.GADM.list.fine,file=paste0('data/GADM_shp/',country_iso3,'/',country_iso3,'_GADM_analysis.rds'))
 
     ### store smoothed GADM for display
     one_country_GADM <- get_country_GADM(country,resolution=2)
@@ -191,7 +191,7 @@ if(FALSE){
 
     country.GADM.list.smoothed <- one_country_GADM[model_levels]
 
-    saveRDS(country.GADM.list.smoothed,file=paste0('data/GADM_shp/',country_iso3,'/',country_iso3,'_GADM_display.rds'))
+    #saveRDS(country.GADM.list.smoothed,file=paste0('data/GADM_shp/',country_iso3,'/',country_iso3,'_GADM_display.rds'))
   }
 
 }
@@ -219,7 +219,7 @@ WHO.app.countries.ISO3 <- DHS.country.meta[DHS.country.meta$CountryName %in% WHO
 
   #adm2.link.all <- read.csv("/WHO_admin_names.csv", fileEncoding = "Windows-1252")
   adm2.link.all <- adm2.link.all[adm2.link.all$ISO.3.DIGIT.COUNTRY.CODE %in% WHO.app.countries.ISO3,]
-  save(adm2.link.all,file='WHO_shp_linkage.rda')
+  #save(adm2.link.all,file='WHO_shp_linkage.rda')
 
 }
 
@@ -617,7 +617,7 @@ if(FALSE){
 
 
     ### save shapefile
-    saveRDS(country.shp.list,file=paste0('data/WHO_shp/',WHO.country.ISO3,'/',WHO.country.ISO3,'_shp.rds'))
+    #saveRDS(country.shp.list,file=paste0('data/WHO_shp/',WHO.country.ISO3,'/',WHO.country.ISO3,'_shp.rds'))
 
 
 
@@ -650,7 +650,7 @@ if(FALSE){
 
         message('Country: ',WHO.country, ' ',tmp.name,' shapefile not valid.')
 
-        saveRDS(country.shp.list,file=paste0('data/WHO_shp/',WHO.country.ISO3,'/',WHO.country.ISO3,'_shp.rds'))
+        #saveRDS(country.shp.list,file=paste0('data/WHO_shp/',WHO.country.ISO3,'/',WHO.country.ISO3,'_shp.rds'))
 
         message('Fixed.')
 
@@ -677,7 +677,7 @@ if(FALSE){
 
 
   country.shp.list[['Admin-2']] <- poly.adm2
-  saveRDS(country.shp.list,file=paste0('data/WHO_shp/',WHO.country.ISO3,'/',WHO.country.ISO3,'_shp.rds'))
+  #saveRDS(country.shp.list,file=paste0('data/WHO_shp/',WHO.country.ISO3,'/',WHO.country.ISO3,'_shp.rds'))
 
 
 }
@@ -919,7 +919,7 @@ if(FALSE){
 
 
 
-  save(ref_tab_22,file='data/indicator_list_22.rda')
+  #save(ref_tab_22,file='data/indicator_list_22.rda')
 
   #recode_list <- c('IR','PR','KR','BR','HR','MR','AR','CR')
   #recode_list[which(wide_format[7,recode_list]==T)]
@@ -953,7 +953,7 @@ if(FALSE){
   ref_tab_all$Topic <- paste0('Chapter ',formatC(ref_tab_all$Chapter, width = 2, format = "d", flag = "0"),
                               ' - ',ref_tab_all$Title)
 
-  save(ref_tab_all,file='data/indicator_list_all.rda')
+  #save(ref_tab_all,file='data/indicator_list_all.rda')
 
   #write.csv(ref_tab_all[,c(1:5)],row.names = F,file='indicator_list_0916.csv')
 }
@@ -971,10 +971,10 @@ if(FALSE){
   res_ind_supported <- data.frame()
 
   for (i in 1:dim(dhs_survey_list)[1]){
-    print(i)
+    #message(i)
     tmp_cty_code <- dhs_survey_list$DHS_CountryCode[i]
     tmp_svy_year <- dhs_survey_list$SurveyYear[i]
-    print(paste0(dhs_survey_list$DHS_CountryCode[i],dhs_survey_list$SurveyYear[i]))
+    #message(paste0(dhs_survey_list$DHS_CountryCode[i],dhs_survey_list$SurveyYear[i]))
 
 
     cty_svy_res_file <- paste0('E:/Dropbox/YunhanJon/DHS-indicators/Step_3_Data/all_survey_est/',
@@ -987,9 +987,9 @@ if(FALSE){
       tmp_res <- read.csv(tmp_call)
 
 
-      print('done')
-      save(tmp_res,file=paste0('E:/Dropbox/YunhanJon/DHS-indicators/Step_3_Data/all_survey_est/',
-                               tmp_cty_code,'_',tmp_svy_year,'_DHS_est.rda'))
+      #message('done')
+      #save(tmp_res,file=paste0('E:/Dropbox/YunhanJon/DHS-indicators/Step_3_Data/all_survey_est/',
+      #                         tmp_cty_code,'_',tmp_svy_year,'_DHS_est.rda'))
 
     }else{
 

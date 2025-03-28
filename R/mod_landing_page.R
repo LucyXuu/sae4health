@@ -108,7 +108,7 @@ border: 1px solid #666666}
 
     # colors
     # color_codes <- viridis::viridis(n=8,direction=-1)  # Generate 5 colors from the default Viridis palette
-    # print((color_codes)[2:5])
+    # message((color_codes)[2:5])
 
     ### Step 0 prepare data
     div(

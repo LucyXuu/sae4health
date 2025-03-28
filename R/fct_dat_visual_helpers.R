@@ -168,9 +168,9 @@ map_plot <- ggplot2::ggplot() +
 
 # Check the status code of the response
 #if (httr::status_code(response) == 200) {
-#  print("The tile server is responding normally.")
+#  messsage("The tile server is responding normally.")
 #} else {
-#  print("Failed to reach the tile server.")
+#  messsage("Failed to reach the tile server.")
 #}
 #}
 

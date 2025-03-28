@@ -743,12 +743,12 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
 
 
         # library(sn) ## for INLA to run, just declare here with other packages
-        library(labelled)
-        library(naniar)
-        library(sjlabelled)
-        library(dplyr)
-        library(data.table)
-        library(haven)
+        # library(labelled)
+        # library(naniar)
+        # library(sjlabelled)
+        # library(dplyr)
+        # library(data.table)
+        # library(haven)
 
         message(CountryInfo$svy_indicator_var())
 
@@ -808,7 +808,7 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
         # If the first attempt fails, try with alt.strata=NULL
         tryCatch({
           message('alt.strata=v022 failed')
-          print(e)
+          message(e)
           cluster.info <- surveyPrev::clusterInfo(geo=cluster.geo,
                                                   poly.adm1=gadm.list[[paste0('Admin-',1)]],
                                                   poly.adm2=gadm.list[[paste0('Admin-',1)]],
