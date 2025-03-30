@@ -1,10 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SAE for Health: Small Area Estimation for Key Health and Demographic Indicators from Household Surveys
+# sae4health
 
 <!-- badges: start -->
+
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/sae4health)](https://cran.r-project.org/package=sae4health)
+[![](https://cranlogs.r-pkg.org/badges/sae4health)](https://cran.r-project.org/package=sae4health)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/sae4health?color=orange)](https://cran.r-project.org/package=sae4health)
 <!-- badges: end -->
+
+Small Area Estimation for Key Health and Demographic Indicators from
+Household Surveys
+
+## Overview
 
 The ‘sae4health’ package enables small area estimation (SAE) of health
 and demographic indicators in low- and middle-income countries (LMICs).
