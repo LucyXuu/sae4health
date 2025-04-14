@@ -1035,13 +1035,4 @@ if(FALSE){
 
 }
 
-###############################################################
-###  test loading the data from server
-###############################################################
-
-if(FALSE){
-server.dir <- "https://sites.stat.washington.edu/sae4health/DHStemp/"
-test_rds_dat <- readRDS(url(paste0(server.dir,'test_rds_file.rds')))
-
-}
 
