@@ -168,16 +168,17 @@ mod_model_selection_ui <- function(id){
                           div(id = ns("after_check"),
                               fluidRow(div(style = "width: 100%; max-width: 800px;",
                                            h4("Model Fitting", class = "panel-title"))),
-                              #fluidRow(div(style = "display: flex; justify-content: center;width: 100%; max-width: 800px;",
-                              # column(6,
-                              #        div(style = "display: flex; justify-content: center; padding: 20px 0;width: 100%; max-width: 400px;",
-                              #            actionButton(ns("run_analysis_clear"), HTML("Run models that passed check"), class = "pretty-button"))
-                              # ),
-                              # column(6,
-                              #        div(style = "display: flex; justify-content: center; padding: 20px 0;width: 100%; max-width: 400px;",
-                              #            actionButton(ns("run_analysis_all"), "Run all selected models", class = "pretty-button"))
-                              # ))
-                              # ),
+                              ### advance options
+                              fluidRow(
+                                div(
+                                  style = "width: 100%; max-width: 800px; display: flex; align-items: center; justify-content:  flex-start; margin-bottom: 0px;margin-left:-5px;",
+                                  actionButton(
+                                    inputId = ns("open_ad_options"),
+                                    label = span(icon("cog", style = "margin-right: 5px;"), " Advanced Options"),
+                                    style = "background-color: transparent; border: none; color: #007bff; font-weight: 500; font-size: 17px;"
+                                  )
+                                )
+                              ),
                               fluidRow(
                                 div(style = "display: flex; justify-content: center; width: 100%; max-width: 800px;",
                                     uiOutput(ns("dynamic_buttons"))  # This will receive dynamic content from server
@@ -216,8 +217,16 @@ mod_model_selection_ui <- function(id){
                     }
                 });
                 </script>
-                ")), withMathJax(includeMarkdown(system.file("app", 'www', paste0("method_direct.rmd"),
-                                                             package = "sae4health")))
+                ")), {
+                  md_path <- system.file("app", "www", "method_direct.rmd", package = "sae4health")
+                  if (file.exists(md_path)) {
+                    withMathJax(includeMarkdown(md_path))
+                  } else {
+                    div(HTML(
+                      'Documentation for this method is available at our <a href="https://sae4health.stat.uw.edu/method/method_direct/" target="_blank">website</a>.'
+                    ))
+                  }
+                }
                             # withMathJax(includeMarkdown("inst/app/www/method_direct.rmd"))
                           )),
 
@@ -237,11 +246,17 @@ mod_model_selection_ui <- function(id){
                     }
                 });
                 </script>
-                ")),
-                            withMathJax(includeMarkdown(system.file("app", 'www', paste0("method_FH.rmd"),
-                                                                    package = "sae4health")))
-                            #withMathJax(includeMarkdown("inst/app/www/method_FH.rmd"))
-                          )),
+                ")),{
+                  md_path <- system.file("app", "www", "method_FH.rmd", package = "sae4health")
+                  if (file.exists(md_path)) {
+                    withMathJax(includeMarkdown(md_path))
+                  } else {
+                    div(HTML(
+                      'Documentation for this method is available at our <a href="https://sae4health.stat.uw.edu/method/method_area/" target="_blank">website</a>.'
+                    ))
+                  }
+                }
+                )),
 
                  # Third sub-tab for "Method 3"
                  tabPanel(title = "Unit-level Model Method",
@@ -259,10 +274,18 @@ mod_model_selection_ui <- function(id){
                     }
                 });
                 </script>
-                ")),withMathJax(includeMarkdown(system.file("app", 'www', paste0("method_unit.rmd"),
-                                                            package = "sae4health")))
-                            #withMathJax(includeMarkdown("inst/app/www/method_unit.rmd"))
-                          ))
+                ")),
+                            {
+                              md_path <- system.file("app", "www", "method_unit.rmd", package = "sae4health")
+                              if (file.exists(md_path)) {
+                                withMathJax(includeMarkdown(md_path))
+                              } else {
+                                div(HTML(
+                                  'Documentation for this method is available at our <a href="https://sae4health.stat.uw.edu/method/method_unit/" target="_blank">website</a>.'
+                                ))
+                              }
+                            }
+                  ))
                )
     )
 
@@ -812,6 +835,92 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
 
 
+
+
+    ###############################################################
+    ### advanced options
+    ###############################################################
+
+
+    # Open the modal and prefill inputs with saved values
+    observeEvent(input$open_ad_options, {
+      showModal(
+        modalDialog(
+          title = "Advanced Options",
+          size = "l",
+          easyClose = TRUE,
+          footer = tagList(
+            modalButton("Close"),
+            actionButton(ns("apply_ad_options"), "Apply")
+          ),
+
+          tags$div(
+            style = "background-color:#fff3cd; border-left: 5px solid #ffeeba; padding:10px; margin-bottom:15px;",
+            strong("Note:"),
+            " Click ", strong("Apply"), " to confirm your changes. This will reset any affected models, which will need to be re-fitted based on the updated settings. ",
+            HTML("For more information about these options, see <a href='https://sae4health.stat.uw.edu/method/model_extensions/' target='_blank'><strong>our website</strong></a>.")
+          ),
+
+
+          # Empty inputs to be updated right after modal is shown
+          tags$div(
+            style = "background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 15px; margin-left: 0px; margin-bottom: 15px;",
+
+            #tags$label("Enable Nested Model:", style = "font-weight: 500; display: block; margin-bottom: 5px;"),
+            shiny::radioButtons(
+              inputId = ns("nested_model_selection"),
+              label = 'Enable Nested Model: ',
+              choices = c("Yes" = TRUE, "No" = FALSE),
+              inline = TRUE,
+              width = "100%"
+            ))
+        )
+      )
+
+
+      ### update selection bar after setting new options
+      current_ad_option_status <- AnalysisInfo$ad_options_list()
+
+      updateSelectInput(session, "nested_model_selection", selected = current_ad_option_status[['nested']])
+
+    })
+
+
+    observeEvent(input$apply_ad_options, {
+
+      prev_ad_option_status <- AnalysisInfo$ad_options_list()
+
+      ### Nested Model
+      if(as.logical(input$nested_model_selection) != prev_ad_option_status[['nested']]){
+
+        # update selection on nested model
+        AnalysisInfo$set_ad_options('nested',as.logical(input$nested_model_selection))
+
+        # reset all fitted unit-level model >= Admin-2
+        for(tmp.adm in col_names()){
+          message(tmp.adm)
+          if(CountryInfo$GADM_strata_level() < admin_to_num(tmp.adm)){
+            AnalysisInfo$set_track_res('Unit',tmp.adm,NULL)
+            AnalysisInfo$set_fitted_res('Unit',tmp.adm,NULL)
+            message(paste0('Reset Unit-level Model at ',tmp.adm))
+          }
+        }
+
+        message(paste0("Modifying setting for nested model to: ",
+                       AnalysisInfo$get_ad_options('nested')))
+
+      }
+
+      #showNotification(paste("Nested model selected:", input$nested_model_selection), type = "message")
+
+      ### close pop-up window
+      removeModal()
+
+
+
+    })
+
+
     ###############################################################
     ### run analysis based on model selection
     ###############################################################
@@ -932,6 +1041,7 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
             ### Run model
             tmp.res <- tryCatch(
               {
+
                 #R.utils::withTimeout({
                 tmp.res <- suppressWarnings(fit_svy_model(cluster.geo= CountryInfo$svy_GPS_dat(),
                                                           cluster.admin.info = tmp.geo.info,
@@ -941,7 +1051,8 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
                                                           strat.gadm.level = strat.gadm.level,
                                                           method = tmp.method,
                                                           aggregation =T,
-                                                          svy.strata = svy.strata))
+                                                          svy.strata = svy.strata,
+                                                          nested=AnalysisInfo$get_ad_options('nested')))
                 #}, timeout = 300) ### 5 minutes for timeout
               },error = function(e) {
                 tmp.tracker.list$status <<- 'Unsuccessful'
@@ -1098,6 +1209,10 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
             ### Run model
             tmp.res <- tryCatch(
               {
+
+                message(AnalysisInfo$get_ad_options('nested'))
+                message(typeof(AnalysisInfo$get_ad_options('nested')))
+
                 #R.utils::withTimeout({
                 tmp.res <- suppressWarnings(fit_svy_model(cluster.geo= CountryInfo$svy_GPS_dat(),
                                                           cluster.admin.info = tmp.geo.info,
@@ -1107,7 +1222,8 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
                                                           strat.gadm.level = strat.gadm.level,
                                                           method = tmp.method,
                                                           aggregation =T,
-                                                          svy.strata = svy.strata))
+                                                          svy.strata = svy.strata,
+                                                          nested=AnalysisInfo$get_ad_options('nested')))
                 #}, timeout = 300) ### 5 minutes for timeout
               },error = function(e) {
                 tmp.tracker.list$status <<- 'Unsuccessful'
@@ -1153,59 +1269,6 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
 
 
-
-
-
-    ###############################################################
-    ### reactive tables internally checking models
-    ###############################################################
-
-    if(FALSE){
-      # Render a reactive table showing the current status of checkboxes
-      output$valuesTable <- DT::renderDT({
-
-        df <- as.data.frame(AnalysisInfo$model_selection_mat())
-
-        DT::datatable(df, options = list(dom = 't', paging = FALSE, ordering = FALSE))
-      })
-
-      # Render a reactive table showing the status of fitted models
-      output$Res_Tracker_Table <- DT::renderDT({
-
-        df <- as.data.frame(AnalysisInfo$model_res_tracker_mat_old())
-        rownames(df) <- method_names
-
-        DT::datatable(df, options = list(dom = 't', paging = FALSE, ordering = FALSE))
-      })
-
-    }
-
-    ###############################################################
-    ### Render a reactive table showing the status of selected models
-    ###############################################################
-
-    if(FALSE){
-      output$Selected_Res_Tracker_Table <- DT::renderDT({
-
-
-        all_res_tracker <- AnalysisInfo$model_res_tracker_mat_old()
-        model_selection_tracker <- AnalysisInfo$model_selection_mat()
-
-        selected_res_tracker <- model_selection_tracker
-        selected_res_tracker[,] <- NA  # Assign NA to all entries
-
-        all_res_subset <- all_res_tracker[, colnames(model_selection_tracker), drop = FALSE]
-
-
-        selected_res_tracker[all_res_subset == TRUE & model_selection_tracker == TRUE] <- TRUE
-        selected_res_tracker[all_res_subset == FALSE & model_selection_tracker == TRUE] <- FALSE
-
-        #message(selected_res_tracker)
-        rownames(selected_res_tracker) <- method_names
-
-        DT::datatable(selected_res_tracker, options = list(dom = 't', paging = FALSE, ordering = FALSE))
-      })
-    }
 
 
     ###############################################################

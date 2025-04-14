@@ -25,6 +25,7 @@ CountryInfo <- R6::R6Class(
     WHO_version = NULL, ### whether to use WHO version of the app (difference in countries)
     shapefile_source = NULL, ### WHO-preload, WHO-download, GADM-preload, GADM-download
 
+    server_version = NULL, ### whether this is a version deployed on the server
     legend_color_reverse = NULL, ### whether to reverse the color scheme on the legend of leaflet plot (fix bug)
 
     country = NULL,
@@ -67,6 +68,7 @@ CountryInfo <- R6::R6Class(
       self$WHO_version <- reactiveVal(NULL)
       self$shapefile_source <- reactiveVal(NULL)
 
+      self$server_version <- reactiveVal(F)
       self$legend_color_reverse <- reactiveVal(NULL)
 
       self$country <- reactiveVal(NULL)
@@ -195,7 +197,7 @@ AnalysisInfo <- R6::R6Class(
     model_res_list = NULL, ### fitted objects and results
     model_res_tracker_list = NULL, ### error message and success indicator
 
-
+    ad_options_list = NULL, ### advanced modeling options, nested model etc.
 
     initialize = function() {
 
@@ -214,10 +216,11 @@ AnalysisInfo <- R6::R6Class(
       self$model_res_list <- reactiveVal(NULL)
       self$model_res_tracker_list <- reactiveVal(NULL)
 
-
-
+      self$ad_options_list <-  reactiveVal(list(nested=F))
 
     },
+
+
     reset_results = function() {
 
       self$cluster_admin_info_list(NULL)
@@ -230,9 +233,6 @@ AnalysisInfo <- R6::R6Class(
       self$Natl_res(NULL)
       self$model_res_list(NULL)
       self$model_res_tracker_list(NULL)
-
-
-
 
     },
 
@@ -301,7 +301,28 @@ AnalysisInfo <- R6::R6Class(
       self$model_res_tracker_list(tmp.list)
 
 
+    },
+
+
+
+    ### set advanced options selections
+    set_ad_options = function(ad_option_name, choice_selected) {
+
+      tmp.list <- self$ad_options_list()
+      tryCatch({
+        tmp.list[[ad_option_name]] <- choice_selected
+      },error= function(e) {
+        message(paste0('not succesful at ',ad_option_name,':',choice_selected))
+        return()})
+      self$ad_options_list(tmp.list)
+    },
+
+    ### get advanced options selections
+    get_ad_options = function(ad_option_name) {
+      tmp.list <- self$ad_options_list()
+      return(tmp.list[[ad_option_name]])
     }
+
 
   )
 

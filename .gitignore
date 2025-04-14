@@ -11,6 +11,8 @@
 .Rhistory
 
 rsconnect/
+app.R
+
 inst/GADM_shp
 inst/WHO_shp
 inst/preloaded_DHS

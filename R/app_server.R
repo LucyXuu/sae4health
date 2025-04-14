@@ -26,6 +26,10 @@ app_server <- function(input, output, session) {
   CountryInfo$website_link('https://sae4health.stat.uw.edu')
 
 
+  ### whether to be deployed on the server
+  CountryInfo$server_version(!(is.null(golem::get_golem_options()$server_link)))
+
+
   ### WHO/non-WHO version related parameters
   # determine which version will be deployed
   app_deploy_version <- golem::get_golem_options()$version

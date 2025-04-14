@@ -345,14 +345,14 @@ prevMap.leaflet <- function(res.obj,
   }
 
   if(pseudo_level==2){
-    gadm.shp$full_name <- paste0(gadm.shp[[paste0('NAME_',model.gadm.level-1)]],
+    gadm.shp$full_name <- paste0(gadm.shp[[paste0('NAME_',strata.gadm.level)]],
                                  '_',
                                  gadm.shp[[paste0('NAME_',model.gadm.level)]])
     gadm.with.res <- gadm.shp %>%
       dplyr::left_join(res.to.plot, by = c("full_name" = "region.name.full"))
 
     gadm.with.res$region.name <- gadm.with.res[[paste0('NAME_',model.gadm.level)]]
-    gadm.with.res$upper.adm.name <- gadm.with.res[[paste0('NAME_',model.gadm.level-1)]]
+    gadm.with.res$upper.adm.name <- gadm.with.res[[paste0('NAME_',strata.gadm.level)]]
 
   }
 
@@ -955,7 +955,7 @@ prevMap.static <- function(res.obj,
   }
 
   if(pseudo_level==2){
-    gadm.shp$full_name <- paste0(gadm.shp[[paste0('NAME_',model.gadm.level-1)]],
+    gadm.shp$full_name <- paste0(gadm.shp[[paste0('NAME_',strata.gadm.level)]],
                                  '_',
                                  gadm.shp[[paste0('NAME_',model.gadm.level)]])
     gadm.with.res <- gadm.shp %>%

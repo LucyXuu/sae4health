@@ -319,6 +319,8 @@ if(FALSE){
 #'
 #' @param method %in% c('Direct','FH','Unit')
 #'
+#' @param nested whether to fit Admin-2 (or finer) model nested within Admin-1, default is FALSE.
+#'
 #' @return fitted surveyPrev
 #'
 #' @noRd

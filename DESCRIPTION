@@ -1,6 +1,6 @@
 Package: sae4health
 Title: Small Area Estimation for Key Health and Demographic Indicators from Household Surveys
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: c(
     person(given = "Yunhan", family = "Wu", email= "wu-thomas@outlook.com", role = c("cre", "aut")),
     person(given = "Qianyu", family = "Dong", email= "qdong14@ucsc.edu", role = "aut"),

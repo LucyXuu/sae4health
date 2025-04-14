@@ -74,7 +74,7 @@ border: 1px solid #666666}
 
 
     div(class = "welcome-note",
-        h4("Welcome to the SAE4Health R Shiny App!"),
+        h4("Welcome to the sae4health R Shiny App!"),
 
         HTML(paste0(
           "<p style='font-size: large; margin-bottom: 20px;'>",
@@ -100,7 +100,7 @@ border: 1px solid #666666}
           "Click the button in the top-right corner of each box to expand or collapse its contents.",
           "</p>",
           "</p>",
-          "<p style='font-size: small; text-align: right;margin-top:-10px'>", "Version 1.2.0 (2025-03-20)",
+          "<p style='font-size: small; text-align: right;margin-top:-10px'>", "Version 1.2.2 (2025-04-13)",
           "</p>"
         ))
     ),
@@ -111,36 +111,61 @@ border: 1px solid #666666}
     # message((color_codes)[2:5])
 
     ### Step 0 prepare data
-    div(
-      class = "box0",
-    shinydashboard::box(title = "Step 0 - Request Data",
-                        status = "primary", solidHeader = TRUE, collapsible = TRUE,
-                        width = NULL,
-                        tags$div(class="instructions",
-                                 HTML(paste0(
-                                   "<p style=' margin-bottom:10px;'>",
-                                   "Before using the App, the user needs access to the required DHS survey data. ",
-                                   "DHS maintains strict data access rules, particularly for sensitive GPS-tagged data needed for SAE analysis.</p> ",
-                                   "<p style=''>",
-                                   "Follow these steps to <strong>obtain access to DHS datasets</strong> (instruction videos also available ",
-                                   tags$a("here", href = paste0(website_link,"/overview/youtube_data_request/"),
-                                          target = "_blank", class = "official-link"), "):</p>",
-                                   tags$ol(type="a",
-                                           tags$li(tags$b("Register an account"),": Start by creating an account on the ",
-                                                   tags$a("DHS website", href = "https://dhsprogram.com/Data/",
-                                                          target = "_blank", class = "official-link"),
-                                                   '.'
-                                                   ),
-                                           tags$li(tags$b("Provide project information"),": Complete the forms with specific details about the project."),
-                                           tags$li(tags$b("Request survey access"), ": Post-registration, formally request access to the country/year specific survey datasets. Be sure to request ",
-                                                   tags$b("GPS data"), "; approval typically occurs within 48 hours.")
-                                   ) #,
-                                   #"<p>",
-                                   #"Additionally, download <strong>WHO shapefiles</strong> from the WHO GIS Hub. Please reference the <strong>implementation guide</strong> for detailed instructions.</p>"
-                                 ))
-                        )
-    )
-    ),
+
+    #uiOutput(ns("box0_ui")),
+
+    if (is.null(golem::get_golem_options()$server_link)) {
+      div(
+        class = "box0",
+        shinydashboard::box(
+          title = "Step 0 - Request Data",
+          status = "primary", solidHeader = TRUE, collapsible = TRUE,
+          width = NULL,
+          tags$div(class = "instructions",
+                   HTML(paste0(
+                     "<p style='margin-bottom:10px;'>",
+                     "Before using the App, the user needs access to the required DHS survey data. ",
+                     "DHS maintains strict data access rules, particularly for sensitive GPS-tagged data needed for SAE analysis.</p>",
+                     "<p>",
+                     "Follow these steps to <strong>obtain access to DHS datasets</strong> (instruction videos also available ",
+                     tags$a("here", href = paste0(website_link, "/overview/youtube_data_request/"),
+                            target = "_blank", class = "official-link"), "):</p>",
+                     tags$ol(type = "a",
+                             tags$li(tags$b("Register an account"), ": Start by creating an account on the ",
+                                     tags$a("DHS website", href = "https://dhsprogram.com/Data/",
+                                            target = "_blank", class = "official-link"), "."),
+                             tags$li(tags$b("Provide project information"), ": Complete the forms with specific details about the project."),
+                             tags$li(tags$b("Request survey access"), ": Post-registration, formally request access to the country/year specific survey datasets. Be sure to request ",
+                                     tags$b("GPS data"), "; approval typically occurs within 48 hours.")
+                     )
+                   ))
+          )
+        )
+      )
+    } else {
+      div(
+        class = "box0",
+        shinydashboard::box(
+          title = "Step 0 - Data Access Overview",
+          status = "primary", solidHeader = TRUE, collapsible = TRUE,
+          width = NULL,
+          tags$div(class = "instructions",
+                   HTML(paste0(
+                     "<p style='margin-bottom:10px;'>",
+                     "The online version of the app comes with most surveys already <strong>preloaded</strong> from the server, allowing immediate use. ",
+                     "All features, including data analysis and visualization, are fully supported <strong>without the need to upload any data</strong>.</p>",
+
+                     "<p>",
+                     "Due to confidentiality restrictions, the underlying raw datasets cannot be downloaded or fully displayed. ",
+                     "For full access to raw data, users may request permission and use the local version of the app.</p>"
+                   ))
+          )
+        )
+      )
+    },
+
+
+
 
 
     ### Step 1 specifying survey meta data
@@ -153,7 +178,7 @@ border: 1px solid #666666}
                         tags$div(class="instructions",
                                  HTML(paste0(
                                    "<p style=' margin-bottom:10px;'>",
-                                   "After obtaining access to the DHS data, the user may proceed to  ",
+                                   "After obtaining access to the DHS data (if using the local version), the user may proceed to  ",
                                    actionButton(
                                      ns("switch_country_tab"),  # Button ID to trigger the modal
                                      "country specification panel ",
@@ -183,6 +208,7 @@ border: 1px solid #666666}
 
 
     ### Step 2 data upload
+    if (is.null(golem::get_golem_options()$server_link)) {
     div(
       class = "box2",
     shinydashboard::box(title = "Step 2 - Data Upload",
@@ -225,7 +251,43 @@ border: 1px solid #666666}
                                  ))
                         )
     )
-    ),
+    )
+      }else{
+
+
+        div(
+          class = "box2",
+          shinydashboard::box(title = "Step 2 - Data Upload",
+                              status = "primary", solidHeader = TRUE, collapsible = TRUE,
+                              width = NULL,
+                              collapsed = T,
+                              tags$div(class="instructions",
+                                       HTML(paste0(
+                                         "<p>Access the ",
+                                         actionButton(
+                                           ns("switch_data_upload"),
+                                           "Data Upload Panel",
+                                           style = "border: none; background: none; color: blue; padding: 0; margin-bottom: 3px; font-size: 16px;"
+                                         ),
+                                         ". </p>",
+                                         tags$ul(
+                                           tags$li(tags$b("Data Step"),':',
+                                                   " Click ", tags$b("Load Data from Server."),
+                                                   "Once the data retrieval from the server is complete (indicated by the green check marks on the upper right of the tab),",
+                                                   "the app will automatically prepare the dataset for analysis."
+                                           ),
+                                           tags$li(tags$b("Cluster Map"),
+                                                   ": Use this visualization tool to examine cluster density across Admin areas. Hover to see number of clusters and evaluate data sparsity issue."),
+                                           tags$li(tags$b("Data Preview"),':',
+                                                   "The user may preview and download the prepared analysis dataset in .csv format (only in the local version).")
+                                         )
+                                       ))
+                              )
+          )
+        )
+
+
+    },
 
 
     ### Step 3 Model Fitting
@@ -336,6 +398,11 @@ mod_landing_page_server <- function(id,CountryInfo,AnalysisInfo,parent_session){
 
     ns <- session$ns
 
+
+    #############################################################
+    #### switch tabs setup
+    #############################################################
+
     observeEvent(input$switch_country_tab, {
       message('switching')
       shinydashboard::updateTabItems(parent_session, "Overall_tabs", selected = "country_spec")
@@ -369,6 +436,67 @@ mod_landing_page_server <- function(id,CountryInfo,AnalysisInfo,parent_session){
     observeEvent(input$switch_res_tab, {
       shinydashboard::updateTabItems(parent_session, "Overall_tabs", selected = "res_tab")
     })
+
+
+
+    #############################################################
+    #### box 0 message setup
+    #############################################################
+
+    # output$box0_ui <- renderUI({
+    #   if (!CountryInfo$server_version()) {
+    #     div(
+    #       class = "box0",
+    #       shinydashboard::box(
+    #         title = "Step 0 - Request Data",
+    #         status = "primary", solidHeader = TRUE, collapsible = TRUE,
+    #         width = NULL,
+    #         tags$div(class = "instructions",
+    #                  HTML(paste0(
+    #                    "<p style='margin-bottom:10px;'>",
+    #                    "Before using the App, the user needs access to the required DHS survey data. ",
+    #                    "DHS maintains strict data access rules, particularly for sensitive GPS-tagged data needed for SAE analysis.</p>",
+    #                    "<p>",
+    #                    "Follow these steps to <strong>obtain access to DHS datasets</strong> (instruction videos also available ",
+    #                    tags$a("here", href = paste0(website_link, "/overview/youtube_data_request/"),
+    #                           target = "_blank", class = "official-link"), "):</p>",
+    #                    tags$ol(type = "a",
+    #                            tags$li(tags$b("Register an account"), ": Start by creating an account on the ",
+    #                                    tags$a("DHS website", href = "https://dhsprogram.com/Data/",
+    #                                           target = "_blank", class = "official-link"), "."),
+    #                            tags$li(tags$b("Provide project information"), ": Complete the forms with specific details about the project."),
+    #                            tags$li(tags$b("Request survey access"), ": Post-registration, formally request access to the country/year specific survey datasets. Be sure to request ",
+    #                                    tags$b("GPS data"), "; approval typically occurs within 48 hours.")
+    #                    )
+    #                  ))
+    #         )
+    #       )
+    #     )
+    #   } else {
+    #     div(
+    #       class = "box0",
+    #       shinydashboard::box(
+    #         title = "Step 0 - Data Access Overview",
+    #         status = "primary", solidHeader = TRUE, collapsible = TRUE,
+    #         width = NULL,
+    #         tags$div(class = "instructions",
+    #                  HTML(paste0(
+    #                    "<p style='margin-bottom:10px;'>",
+    #                    "The online version of the app comes with most surveys already <strong>preloaded</strong>, allowing immediate use. ",
+    #                    "All features, including data analysis and visualization, are fully supported <strong>without the need to upload any data</strong>.</p>",
+    #
+    #                    "<p>",
+    #                    "Due to confidentiality restrictions, the underlying raw datasets cannot be downloaded or fully displayed. ",
+    #                    "For full access to raw data, users may request permission and use the local version of the app.</p>"
+    #                  ))
+    #         )
+    #       )
+    #     )
+    #   }
+    # })
+
+
+
 
   })
 }

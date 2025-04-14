@@ -1,3 +1,9 @@
+## Maintainer's Response to CRAN Reivew [2025-03-31] for Version 1.2.1
+
+- Fixed an issue on R-devel (e.g., `r-devel-linux-x86_64-debian-gcc`) where `includeMarkdown()` failed when the expected `.rmd` documentation files were not found or accessible in the test environment.
+- Wrapped `system.file()` + `includeMarkdown()` calls in `file.exists()` checks to ensure graceful fallback when documentation files are unavailable.
+- Removed UI-related tests that were triggering errors on platforms where the markdown files could not be rendered or written to temporary files.
+
 ## Maintainer's Response to CRAN Reivew [2025-03-26] for Version 1.2.0
 
 - The **Description** field has been revised to avoid starting with the package name and now correctly refers to software names such as 'shiny' using single quotes, following CRAN guidelines.
