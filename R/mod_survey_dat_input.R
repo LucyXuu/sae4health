@@ -393,10 +393,6 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
       if (CountryInfo$server_version()){
         shinyjs::hide("Svy_dataFile")
 
-        if(is.null(CountryInfo$svyYear_selected()) || CountryInfo$svyYear_selected() == ""){
-          return(NULL)
-        }
-
         output$data_button <- renderUI({
           #actionButton(ns("preload_Svy_Data"), "Load from Server")
           actionButton(ns("preload_Svy_Data"), "Load Data from Server",
@@ -446,6 +442,9 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
     ### load data from server
     observeEvent(input$preload_Svy_Data, {
 
+      if(is.null(CountryInfo$svyYear_selected()) || CountryInfo$svyYear_selected() == ""){
+        return(NULL)
+      }
 
       ### check whether all required recode has been uploaded
       required_recode <- recode_list_abbrev[which(ref_tab_all[ref_tab_all$ID==CountryInfo$svy_indicator_var(),
@@ -916,6 +915,7 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
       }
 
       analysis_dat <- NULL
+      CountryInfo$svy_analysis_dat(NULL)
 
       tryCatch({
         svy_dat_list <- CountryInfo$svy_dat_list()
@@ -954,13 +954,13 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
         }
 
 
-        library(sn) ## for INLA to run, just declare here with other packages
-        library(labelled)
-        library(naniar)
-        library(sjlabelled)
-        library(dplyr)
-        library(data.table)
-        library(haven)
+        # library(sn) ## for INLA to run, just declare here with other packages
+        # library(labelled)
+        # library(naniar)
+        # library(sjlabelled)
+        # library(dplyr)
+        # library(data.table)
+        # library(haven)
 
         message(CountryInfo$svy_indicator_var())
 

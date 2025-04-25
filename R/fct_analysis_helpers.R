@@ -342,7 +342,8 @@ fit_svy_model <- function(cluster.geo,
                           aggregation=T,
                           method=c('Direct','FH','Unit')[1],
                           svy.strata = NULL,
-                          nested=F){
+                          nested=F,
+                          area_cov_frame=NULL){
 
 
 
@@ -605,7 +606,8 @@ fit_svy_model <- function(cluster.geo,
                                      admin = pseudo_level,
                                      model = "bym2",
                                      aggregation =aggregation,
-                                     alt.strata=svy.strata)
+                                     alt.strata=svy.strata,
+                                     X=area_cov_frame)
 
     }
 
@@ -649,7 +651,8 @@ fit_svy_model <- function(cluster.geo,
                                      admin = pseudo_level,
                                      model = "bym2",
                                      aggregation =aggregation,
-                                     alt.strata=svy.strata)
+                                     alt.strata=svy.strata,
+                                     X=area_cov_frame)
     }
 
 
@@ -679,7 +682,8 @@ fit_svy_model <- function(cluster.geo,
                                         admin = pseudo_level,
                                         aggregation = aggregation,
                                         CI = 0.95,
-                                        nested=nested)
+                                        nested=nested,
+                                        X=area_cov_frame)
   }
 
 

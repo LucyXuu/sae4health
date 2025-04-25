@@ -3696,7 +3696,7 @@ if(FALSE){
   #file_path <-'C:/Users/wu-th/Downloads/KE_2022_DHS_04132024_852_143411.zip'
   #file_path <-'C:/Users/wu-th/Downloads/RW_2019-20_DHS_04082024_724_143411.zip'
   #file_path <-'C:/Users/wu-th/Downloads/RW_2019-20_dat.zip'
-  #file_path <- 'C:/Users/wu-th/Dropbox/sae4health/inst/preloaded_DHS/SN_2023_CONTINUOUSDHS_03192025_1553_143411.zip'
+  #file_path <- 'C:/Users/wu-th/Dropbox/sae4health/inst/preloaded_DHS/SN_2023_DHS.zip'
   ###############################################################
   ### store country meta in R6
   ###############################################################

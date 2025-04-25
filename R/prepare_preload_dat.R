@@ -718,17 +718,6 @@ if(FALSE){
 
 
 
-###############################################################
-###  keep track of match_all_result from surveyPrev
-###############################################################
-
-
-if(FALSE){
-
-  #match_all_result <- surveyPrev::match_all_result
-  #save(match_all_result,file='data/match_all_result.rda')
-
-}
 
 
 ###############################################################
@@ -740,13 +729,10 @@ if(FALSE){
 
   #library(surveyPrev)
   #library(dplyr)
-  #data(match_all_result)
+
   #match_all_result <- surveyPrev::match_all_result
 
-  #ID <- match_all_result$indicator_ID_DHS
-  #Description <- match_all_result$DHS_label
-  #Full_definition <- match_all_result$DHS_definition
-  #Chap_abbrev <-  toupper(substr(match_all_result$indicator_ID_Github_raw, start = 1, stop = 2))
+
   match_all_result <- match_all_result %>% mutate(ID_first_two_letters = substr(indicator_ID_DHS, start = 1, stop = 2))
 
   match_all_result <- match_all_result %>%
@@ -761,11 +747,14 @@ if(FALSE){
                                           )%>%
     mutate(indicator_chapter = case_when(ID_first_two_letters=='WS'~ 'Chap02_PH',
                                          TRUE~indicator_chapter))%>%
-    mutate(batch_recode_group= case_when(indicator_ID_DHS %in% c('FP_CUSM_W_MOD','FP_NADM_W_UNT')~ 'IR',
+    mutate(batch_recode_group= case_when(indicator_ID_DHS %in% c('FP_CUSM_W_MOD','FP_NADM_W_UNT',
+                                                                 'FG_PFCC_W_WCC','FG_KFCC_W_HFC')~ 'IR',
                                          TRUE~batch_recode_group))
 
   Chap_abbrev <- sapply(match_all_result$indicator_chapter, function(x) strsplit(x, "_")[[1]][2], USE.NAMES=FALSE)
 
+  ###  keep track of match_all_result from surveyPrev
+  #save(match_all_result,file='data/match_all_result.rda')
 
 
 
@@ -814,6 +803,8 @@ if(FALSE){
   ref_tab_new[ref_tab_new$ID=='FP_CUSM_W_MOD',]$Description <- 'Current use of any modern method of contraception (married women)'
   ref_tab_new[ref_tab_new$ID=='FP_NADM_W_UNT',]$Description <- 'Unmet need for family planning (married women)'
 
+  #ref_tab_new[ref_tab_new$ID=='FP_CUSM_W_MOD',]$Description <- 'Current use of any modern method of contraception (married women)'
+  #ref_tab_new[ref_tab_new$ID=='FP_NADM_W_UNT',]$Description <- 'Unmet need for family planning (married women)'
 
   #save(ref_tab_new,file='data/indicator_list_new.rda')
 
@@ -965,7 +956,8 @@ if(FALSE){
 #######################################################################
 
 if(FALSE){
-  dhs_survey_list <- rdhs::dhs_surveys()
+  #dhs_survey_list <- rdhs::dhs_surveys()
+  dhs_survey_list <- DHS.survey.meta
   dhs_survey_list <- dhs_survey_list[dhs_survey_list$SurveyYear>2000 & dhs_survey_list$SurveyType== 'DHS',]
 
   res_ind_supported <- data.frame()
@@ -977,7 +969,9 @@ if(FALSE){
     #message(paste0(dhs_survey_list$DHS_CountryCode[i],dhs_survey_list$SurveyYear[i]))
 
 
-    cty_svy_res_file <- paste0('E:/Dropbox/YunhanJon/DHS-indicators/Step_3_Data/all_survey_est/',
+    # cty_svy_res_file <- paste0('E:/Dropbox/YunhanJon/DHS-indicators/Step_3_Data/all_survey_est/',
+    #                            tmp_cty_code,'_',tmp_svy_year,'_DHS_est.rda')
+    cty_svy_res_file <- paste0('C:/Users/wu-th/Dropbox/YunhanJon/DHS-indicators/Step_3_Data/all_survey_est/',
                                tmp_cty_code,'_',tmp_svy_year,'_DHS_est.rda')
 
     if(!file.exists(cty_svy_res_file)){

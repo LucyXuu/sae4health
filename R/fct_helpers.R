@@ -216,7 +216,8 @@ AnalysisInfo <- R6::R6Class(
       self$model_res_list <- reactiveVal(NULL)
       self$model_res_tracker_list <- reactiveVal(NULL)
 
-      self$ad_options_list <-  reactiveVal(list(nested=F))
+      self$ad_options_list <-  reactiveVal(list(nested=F,
+                                                adm_cov_list = NULL))
 
     },
 
@@ -233,6 +234,8 @@ AnalysisInfo <- R6::R6Class(
       self$Natl_res(NULL)
       self$model_res_list(NULL)
       self$model_res_tracker_list(NULL)
+
+      self$ad_options_list(list(nested=F,adm_cov_list = NULL))
 
     },
 

@@ -844,6 +844,9 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
     # Open the modal and prefill inputs with saved values
     observeEvent(input$open_ad_options, {
+      adm.choice <- CountryInfo$GADM_analysis_levels()
+      adm.choice <- adm.choice[adm.choice!='National']
+
       showModal(
         modalDialog(
           title = "Advanced Options",
@@ -873,7 +876,93 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
               choices = c("Yes" = TRUE, "No" = FALSE),
               inline = TRUE,
               width = "100%"
-            ))
+            )),
+
+          tags$div(
+            style = "background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 15px; margin-left: 0px; margin-bottom: 15px;",
+
+            tags$div("Area-level Covariates:", style = "font-weight: bold; font-size: 14.5px; margin-top: 3px;margin-bottom:3px;"),
+
+            if(length(adm.choice)>0){
+              uiOutput(ns("covariate_status_ui"))
+            },
+
+            "To incorporate covariates into the area-level and unit-level model, first select the desired admin level (applies to subnational models only).",
+            " Download the template .csv file, add column(s) and fill in the covariate values for each admin region, and upload the completed file.",
+
+            if(length(adm.choice)>0){
+              tags$hr(style="border-top-color: #E0E0E0;margin-top:8px;margin-bottom:5px")},
+
+            if(length(adm.choice)>0){
+
+              selectInput(
+                inputId = ns("cov_adm_selected"),
+                label = "Select Admin Level:",
+                choices = adm.choice,
+                selected = character(0),
+                width = "100%"
+              )},
+
+
+            if(length(adm.choice)>0){
+
+              tags$div(
+                style = "display: flex; gap: 20px; align-items: stretch;",
+
+                # Download box
+                tags$div(
+                  style = paste(
+                    "flex: 1;",
+                    "border: 1px solid #0d6efd;",
+                    "border-radius: 10px;",
+                    "padding: 20px;",
+                    "background-color: #f9fbff;",
+                    "display: flex;",
+                    "flex-direction: column;",
+                    "justify-content: space-between;"
+                  ),
+                  tags$div(
+                    style = "flex-grow: 1;",
+                    tags$p("Step 1: Download the template with area names based on the selected admin level.",
+                           style = "font-weight: 500; font-size: 14px; margin-bottom: 12px;")
+                  ),
+                  tags$div(
+                    style = "display: flex; align-items: center; height: 38px;",  # aligns with fileInput height
+                    downloadButton(ns("download_cov_template"), "Download Covariate Template", icon = icon("download"),
+                                   class = "btn-primary")
+                  )
+                ),
+
+                # Upload box
+                tags$div(
+                  style = paste(
+                    "flex: 1;",
+                    "border: 1px solid #198754;",
+                    "border-radius: 10px;",
+                    "padding: 20px;",
+                    "background-color: #f6fef9;",
+                    "display: flex;",
+                    "flex-direction: column;",
+                    "justify-content: space-between;"
+                  ),
+                  tags$div(
+                    style = "flex-grow: 1;",
+                    tags$p("Step 2: Upload your prepared covariate file in CSV format.",
+                           style = "font-weight: 500; font-size: 14px; margin-bottom: 12px;")
+                  ),
+                  tags$div(
+                    style = "height: 38px; max-width: 400px; width: 100%;",
+                    fileInput(
+                      inputId = ns("upload_cov_file"),
+                      label = NULL,
+                      accept = ".csv",
+                      width = "100%"
+                    )
+                  )
+                )
+              )},
+          ),
+
         )
       )
 
@@ -885,6 +974,20 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
 
     })
 
+
+    ### keep track of covariate file loading status
+
+    cov_file_status <- reactiveVal('already_loaded')
+
+    observeEvent(input$upload_cov_file, {
+
+      cov_file_status('newly_uploaded')
+    })
+
+
+
+
+    ### apply user-set advanced options
 
     observeEvent(input$apply_ad_options, {
 
@@ -909,17 +1012,196 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
         message(paste0("Modifying setting for nested model to: ",
                        AnalysisInfo$get_ad_options('nested')))
 
+        showNotification(paste0("Modified setting for nested model to: ",
+                                AnalysisInfo$get_ad_options('nested')), type = "message")
+
       }
 
       #showNotification(paste("Nested model selected:", input$nested_model_selection), type = "message")
+
+      ### Covariates
+      if(!is.null(input$upload_cov_file)&cov_file_status()=='newly_uploaded'){
+        ### read data
+        #tmp_cov_data <- read.csv(input$upload_cov_file$datapath, stringsAsFactors = FALSE)
+        tmp_cov_data <- readr::read_csv(input$upload_cov_file$datapath,name_repair = "minimal", show_col_types = FALSE)
+        tmp_cov_data <- as.data.frame(tmp_cov_data)
+
+        ### check consistency of dimension
+        gadm_list <- CountryInfo$GADM_list()
+
+        ### if consistent, save the data, if not, alert the user
+        if(dim(tmp_cov_data)[1]==dim(gadm_list[[input$cov_adm_selected]])[1]){
+
+          all_tmp_col <- colnames(tmp_cov_data)
+          show_cov_upload_success = T
+
+          ### no additional columns provided
+          if(length(all_tmp_col[!all_tmp_col %in% c('admin1.name','admin2.name.full')])==0){
+            show_cov_upload_success = F
+            showNotification("No additional columns for covariates provided. Please follows the instructions and check the uploaded file.", type = "message")
+          }
+
+          ### admin name column modified error
+          if( (!'admin1.name'%in% all_tmp_col)& (!'admin2.name.full'%in% all_tmp_col)){
+            show_cov_upload_success = F
+            showNotification("The column identifying admin levels is missing or renamed. Please avoid modifying or removing it.", type = "message")
+
+          }
+
+
+          ### check whether non-numeric provided
+          tryCatch({
+            tmp_cov_data[!names(tmp_cov_data) %in% c("admin1.name", "admin2.name.full")] <-
+              lapply(tmp_cov_data[!names(tmp_cov_data) %in% c("admin1.name", "admin2.name.full")], as.numeric)
+          }, warning = function(w) {
+            show_cov_upload_success <<- F
+            showNotification(paste0("Some columns provided are not numeric: ", conditionMessage(w)), type = "message")
+          }, error = function(e) {
+            show_cov_upload_success <<- F
+            showNotification(paste0("Error caught: ", conditionMessage(e)), type = "message")
+          })
+
+
+          if(show_cov_upload_success==T){
+
+            ### set covariates
+            current_cov_list <- AnalysisInfo$get_ad_options('adm_cov_list')
+            current_cov_list[[input$cov_adm_selected]] <- tmp_cov_data
+            AnalysisInfo$set_ad_options('adm_cov_list',current_cov_list)
+
+            showNotification(paste0("Covariates uploaded for ",input$cov_adm_selected), type = "message")
+
+            ### reset fitted models
+            AnalysisInfo$set_track_res('Unit',input$cov_adm_selected,NULL)
+            AnalysisInfo$set_fitted_res('Unit',input$cov_adm_selected,NULL)
+            message(paste0('Reset Unit-level Model at ',input$cov_adm_selected))
+
+            AnalysisInfo$set_track_res('FH',input$cov_adm_selected,NULL)
+            AnalysisInfo$set_fitted_res('FH',input$cov_adm_selected,NULL)
+            message(paste0('Reset FH Model at ',input$cov_adm_selected))
+
+          }
+
+        }else{
+
+          showNotification("Row count in the uploaded file does not match the number of regions for this Admin level. Please check the input.", type = "message")
+
+        }
+
+      }
+
+      ### prevent repeatitively read in csv file
+      cov_file_status('already_loaded')
+
 
       ### close pop-up window
       removeModal()
 
 
-
     })
 
+
+    ### display current status
+
+    output$covariate_status_ui <- renderTable({
+
+      adm.choice <- CountryInfo$GADM_analysis_levels()
+      adm.choice <- adm.choice[adm.choice!='National']
+
+      tmp_cov_list <- AnalysisInfo$get_ad_options('adm_cov_list')
+
+      # Build a named list of covariate summaries
+      covariate_row <- lapply(adm.choice, function(adm) {
+        #message(adm)
+        df <- tmp_cov_list[[adm]]
+        if (is.null(df) || ncol(df) == 0) {
+          "None"
+        } else {
+          df_cols <- colnames(df)
+          df_cols <- df_cols[!df_cols %in% c('admin1.name','admin2.name.full')]
+
+          if(length(df_cols)>0){
+            paste(df_cols, collapse = ", ")
+          }else{
+            "None"
+          }
+        }
+      })
+
+      # Assign names and convert to 1-row data frame
+      df <- data.frame(Admin_Level=adm.choice,
+                       Covariates=unlist(covariate_row))
+
+      row.names(df) <- NULL
+      colnames(df) <- c("Admin Level", "Current Selection")
+
+      transposed_df <- as.data.frame(t(df))
+
+      colnames(transposed_df) <- transposed_df[1, ]
+      transposed_df <- transposed_df[-1, ]
+
+
+
+    }, align = "l",rownames = TRUE,bordered = TRUE, striped = TRUE)
+
+
+
+    ### download covariate template
+
+    output$download_cov_template <- downloadHandler(
+      filename = function() {
+        file.prefix <- paste0(CountryInfo$country(),'_',
+                              input$cov_adm_selected,'_')
+        file.prefix <- gsub("[-.]", "_", file.prefix)
+
+        return(paste0(file.prefix,'cov_template.csv'))
+      },
+      content = function(file) {
+
+        selected_adm <- input$cov_adm_selected
+        strat.gadm.level <- CountryInfo$GADM_strata_level()
+
+        if(admin_to_num(selected_adm) > strat.gadm.level){
+          pseudo_level=2
+          adm_colname=c('admin2.name.full')
+        }else{
+          pseudo_level=1
+          adm_colname=c('admin1.name')
+        }
+
+
+        ### prepare admin level GPS info if not stored
+        geo_info_list <- AnalysisInfo$cluster_admin_info_list()
+        tmp.geo.info <- geo_info_list[[selected_adm]]
+
+        if(is.null(tmp.geo.info)){
+
+          tryCatch({
+
+            message(selected_adm)
+
+            tmp.cluster.adm.info <- cluster_admin_info(cluster.geo= CountryInfo$svy_GPS_dat(),  #mdg.ex.GPS
+                                                       gadm.list = CountryInfo$GADM_list(),  #mdg.ex.GADM.list
+                                                       model.gadm.level = admin_to_num(selected_adm),
+                                                       strat.gadm.level = CountryInfo$GADM_strata_level())
+
+
+            AnalysisInfo$set_info_list(selected_adm,tmp.cluster.adm.info)
+
+            geo_info_list <- AnalysisInfo$cluster_admin_info_list()
+            tmp.geo.info <- geo_info_list[[selected_adm]]
+
+          },error = function(e) {
+            message(e$message)
+          })
+        }
+
+
+        tmp_cov_adm_template <- as.data.frame(tmp.geo.info$admin.info$data[,adm_colname])
+        colnames(tmp_cov_adm_template) <- adm_colname
+        readr::write_csv(tmp_cov_adm_template, file)
+      }
+    )
 
     ###############################################################
     ### run analysis based on model selection
@@ -1042,6 +1324,8 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
             tmp.res <- tryCatch(
               {
 
+                cov_mat_list <- AnalysisInfo$get_ad_options('adm_cov_list')
+
                 #R.utils::withTimeout({
                 tmp.res <- suppressWarnings(fit_svy_model(cluster.geo= CountryInfo$svy_GPS_dat(),
                                                           cluster.admin.info = tmp.geo.info,
@@ -1052,7 +1336,8 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
                                                           method = tmp.method,
                                                           aggregation =T,
                                                           svy.strata = svy.strata,
-                                                          nested=AnalysisInfo$get_ad_options('nested')))
+                                                          nested=AnalysisInfo$get_ad_options('nested'),
+                                                          area_cov_frame = cov_mat_list[[tmp.adm]]))
                 #}, timeout = 300) ### 5 minutes for timeout
               },error = function(e) {
                 tmp.tracker.list$status <<- 'Unsuccessful'
@@ -1210,8 +1495,9 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
             tmp.res <- tryCatch(
               {
 
-                message(AnalysisInfo$get_ad_options('nested'))
-                message(typeof(AnalysisInfo$get_ad_options('nested')))
+                #message(AnalysisInfo$get_ad_options('nested'))
+                #message(typeof(AnalysisInfo$get_ad_options('nested')))
+                cov_mat_list <- AnalysisInfo$get_ad_options('adm_cov_list')
 
                 #R.utils::withTimeout({
                 tmp.res <- suppressWarnings(fit_svy_model(cluster.geo= CountryInfo$svy_GPS_dat(),
@@ -1223,7 +1509,8 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
                                                           method = tmp.method,
                                                           aggregation =T,
                                                           svy.strata = svy.strata,
-                                                          nested=AnalysisInfo$get_ad_options('nested')))
+                                                          nested=AnalysisInfo$get_ad_options('nested'),
+                                                          area_cov_frame = cov_mat_list[[tmp.adm]]))
                 #}, timeout = 300) ### 5 minutes for timeout
               },error = function(e) {
                 tmp.tracker.list$status <<- 'Unsuccessful'

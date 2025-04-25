@@ -179,6 +179,12 @@ get_country_GADM <- function(country,resolution=1) {
     }
   }
 
+  if(country=='Nigeria'){
+    tmp_adm2 <- gadm_list[['Admin-2']]
+    tmp_adm2=tmp_adm2[tmp_adm2$ENGTYPE_2=="Local Authority",]
+    gadm_list[['Admin-2']]<- tmp_adm2
+  }
+
 
   return(gadm_list)
 }
