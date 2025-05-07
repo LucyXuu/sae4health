@@ -4,11 +4,11 @@
 #' of health and demographic indicators in low- and middle-income countries (LMICs). It enables
 #' subnational estimation and prevalence mapping for more than 150 binary indicators derived from
 #' Demographic and Health Surveys (DHS), providing an intuitive interface for public health analysts,
-#' policymakers, and researchers.
+#' policymakers, and researchers. 
 #'
 #' Built on the \strong{surveyPrev} package, \strong{sae4health} ensures methodological rigor in SAE analysis.
 #' It offers guided model selection, automated model fitting, and interactive visualization,
-#' making advanced statistical methods accessible to non-experts.
+#' making advanced statistical methods accessible to non-experts. 
 #'
 #' @name sae4health-package
 #' @aliases sae4health
@@ -19,6 +19,9 @@
 #'
 #' The latest development version of the package is maintained at:
 #' \url{https://github.com/wu-thomas/sae4health}
+#' 
+#' Citation: Wu, Y., Dong, Q., Xu, J., Li, Z. R., & Wakefield, J. (2025). 
+#' \emph{sae4health: An R Shiny Application for Small Area Estimation in Low- and Middle-Income Countries}. \doi{10.48550/arXiv.2505.01467}.
 #'
 #' @author
 #'
@@ -37,6 +40,11 @@
 #'   \item{\strong{Visualization Gallery:}}{\url{https://sae4health.stat.uw.edu/gallery/visual_overview/}}
 #'   \item{\strong{Recent Updates and News:}}{\url{https://sae4health.stat.uw.edu/blog/}}
 #' }
+#' 
+#' @references
+#' Wu, Y., Dong, Q., Xu, J., Li, Z. R., & Wakefield, J. (2025). 
+#' \emph{sae4health: An R Shiny Application for Small Area Estimation in Low- and Middle-Income Countries}. 
+#' arXiv preprint.\doi{10.48550/arXiv.2505.01467}
 #'
 #'
 NULL

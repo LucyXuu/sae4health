@@ -1029,4 +1029,19 @@ if(FALSE){
 
 }
 
+###############################################################
+###  prepare Nigeria covariate
+###############################################################
 
+if(FALSE){
+
+  NGA_adm2_cov <- Nigeria_Admin_2_cov_template
+  NGA_adm2_cov <- cbind(NGA_adm2_cov,cmatA2[,c(6:11)]|> sf::st_drop_geometry())
+
+  NGA_adm1_cov <- Nigeria_Admin_1_cov_template
+  NGA_adm1_cov <- cbind(NGA_adm1_cov,cmatA1[,c(3:8)]|> sf::st_drop_geometry())
+
+  readr::write_csv(NGA_adm1_cov, file='Nigeria_adm1_cov.csv')
+  readr::write_csv(NGA_adm2_cov, file='Nigeria_adm2_cov.csv')
+
+}

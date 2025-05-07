@@ -1,0 +1,36 @@
+citHeader("To cite the sae4health package in publications use one or more of:")
+
+
+bibentry(
+  bibtype = "misc",
+  title = "sae4health: An R Shiny Application for Small Area Estimation in Low- and Middle-Income Countries",
+  author = c(
+    person("Yunhan", "Wu"),
+    person("Qianyu", "Dong"),
+    person("Jieyi", "Xu"),
+    person("Zehang Richard", "Li"),
+    person("Jon", "Wakefield")
+  ),
+  year = "2025",
+  eprint = "2505.01467",
+  archivePrefix = "arXiv",
+  primaryClass = "stat.CO",
+  url = "https://arxiv.org/abs/2505.01467"
+)
+
+
+bibentry(
+  bibtype="misc",
+  title = "sae4health: Small Area Estimation for Key Health and Demographic Indicators from Household Surveys",
+  author = c(
+    person("Yunhan", "Wu"),
+    person("Qianyu", "Dong"),
+    person("Jieyi", "Xu"),
+    person("Zehang Richard", "Li"),
+    person("Jon", "Wakefield")
+  ),   
+  year= 2025,
+  note="R package version 1.2.3"
+)
+
+   

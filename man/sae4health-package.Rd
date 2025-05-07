@@ -22,6 +22,14 @@ For comprehensive documentation on the \strong{sae4health} project and \strong{w
 
 The latest development version of the package is maintained at:
 \url{https://github.com/wu-thomas/sae4health}
+
+Citation: Wu, Y., Dong, Q., Xu, J., Li, Z. R., & Wakefield, J. (2025). 
+\emph{sae4health: An R Shiny Application for Small Area Estimation in Low- and Middle-Income Countries}. \doi{10.48550/arXiv.2505.01467}.
+}
+\references{
+Wu, Y., Dong, Q., Xu, J., Li, Z. R., & Wakefield, J. (2025). 
+\emph{sae4health: An R Shiny Application for Small Area Estimation in Low- and Middle-Income Countries}. 
+arXiv preprint.\doi{10.48550/arXiv.2505.01467}
 }
 \seealso{
 \describe{
