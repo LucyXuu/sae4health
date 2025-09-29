@@ -90,4 +90,14 @@ app_server <- function(input, output, session) {
   mod_indicator_dictionary_server("indicator_dictionary_1", CountryInfo = CountryInfo,AnalysisInfo=AnalysisInfo,parent_session=session)
   mod_DHS_API_est_server("DHS_API_est_1", CountryInfo = CountryInfo,AnalysisInfo=AnalysisInfo,parent_session=session)
 
+  ### Hide/show Data Upload tab based on server version
+is_server_version <- !(is.null(golem::get_golem_options()$server_link))
+
+observe({
+  # Only send message if NOT server version (i.e., manual mode)
+  if(!is_server_version) {
+    session$sendCustomMessage('show_data_upload_tab', list())
+  }
+})
+
 }
