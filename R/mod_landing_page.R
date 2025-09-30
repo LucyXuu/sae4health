@@ -100,7 +100,7 @@ border: 1px solid #666666}
           "Click the button in the top-right corner of each box to expand or collapse its contents.",
           "</p>",
           "</p>",
-          "<p style='font-size: small; text-align: right;margin-top:-10px'>", "Version 1.2.2 (2025-04-23)",
+          "<p style='font-size: small; text-align: right;margin-top:-10px'>", "Version 1.2.4 (2025-08-22)",
           "</p>"
         ))
     ),
@@ -362,7 +362,7 @@ border: 1px solid #666666}
                                              ": Map subnational estimates with four key statistics:.",
                                                        tags$ul(
                                                          tags$li(tags$b("Mean"), ": Point estimates across regions."),
-                                                         tags$li(tags$b("Coefficient of Variance"), ": Measure of relative variability among estimates."),
+                                                         tags$li(tags$b("Coefficient of Variation"), ": Measure of relative variability among estimates."),
                                                          tags$li(tags$b("Width of 95% Credible Interval"), ": Reflects the uncertainty around the estimates."),
                                                          tags$li(tags$b("Exceedance Probability"), ": Probability that prevalence exceeds a certain threshold.")
                                                        )

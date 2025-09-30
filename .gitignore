@@ -16,6 +16,8 @@ app.R
 inst/GADM_shp
 inst/WHO_shp
 inst/preloaded_DHS
+inst/app/www/google_analytics.html
+
 sae4health.Rproj
 DESCRIPTION_backup
 Developer_note.txt

@@ -141,11 +141,23 @@ app_ui <- function(request) {
                                   mod_DHS_API_est_ui("DHS_API_est_1")) # Indicator Dictionary
         )
       ),
-     tags$head(tags$style(HTML("
-     @import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
-      * {
-        font-family: 'Lato', sans-serif;
-      }")))
+      tags$head(
+        # include customized font
+        tags$style(HTML("
+        @import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+        * {
+          font-family: 'Lato', sans-serif;
+        }")),
+
+        # include google analytics only when deploying onto the server
+        if ((!is.null(golem::get_golem_options()$server_link))&
+            (file.exists(system.file("app", "www", "google_analytics.html", package = "sae4health")))) {
+          message('including google analytics for server version.')
+          includeHTML(
+            system.file("app", "www", "google_analytics.html", package = "sae4health")
+          )
+        }
+      )
 
     )
     # Your application UI logic
@@ -187,5 +199,9 @@ golem_add_external_resources <- function() {
   )
 
 }
+
+
+
+
 
 
