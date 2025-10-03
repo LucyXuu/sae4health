@@ -15,6 +15,8 @@
 ^inst/GADM_shp/
 ^inst/WHO_shp/
 ^inst/preloaded_DHS/
+^inst/app/www/google_analytics\.html
+
 ^Developer_note\.txt$
 ^R/test_a_country\.R
 ^sae4health_1\.2\.0\.tar$

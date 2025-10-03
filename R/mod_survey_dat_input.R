@@ -444,11 +444,59 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
        if(is.null(CountryInfo$svyYear_selected()) || CountryInfo$svyYear_selected() == ""){
           return(NULL)
         }
-        
-        # Use the extracted function
-        new_dat_num <- load_server_data(
-          CountryInfo = CountryInfo,
-          session = session
+
+
+        session$sendCustomMessage('controlSpinner', list(action = "show",
+                                                         message = paste0("Loading ",recode_names_abbrev[i]," Recode. Please wait...")))
+
+
+        Sys.sleep(1)
+
+        recode.path <- paste0(golem::get_golem_options()$server_link,'/DHS_survey_dat/',
+                                      country_code,'/DHS_',svy_year,'/',
+                                      recode_names_abbrev[i],'.rds'
+                                      )
+
+        #message(recode.path)
+        #recode.data <- readRDS(recode.path)
+
+        recode.data <- tryCatch(
+          {
+            readRDS(url(recode.path))
+            #readRDS((recode.path))
+
+          },
+          error = function(e) {
+            message("Failed to retrieve ",recode_names_abbrev[i], ' from the server.')
+            message("Error: ", e$message)
+
+            session$sendCustomMessage('controlSpinner', list(action = "show",
+                    message = paste0("Fail to retrieve ",
+                                     recode_names_abbrev[i],
+                                     " recode from the server. Please contact us.")))
+            Sys.sleep(2.5)
+            NULL  # return NULL if not found
+          }
+        )
+
+        if(!is.null(recode.data)){
+          CountryInfo$update_svy_dat(recode_abbrev=recode_for_ind_abbrev()[i], new_dat=recode.data)
+          new_dat_num <- new_dat_num+1
+        }
+
+        session$sendCustomMessage('controlSpinner', list(action = "hide"))
+      }
+
+
+      ### set survey GPS data
+      if(is.null( CountryInfo$svy_GPS_dat())){
+
+        session$sendCustomMessage('controlSpinner', list(action = "show",
+                                                         message = paste0( 'Loading Geographic Data. Please wait...')))
+
+        GPS.path <- paste0(golem::get_golem_options()$server_link,'/DHS_survey_dat/',
+                              country_code,'/DHS_',svy_year,'/',
+                              'Geographic_Data.rds'
         )
         
         # Show completion modal if all data already loaded

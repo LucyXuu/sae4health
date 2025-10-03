@@ -5,4 +5,4 @@
 pkgload::load_all(export_all = FALSE,helpers = FALSE,attach_testthat = FALSE)
 options( "golem.app.prod" = TRUE)
 #sae4health::run_app() # add parameters here (if any)
-sae4health::run_app(server_link='https://sites.stat.washington.edu/sae4health/DHS_survey_dat/')
+sae4health::run_app(server_link='https://sites.stat.washington.edu/sae4health/')
