@@ -69,23 +69,38 @@ app_ui <- function(request) {
                                   #shinydashboard::dashboardHeader(title = "Small Area Estimation for Improving Maternal Health in the region of Africa",titleWidth='750px'),
                                   shinydashboard::dashboardHeader(title = "Small Area Estimation for Improving Health in LMICs",titleWidth='550px'),
                                   shinydashboard::dashboardSidebar(
+                                     tags$style(HTML("
+                                        /* Hide data upload tab by default */
+                                        a[data-value='data_upload'] {
+                                          display: none !important;
+                                        }
+                                        /* Show it when this class is added */
+                                        a[data-value='data_upload'].show-menu-item {
+                                          display: block !important;
+                                        }
+                                      ")),
+                                      tags$script(HTML("
+                                        Shiny.addCustomMessageHandler('show_data_upload_tab', function(message) {
+                                          $('a[data-value=\"data_upload\"]').addClass('show-menu-item');
+                                        });
+                                      ")),
                                     shinydashboard::sidebarMenu(
                                       id = "Overall_tabs", ## very important for switching between panels
-                                      shinydashboard::menuItem(HTML("&nbsp Getting Started"), tabName = "get_start", icon = icon("home")),
                                       shinydashboard::menuItem("Country Specification", tabName = "country_spec", icon = icon("globe")),
-                                      shinydashboard::menuItem("Data Upload", tabName = "data_upload", icon = icon("database")),
+                                         shinydashboard::menuItem("Data Upload", tabName = "data_upload", icon = icon("database")),
                                       shinydashboard::menuItem("Model Fitting", tabName = "model_fit", icon = icon("sliders-h")),
                                       shinydashboard::menuItem("Result Visualization", tabName = "res_visual", icon = icon("earth"),
-                                                               shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Prevalence Map"), tabName = "res_prev_map",icon = NULL),
-                                                               shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Map Comparison"), tabName = "res_compare_map",icon = NULL),
-                                                               shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Scatter Plot"), tabName = "res_scatter",icon = NULL),
-                                                               shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Ridge Plot"), tabName = "res_ridge",icon = NULL)),
+                                       shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Prevalence Map"), tabName = "res_prev_map",icon = NULL),
+                                       shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Map Comparison"), tabName = "res_compare_map",icon = NULL),
+                                       shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Scatter Plot"), tabName = "res_scatter",icon = NULL),
+                                       shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Ridge Plot"), tabName = "res_ridge",icon = NULL)),
                                       shinydashboard::menuItem("Result Tabulation", tabName = "res_tab", icon = icon("line-chart")),
                                       shinydashboard::menuItem(HTML("&nbsp Report Generation"), tabName = "report_tab", icon = icon("print")),
+                                      shinydashboard::menuItem(HTML("&nbsp More Instructions"), tabName = "get_start", icon = icon("home")),
                                       shinydashboard::menuItem(HTML("&nbsp Tool Kit"), tabName = "tool_kit", icon = icon("screwdriver-wrench"),
-                                                               shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Indicators in the App"), tabName = "indicator_in_app",icon = NULL),
-                                                               shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp DHS Indicator Dictionary"), tabName = "indicator_dictionary",icon = NULL),
-                                                               shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp DHS Report Estimate"), tabName = "DHS_API_est",icon = NULL)) #,
+                                     shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp Indicators in the App"), tabName = "indicator_in_app",icon = NULL),
+                                     shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp DHS Indicator Dictionary"), tabName = "indicator_dictionary",icon = NULL),
+                                     shinydashboard::menuSubItem(HTML("&nbsp &nbsp &nbsp &nbsp DHS Report Estimate"), tabName = "DHS_API_est",icon = NULL)) #,
                                       # div(style = "position: absolute; bottom: 50px; width: 100%; padding: 10px;",
                                       #     img(src = "www/WHO_logo.jpg",
                                       #           height = "200px", style = "display: block; margin: auto;")

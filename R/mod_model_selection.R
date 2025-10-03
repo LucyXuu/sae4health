@@ -509,7 +509,24 @@ mod_model_selection_server <-  function(id,CountryInfo,AnalysisInfo,parent_sessi
     ### Only when the screen_check button is hit, screening will be processed and results will be displayed
 
     observeEvent(input$screen_check, {
+      ### If server version, load data first
+        if(CountryInfo$server_version()) {
+          message("Server mode detected - loading data before sparsity check")
+          
+          new_data_count <- load_server_data(
+            CountryInfo = CountryInfo,
+            session = session
+          )
+          
+          if(new_data_count > 0) {
+            message("Successfully loaded ", new_data_count, " dataset(s)")
+          }
 
+          # Prepare analysis dataset
+          prepare_analysis_data(CountryInfo, AnalysisInfo, session)
+        }
+
+   
       ### pop-up window if no model is selected
       selected_matrix <- AnalysisInfo$model_selection_mat()
 
