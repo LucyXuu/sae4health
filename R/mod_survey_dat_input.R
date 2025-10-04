@@ -485,7 +485,6 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
         }
 
         session$sendCustomMessage('controlSpinner', list(action = "hide"))
-      }
 
 
       ### set survey GPS data
@@ -498,6 +497,7 @@ mod_survey_dat_input_server <- function(id,CountryInfo,AnalysisInfo){
                               country_code,'/DHS_',svy_year,'/',
                               'Geographic_Data.rds'
         )
+      }
         
         # Show completion modal if all data already loaded
         if(new_dat_num == 0) {
