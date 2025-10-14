@@ -11,7 +11,7 @@
 .Rhistory
 
 rsconnect/
-app.Rs
+app.R
 
 inst/GADM_shp
 inst/WHO_shp
