@@ -10,6 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In this vignette, we will describe how to deploy sae4health both locally and to the UW stat server. 
 
+## Fork and clone the SAE4Health package
+
+Frok the most up to date repo of SAE4Health from https://github.com/wu-thomas/sae4health and clone the repo to local computer
+
 ## Rtools
 
 Download competible verion of rtools from https://cran.r-project.org/bin/windows/Rtools/ if not already done so.
