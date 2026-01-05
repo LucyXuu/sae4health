@@ -34,7 +34,7 @@ renv::restore()
 
 ## setup local server and run app
 
-Some data, such as county recode data and other country meta data, are saveing in an online server for the app to fetch from. Setup a local server and store a part of the data to locally test functionality and connection.
+Some data, such as county recode data and other country meta data, are saveing in an online server for the app to fetch from. Setup a local server and store a part of the data to locally test functionality and connection to server.
 
 First, create a folder on local desk top, for example, at C:/Users/username/Desktop/sae4healthServer.
 
@@ -64,17 +64,24 @@ To imitate the folder structure on server, store the meta data and DHS estimate 
 sae4healthServer/
 └── DHS_survey_dat/
     ├── DHS_meta_data/
-    │   ├── DHS_api_est.rda
-    │   ├── DHS_meta_preload.rda
-    └── NG/
+    │   ├── DHS_api_est.rda *
+    │   ├── DHS_meta_preload.rda *
+    └── NG/ *
     │   ├── DHS 2024
-    |   |   ├── [recode name].rds
+    |   |   ├── [recode name 1].rds
+    |   |   ├── [recode name 2].rds
     |   |   ├── [geo info].rds
     |   |   ├── ...
 
-Where NG can be any country with its recode and GPS data with structure
+* represents files needed for app to run
+
+Where NG can be any country with its recode and GPS data with structure.
+
+All server data is stored in dropbox, ask Jon for access if needed. It will also be helpful to see the dropbox folder structure of data to know where to place the folders and files
 
 In this example, Nigeria 2024 can be ran on the locally deployed version of app for testing purpose. More country recode can be added if testing is needed.
+
+
 
 
 ## deploy to stats server
