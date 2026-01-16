@@ -335,7 +335,6 @@ mod_res_visual_ridge_server <- function(id,CountryInfo,AnalysisInfo,MetaInfo){
 
             surveyPrev::ridgeprevPlot(res.obj = model_res_selected,
                                          plot.extreme.num=NA,
-                                         strata.gadm.level = CountryInfo$GADM_strata_level(),
                                          legend.label = 'Value',
                                          color.reverse= T) # how to name the extremes, top 10 bottom 10? need to change when close to 0 is bad for the indicator
 
@@ -383,7 +382,6 @@ mod_res_visual_ridge_server <- function(id,CountryInfo,AnalysisInfo,MetaInfo){
 
           tmp.plot <- surveyPrev::ridgeprevPlot(res.obj = model_res_selected,
                                plot.extreme.num=NA,
-                               strata.gadm.level = CountryInfo$GADM_strata_level(),
                                legend.label = 'Value',
                                color.reverse= T) # how to name the extremes, top 10 bottom 10? need to change when close to 0 is bad for the indicator
           tmp.plot
